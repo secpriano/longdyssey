@@ -1,0 +1,17 @@
+C:\Dev\school\longdyssey\UIL\bin\Debug\net6.0-windows\UIL.exe
+C:\Dev\school\longdyssey\UIL\bin\Debug\net6.0-windows\UIL.deps.json
+C:\Dev\school\longdyssey\UIL\bin\Debug\net6.0-windows\UIL.runtimeconfig.json
+C:\Dev\school\longdyssey\UIL\bin\Debug\net6.0-windows\UIL.dll
+C:\Dev\school\longdyssey\UIL\bin\Debug\net6.0-windows\UIL.pdb
+C:\Dev\school\longdyssey\UIL\obj\Debug\net6.0-windows\UIL.csproj.AssemblyReference.cache
+C:\Dev\school\longdyssey\UIL\obj\Debug\net6.0-windows\UIL.Dashboard.resources
+C:\Dev\school\longdyssey\UIL\obj\Debug\net6.0-windows\UIL.csproj.GenerateResource.cache
+C:\Dev\school\longdyssey\UIL\obj\Debug\net6.0-windows\UIL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Dev\school\longdyssey\UIL\obj\Debug\net6.0-windows\UIL.AssemblyInfoInputs.cache
+C:\Dev\school\longdyssey\UIL\obj\Debug\net6.0-windows\UIL.AssemblyInfo.cs
+C:\Dev\school\longdyssey\UIL\obj\Debug\net6.0-windows\UIL.csproj.CoreCompileInputs.cache
+C:\Dev\school\longdyssey\UIL\obj\Debug\net6.0-windows\UIL.dll
+C:\Dev\school\longdyssey\UIL\obj\Debug\net6.0-windows\refint\UIL.dll
+C:\Dev\school\longdyssey\UIL\obj\Debug\net6.0-windows\UIL.pdb
+C:\Dev\school\longdyssey\UIL\obj\Debug\net6.0-windows\UIL.genruntimeconfig.cache
+C:\Dev\school\longdyssey\UIL\obj\Debug\net6.0-windows\ref\UIL.dll
