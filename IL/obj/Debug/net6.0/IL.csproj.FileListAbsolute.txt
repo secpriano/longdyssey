@@ -1,0 +1,12 @@
+C:\Dev\School\longdyssey\IL\bin\Debug\net6.0\IL.deps.json
+C:\Dev\School\longdyssey\IL\bin\Debug\net6.0\IL.dll
+C:\Dev\School\longdyssey\IL\bin\Debug\net6.0\IL.pdb
+C:\Dev\School\longdyssey\IL\obj\Debug\net6.0\IL.csproj.AssemblyReference.cache
+C:\Dev\School\longdyssey\IL\obj\Debug\net6.0\IL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Dev\School\longdyssey\IL\obj\Debug\net6.0\IL.AssemblyInfoInputs.cache
+C:\Dev\School\longdyssey\IL\obj\Debug\net6.0\IL.AssemblyInfo.cs
+C:\Dev\School\longdyssey\IL\obj\Debug\net6.0\IL.csproj.CoreCompileInputs.cache
+C:\Dev\School\longdyssey\IL\obj\Debug\net6.0\IL.dll
+C:\Dev\School\longdyssey\IL\obj\Debug\net6.0\refint\IL.dll
+C:\Dev\School\longdyssey\IL\obj\Debug\net6.0\IL.pdb
+C:\Dev\School\longdyssey\IL\obj\Debug\net6.0\ref\IL.dll

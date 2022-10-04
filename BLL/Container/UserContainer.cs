@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Container
 {
-    internal class UserContainer
+    public class UserContainer
     {
     }
 }

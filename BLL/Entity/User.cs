@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Entity
 {
-    internal class User
+    public class User
     {
     }
 }

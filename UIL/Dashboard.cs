@@ -23,6 +23,8 @@ namespace UIL
 
         private void ButtonVluchtAdmin_Click(object sender, EventArgs e)
         {
+            FlightAdmin flightAdmin = new();
+            flightAdmin.ShowDialog();
         }
 
         private void ButtonSpaceshipAdmin_Click(object sender, EventArgs e)
@@ -37,8 +39,8 @@ namespace UIL
 
         private void ButtonUserAdmin_Click(object sender, EventArgs e)
         {
-/*            UserAdmin userAdmin = new();
+            UserAdmin userAdmin = new();
             userAdmin.ShowDialog();
-*/        }
+        }
     }
 }

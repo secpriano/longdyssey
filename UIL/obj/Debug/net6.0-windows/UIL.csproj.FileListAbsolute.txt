@@ -15,3 +15,12 @@ C:\Dev\school\longdyssey\UIL\obj\Debug\net6.0-windows\refint\UIL.dll
 C:\Dev\school\longdyssey\UIL\obj\Debug\net6.0-windows\UIL.pdb
 C:\Dev\school\longdyssey\UIL\obj\Debug\net6.0-windows\UIL.genruntimeconfig.cache
 C:\Dev\school\longdyssey\UIL\obj\Debug\net6.0-windows\ref\UIL.dll
+C:\Dev\School\longdyssey\UIL\obj\Debug\net6.0-windows\UIL.UserAdmin.resources
+C:\Dev\School\longdyssey\UIL\bin\Debug\net6.0-windows\BLL.dll
+C:\Dev\School\longdyssey\UIL\bin\Debug\net6.0-windows\DAL.dll
+C:\Dev\School\longdyssey\UIL\bin\Debug\net6.0-windows\BLL.pdb
+C:\Dev\School\longdyssey\UIL\bin\Debug\net6.0-windows\DAL.pdb
+C:\Dev\School\longdyssey\UIL\obj\Debug\net6.0-windows\UIL.csproj.CopyComplete
+C:\Dev\School\longdyssey\UIL\bin\Debug\net6.0-windows\IL.dll
+C:\Dev\School\longdyssey\UIL\bin\Debug\net6.0-windows\IL.pdb
+C:\Dev\School\longdyssey\UIL\obj\Debug\net6.0-windows\UIL.FlightAdmin.resources
