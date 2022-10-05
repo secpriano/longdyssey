@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using IL.DTO;
+using IL.Interface.DAL;
 
 namespace BLL.Entity
 {
@@ -13,6 +10,7 @@ namespace BLL.Entity
         public long X { get; set; }
         public long Y { get; set; }
         public long Z { get; set; }
+        public IGateDAL c { get; set; }
 
         public Spaceport(ulong id, string name, long x, long y, long z)
         {
@@ -21,6 +19,15 @@ namespace BLL.Entity
             X = x;
             Y = y;
             Z = z;
+        }
+
+        public Spaceport(SpaceportDTO dto)
+        {
+            Id = dto.Id;
+            Name = dto.Name;
+            X = dto.X;
+            Y = dto.Y;
+            Z = dto.Z;
         }
     }
 }

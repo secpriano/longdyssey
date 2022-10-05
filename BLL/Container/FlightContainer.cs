@@ -1,10 +1,14 @@
-﻿using IL.Interface;
-using DAL;
+﻿using IL.Interface.DAL;
 
 namespace BLL.Container
 {
-    internal class FlightContainer
+    public class FlightContainer
     {
-        IFlight DA = new FlightDAL();
+        IFlightDAL Data;
+
+        public FlightContainer(IFlightDAL data)
+        {
+            Data = data;
+        }
     }
 }

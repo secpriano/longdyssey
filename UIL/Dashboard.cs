@@ -39,8 +39,7 @@ namespace UIL
 
         private void ButtonUserAdmin_Click(object sender, EventArgs e)
         {
-            UserAdmin userAdmin = new();
-            userAdmin.ShowDialog();
+
         }
     }
 }

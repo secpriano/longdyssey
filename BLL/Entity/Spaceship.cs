@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using IL.DTO;
 
 namespace BLL.Entity
 {
@@ -21,6 +17,15 @@ namespace BLL.Entity
             Seat = seat;
             Speed = speed;
             Role = role;
+        }
+
+        public Spaceship(SpaceshipDTO dto)
+        {
+            Id = dto.Id;
+            Name = dto.Name;
+            Seat = dto.Seat;
+            Speed = dto.Speed;
+            Role = dto.Role;
         }
     }
 }

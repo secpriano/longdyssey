@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using IL.DTO;
 
 namespace BLL.Entity
 {
@@ -27,6 +23,17 @@ namespace BLL.Entity
             Spaceship = spaceship;
 
             GenerateFlightNumber();
+        }
+
+        public Flight(FlightDTO dto)
+        {
+            Id = dto.Id;
+            Departuretime = dto.DepartureTime;
+            Status = dto.Status;
+            FlightNumber = dto.FlightNumber;
+            OriginGate = new(dto.OriginGate);
+            DestinationGate = new(dto.DestinationGate);
+            Spaceship = new(dto.Spaceship);
         }
         public string GenerateFlightNumber()
         {

@@ -1,6 +1,4 @@
-﻿using BLL.Entity;
-
-namespace IL.DTO
+﻿namespace IL.DTO
 {
     public class FlightDTO
     {

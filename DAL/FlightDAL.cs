@@ -1,11 +1,13 @@
-﻿using IL.Interface;
-using IL.DTO;
+﻿using IL.DTO;
+using System.Data.SqlClient;
+using System.Data;
+using IL.Interface.DAL;
 
 namespace DAL
 {
-    public class FlightDAL : IFlight
+    public class FlightDAL : Database, IFlightDAL
     {
-        public FlightDTO Delete(ulong id)
+        public bool Delete(ulong id)
         {
             throw new NotImplementedException();
         }
@@ -20,12 +22,22 @@ namespace DAL
             throw new NotImplementedException();
         }
 
-        public FlightDTO Insert(FlightDTO entity)
+        public bool Insert(FlightDTO entity)
         {
-            throw new NotImplementedException();
+            string cmdText = "INSERT INTO Flight (DepartureTime ,StatusFlight ,FlightNumber ,SpaceshipID ,OriginGateID ,DestinationGateID) VALUES (@DepartureTime, @StatusFlight, @FlightNumber, @SpaceshipID, @OriginGateID, @DestinationGateID)";
+
+            using SqlCommand com = new(cmdText);
+            com.Parameters.Add("@DepartureTime", SqlDbType.SmallDateTime).Value = entity.DepartureTime;
+            com.Parameters.Add("@StatusFlight", SqlDbType.NVarChar).Value = entity.Status;
+            com.Parameters.Add("@FlightNumber", SqlDbType.NVarChar, 9).Value = entity.FlightNumber;
+            com.Parameters.Add("@SpaceshipID", SqlDbType.BigInt).Value = entity.Spaceship.Id;
+            com.Parameters.Add("@OriginGateID", SqlDbType.BigInt).Value = entity.OriginGate.Id;
+            com.Parameters.Add("@DestinationGateID", SqlDbType.BigInt).Value = entity.DestinationGate.Id;
+
+            return Persist(com);
         }
 
-        public FlightDTO Update(FlightDTO entity)
+        public bool Update(FlightDTO entity)
         {
             throw new NotImplementedException();
         }

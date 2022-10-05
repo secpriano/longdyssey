@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using IL.DTO;
 
 namespace BLL.Entity
 {
@@ -17,6 +13,13 @@ namespace BLL.Entity
             Id = id;
             Name = name;
             Spaceport = spaceport;
+        }
+
+        public Gate(GateDTO dto)
+        {
+            Id = dto.Id;
+            Name = dto.Name;
+            Spaceport = new(dto.Spaceport);
         }
     }
 }

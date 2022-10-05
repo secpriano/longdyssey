@@ -7,8 +7,5 @@
     <Compile Update="FlightAdmin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="UserAdmin.cs">
-      <SubType>Form</SubType>
-    </Compile>
   </ItemGroup>
 </Project>
