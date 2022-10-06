@@ -1,5 +1,7 @@
 ﻿using BLL.Container;
+using BLL.Entity;
 using DAL;
+using System.Windows.Forms;
 using Test.STUB;
 
 namespace UIL
@@ -11,6 +13,13 @@ namespace UIL
         public FlightAdmin()
         {
             InitializeComponent();
+            
+            List<string> spaceportsName = new List<string>();
+
+            sc.GetAll().ForEach(spaceport => { spaceportsName.Add(spaceport.Name); });
+
+            ComboBoxOriginSpaceport.DataSource = spaceportsName;
+            ComboBoxDestinationSpaceport.DataSource = spaceportsName;
         }
 
         private void ButtonViewAll_Click(object sender, EventArgs e)

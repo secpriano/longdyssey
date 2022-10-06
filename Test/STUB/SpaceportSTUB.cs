@@ -17,9 +17,9 @@ namespace Test.STUB
             throw new NotImplementedException();
         }
 
-        public IEnumerable<SpaceportDTO> GetAll()
+        public List<SpaceportDTO> GetAll()
         {
-            return spaceports.AsEnumerable();
+            return spaceports; 
         }
 
         public SpaceportDTO GetById(ulong id)

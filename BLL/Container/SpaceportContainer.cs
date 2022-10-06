@@ -1,4 +1,5 @@
 ﻿using BLL.Entity;
+using IL.DTO;
 using IL.Interface.DAL;
 
 namespace BLL.Container
@@ -14,7 +15,9 @@ namespace BLL.Container
 
         public List<Spaceport> GetAll()
         {
-            return;
+            List<Spaceport> list = new();
+            Data.GetAll().ForEach(spaceport => { list.Add(new(spaceport)); }); 
+            return list;
         }
     }
 }

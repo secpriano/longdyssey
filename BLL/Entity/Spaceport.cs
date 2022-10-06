@@ -10,7 +10,7 @@ namespace BLL.Entity
         public long X { get; set; }
         public long Y { get; set; }
         public long Z { get; set; }
-        public IGateDAL c { get; set; }
+        public IGateDAL? C { get; set; }
 
         public Spaceport(ulong id, string name, long x, long y, long z)
         {

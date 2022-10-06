@@ -3,7 +3,7 @@ using IL.Interface.DAL;
 
 namespace Test.STUB
 {
-    internal class GateSTUB : IGate
+    internal class GateSTUB : IGateDAL
     {
         List<GateDTO> gates = new()
         {

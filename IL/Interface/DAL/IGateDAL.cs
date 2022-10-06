@@ -2,7 +2,7 @@
 
 namespace IL.Interface.DAL
 {
-    public interface IGate
+    public interface IGateDAL
     {
         public IEnumerable<GateDTO> GetAll();
         public GateDTO GetById(ulong id);
