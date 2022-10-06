@@ -4,7 +4,7 @@ namespace IL.Interface.DAL
 {
     public interface ISpaceportDAL
     {
-        public List<SpaceportDTO> GetAll();
+        public IEnumerable<SpaceportDTO> GetAll();
         public SpaceportDTO GetById(ulong id);
         public bool Insert(SpaceportDTO entity);
         public bool Update(SpaceportDTO entity);

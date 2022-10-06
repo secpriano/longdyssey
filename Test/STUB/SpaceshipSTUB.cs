@@ -3,15 +3,16 @@ using IL.Interface.DAL;
 
 namespace Test.STUB
 {
-    internal class SpaceshipSTUB : ISpaceshipDAL
+    public class SpaceshipSTUB : ISpaceshipDAL
     {
         List<SpaceshipDTO> spaceships = new()
         {
-            new(1, "Saggittarus", 4895, 20, "Cruise"),
-            new(2, "VaccuumStar", 755, 25, "Super Jumbo"),
-            new(3, "Super nova", 320, 30, "Jumbo"),
-            new(4, "Quasor", 100, 35, "Taxi"),
-            new(5, "LightYear", 30, 50, "Jet"),
+            new(1, "Cosmic", 59000, 20, "Paradise"),
+            new(2, "Saggittarus", 4895, 20, "Cruise"),
+            new(3, "Vaccuum Star", 755, 25, "Super Jumbo"),
+            new(4, "Super nova", 320, 30, "Jumbo"),
+            new(5, "Quasor", 100, 35, "Jet"),
+            new(6, "Light Year", 30, 50, "Scram Jet"),
         };
 
         public bool Delete(ulong id)
@@ -21,7 +22,7 @@ namespace Test.STUB
 
         public IEnumerable<SpaceshipDTO> GetAll()
         {
-            throw new NotImplementedException();
+            return spaceships;
         }
 
         public SpaceshipDTO GetById(ulong id)

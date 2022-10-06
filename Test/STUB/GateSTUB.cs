@@ -3,7 +3,7 @@ using IL.Interface.DAL;
 
 namespace Test.STUB
 {
-    internal class GateSTUB : IGateDAL
+    public class GateSTUB : IGateDAL
     {
         List<GateDTO> gates = new()
         {
@@ -27,6 +27,19 @@ namespace Test.STUB
         public GateDTO GetById(ulong id)
         {
             throw new NotImplementedException();
+        }
+
+        public List<GateDTO> GetBySpaceportId(ulong id)
+        {
+            List<GateDTO> spaceportGates = new List<GateDTO>();
+            gates.ForEach(gate => 
+            {
+                if (gate.Spaceport.Id == id)
+                {
+                    spaceportGates.Add(gate); 
+                }
+            });
+            return spaceportGates;
         }
 
         public bool Insert(GateDTO entity)

@@ -6715,23 +6715,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\longt\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\Long\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Dev\\School\\longdyssey\\Test\\Test.csproj",
+      "projectUniqueName": "C:\\Dev\\school\\longdyssey\\Test\\Test.csproj",
       "projectName": "Test",
-      "projectPath": "C:\\Dev\\School\\longdyssey\\Test\\Test.csproj",
-      "packagesPath": "C:\\Users\\longt\\.nuget\\packages\\",
-      "outputPath": "C:\\Dev\\School\\longdyssey\\Test\\obj\\",
+      "projectPath": "C:\\Dev\\school\\longdyssey\\Test\\Test.csproj",
+      "packagesPath": "C:\\Users\\Long\\.nuget\\packages\\",
+      "outputPath": "C:\\Dev\\school\\longdyssey\\Test\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\longt\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Long\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6745,8 +6741,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Dev\\School\\longdyssey\\IL\\IL.csproj": {
-              "projectPath": "C:\\Dev\\School\\longdyssey\\IL\\IL.csproj"
+            "C:\\Dev\\school\\longdyssey\\IL\\IL.csproj": {
+              "projectPath": "C:\\Dev\\school\\longdyssey\\IL\\IL.csproj"
             }
           }
         }
@@ -6794,7 +6790,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100-rc.1.22431.12\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400-preview.22330.6\\RuntimeIdentifierGraph.json"
       }
     }
   }

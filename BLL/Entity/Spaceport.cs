@@ -29,5 +29,12 @@ namespace BLL.Entity
             Y = dto.Y;
             Z = dto.Z;
         }
+
+        public List<Gate> GetAllGates()
+        {
+            List<Gate> list = new();
+            C.GetBySpaceportId(Id).ForEach(gate => { list.Add(new(gate)); });
+            return list;
+        }
     }
 }
