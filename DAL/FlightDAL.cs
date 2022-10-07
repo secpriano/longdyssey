@@ -12,9 +12,14 @@ namespace DAL
             throw new NotImplementedException();
         }
 
-        public IEnumerable<FlightDTO> GetAll()
+        public DataTable GetAll()
         {
-            throw new NotImplementedException();
+            string cmdText = "SELECT * FROM Flight";
+
+            using SqlCommand com = new(cmdText);
+
+            return Fetch(com);
+
         }
 
         public FlightDTO GetById(ulong id)
@@ -28,7 +33,7 @@ namespace DAL
 
             using SqlCommand com = new(cmdText);
             com.Parameters.Add("@DepartureTime", SqlDbType.SmallDateTime).Value = entity.DepartureTime;
-            com.Parameters.Add("@StatusFlight", SqlDbType.NVarChar).Value = entity.Status;
+            com.Parameters.Add("@StatusFlight", SqlDbType.BigInt).Value = entity.Status;
             com.Parameters.Add("@FlightNumber", SqlDbType.NVarChar, 9).Value = entity.FlightNumber;
             com.Parameters.Add("@SpaceshipID", SqlDbType.BigInt).Value = entity.Spaceship.Id;
             com.Parameters.Add("@OriginGateID", SqlDbType.BigInt).Value = entity.OriginGate.Id;

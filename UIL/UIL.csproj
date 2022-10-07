@@ -13,4 +13,10 @@
     <ProjectReference Include="..\Test\Test.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="VluchtZoeken.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>

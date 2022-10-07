@@ -1,10 +1,11 @@
 ﻿using IL.DTO;
+using System.Data;
 
 namespace IL.Interface.DAL
 {
     public interface IFlightDAL
     {
-        public IEnumerable<FlightDTO> GetAll();
+        public DataTable GetAll();
         public FlightDTO GetById(ulong id);
         public bool Insert(FlightDTO entity);
         public bool Update(FlightDTO entity);

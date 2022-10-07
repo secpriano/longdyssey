@@ -27,11 +27,12 @@ namespace UIL
             ComboBoxSpaceship.DisplayMember = "Name";
             ComboBoxSpaceship.ValueMember = "Id";
 
+            DateTimePickerVertrekDatum.Value = DateTime.Now;
         }
 
         private void ButtonViewAll_Click(object sender, EventArgs e)
         {
-
+            dataGridViewFlight.DataSource = fc.GetAll();
         }
 
         private void ButtonViewOneById_Click(object sender, EventArgs e)
@@ -41,7 +42,9 @@ namespace UIL
 
         private void ButtonInsert_Click(object sender, EventArgs e)
         {
-
+            Flight flight = new(DateTimePickerVertrekDatum.Value, 1, (Gate)ComboBoxOriginGate.SelectedItem, (Gate)ComboBoxDestinationGate.SelectedItem, (Spaceship)ComboBoxSpaceship.SelectedItem);
+            fc.Add(flight);
+            
         }
 
         private void ButtonUpdate_Click(object sender, EventArgs e)

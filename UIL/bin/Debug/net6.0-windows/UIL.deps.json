@@ -1200,7 +1200,8 @@
       },
       "BLL/1.0.0": {
         "dependencies": {
-          "DAL": "1.0.0"
+          "DAL": "1.0.0",
+          "IL": "1.0.0"
         },
         "runtime": {
           "BLL.dll": {}

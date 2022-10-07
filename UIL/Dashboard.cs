@@ -19,6 +19,8 @@ namespace UIL
 
         private void ButtonVluchtZoeken_Click(object sender, EventArgs e)
         {
+            VluchtZoeken vluchtZoeken = new();
+            vluchtZoeken.ShowDialog();
         }
 
         private void ButtonVluchtAdmin_Click(object sender, EventArgs e)

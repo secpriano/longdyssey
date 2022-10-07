@@ -115,3 +115,4 @@ C:\Dev\School\longdyssey\UIL\bin\Debug\net6.0-windows\zh-Hant\Microsoft.TestPlat
 C:\Dev\School\longdyssey\UIL\bin\Debug\net6.0-windows\zh-Hant\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
 C:\Dev\School\longdyssey\UIL\bin\Debug\net6.0-windows\Test.dll
 C:\Dev\School\longdyssey\UIL\bin\Debug\net6.0-windows\Test.pdb
+C:\Dev\School\longdyssey\UIL\obj\Debug\net6.0-windows\UIL.VluchtZoeken.resources
