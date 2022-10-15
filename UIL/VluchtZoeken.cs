@@ -15,8 +15,8 @@ namespace UIL
             {
                 Button flightLink = new()
                 {
-                    Text = $"{flight.DestinationGate.Spaceport.Name | flight.OriginGate.Spaceport.Name}";
-                }
+                    Text = $"{flight.DestinationGate.Spaceport.Name} | {flight.OriginGate.Spaceport.Name}",
+                };
             });
         }
     }
