@@ -2,13 +2,13 @@
 {
     public class SpaceshipDTO
     {
-        public ulong Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
-        public ushort Seat { get; set; }
-        public byte Speed { get; set; }
-        public string Role { get; set; }
+        public int Seat { get; set; }
+        public decimal Speed { get; set; }
+        public long Role { get; set; }
 
-        public SpaceshipDTO(ulong id, string name, ushort seat, byte speed, string role)
+        public SpaceshipDTO(long id, string name, int seat, decimal speed, long role)
         {
             Id = id;
             Name = name;

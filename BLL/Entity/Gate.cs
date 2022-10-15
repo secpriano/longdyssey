@@ -4,11 +4,11 @@ namespace BLL.Entity
 {
     public class Gate
     {
-        public ulong Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public Spaceport Spaceport { get; set; }
 
-        public Gate(ulong id, string name, Spaceport spaceport)
+        public Gate(long id, string name, Spaceport spaceport)
         {
             Id = id;
             Name = name;

@@ -5,29 +5,24 @@ namespace BLL.Entity
 {
     public class Spaceport
     {
-        public ulong Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
-        public long X { get; set; }
-        public long Y { get; set; }
-        public long Z { get; set; }
+        public PointOfInterest pointOfInterest { get; set; }
         public IGateDAL? C { get; set; }
 
-        public Spaceport(ulong id, string name, long x, long y, long z)
+        public Spaceport(long id, string name, PointOfInterest pointOfInterest, IGateDAL? c)
         {
             Id = id;
             Name = name;
-            X = x;
-            Y = y;
-            Z = z;
+            this.pointOfInterest = pointOfInterest;
+            C = c;
         }
 
         public Spaceport(SpaceportDTO dto)
         {
             Id = dto.Id;
             Name = dto.Name;
-            X = dto.X;
-            Y = dto.Y;
-            Z = dto.Z;
+            pointOfInterest = new(dto.PointOfInterest.Id, dto.PointOfInterest.Name, dto.PointOfInterest.Radius, dto.PointOfInterest.AngleX, dto.PointOfInterest.AngleY);
         }
 
         public List<Gate> GetAllGates()

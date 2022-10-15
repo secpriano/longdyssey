@@ -2,11 +2,11 @@
 {
     public class GateDTO
     {
-        public ulong Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public SpaceportDTO Spaceport { get; set; }
 
-        public GateDTO(ulong id, string name, SpaceportDTO spaceport)
+        public GateDTO(long id, string name, SpaceportDTO spaceport)
         {
             Id = id;
             Name = name;

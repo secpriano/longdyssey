@@ -33,6 +33,9 @@ namespace UIL
         private void ButtonViewAll_Click(object sender, EventArgs e)
         {
             dataGridViewFlight.DataSource = fc.GetAll();
+            fc.GetAll().ForEach(f => { 
+                MessageBox.Show($"{ f.DestinationGate.Spaceport.pointOfInterest.Radius }");
+            });
         }
 
         private void ButtonViewOneById_Click(object sender, EventArgs e)

@@ -1,8 +1,5 @@
 ﻿using BLL.Container;
-using BLL.Entity;
 using DAL;
-using System.Diagnostics.Metrics;
-using Test.STUB;
 
 namespace UIL
 {
@@ -14,7 +11,13 @@ namespace UIL
         {
             InitializeComponent();
 
-            dataGridViewFlight.DataSource = fc.GetAll();
+            fc.GetAll().ForEach(flight =>
+            {
+                Button flightLink = new()
+                {
+                    Text = $"{flight.DestinationGate.Spaceport.Name | flight.OriginGate.Spaceport.Name}";
+                }
+            });
         }
     }
 }

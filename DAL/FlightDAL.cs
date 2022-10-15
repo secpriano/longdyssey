@@ -7,22 +7,75 @@ namespace DAL
 {
     public class FlightDAL : Database, IFlightDAL
     {
-        public bool Delete(ulong id)
+        public bool Delete(long id)
         {
             throw new NotImplementedException();
         }
 
-        public DataTable GetAll()
+        public List<FlightDTO> GetAll()
         {
-            string cmdText = "SELECT * FROM Flight";
+            string cmdText = "SELECT FlightID, DepartureTime,StatusFlight,FlightNumber,Flight.SpaceshipID,Spaceship.SpaceshipName,Spaceship.Seat,Spaceship.Speed,Spaceship.SpaceshipRoleID,OriginGateID,DestinationGateID,OriginGate.GateName AS OriginGateName, DestinationGate.GateName AS DestinationGateName,OriginSpaceport.SpaceportID AS OriginSpaceportID,OriginSpaceport.SpaceportName AS OriginSpaceportName,DestinationSpaceport.SpaceportID AS DestinationSpaceportID,DestinationSpaceport.SpaceportName AS DestinationSpaceportName,OriginPointOfInterest.PointOfInterestID AS OriginPointOfInterestID,OriginPointOfInterest.PointOfInterestName AS OriginPointOfInterestName,OriginPointOfInterest.Radius AS OriginPointOfInterestRadius,OriginPointOfInterest.AngleX AS OriginPointOfInterestAngleX,OriginPointOfInterest.AngleY AS OriginPointOfInterestAngleY,DestinationPointOfInterest.PointOfInterestID AS DestinationPointOfInterestID,DestinationPointOfInterest.PointOfInterestName AS DestinationPointOfInterestName,DestinationPointOfInterest.Radius AS DestinationPointOfInterestRadius,DestinationPointOfInterest.AngleX AS DestinationPointOfInterestAngleX,DestinationPointOfInterest.AngleY AS DestinationPointOfInterestAngleY  FROM Flight  LEFT JOIN Gate AS OriginGate  ON Flight.OriginGateID = OriginGate.GateID  LEFT JOIN Gate  AS DestinationGate  ON Flight.DestinationGateID = DestinationGate.GateID  LEFT JOIN Spaceship   ON Flight.SpaceshipID = Spaceship.SpaceshipID  LEFT JOIN Spaceport AS OriginSpaceport  ON OriginGate.SpaceportID = OriginSpaceport.SpaceportID  LEFT JOIN Spaceport AS DestinationSpaceport  ON DestinationGate.SpaceportID = DestinationSpaceport.SpaceportID  LEFT JOIN PointOfInterest AS OriginPointOfInterest  ON OriginSpaceport.PointOfInterestID = OriginPointOfInterest.PointOfInterestID  LEFT JOIN PointOfInterest AS DestinationPointOfInterest  ON DestinationSpaceport.PointOfInterestID = DestinationPointOfInterest.PointOfInterestID";
 
             using SqlCommand com = new(cmdText);
 
-            return Fetch(com);
+            DataTable dt = new();
+            dt = Fetch(com);
 
+            List<FlightDTO> DTOs = new();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DTOs.Add(
+                    new FlightDTO(
+                        dt.Rows[i].Field<long>("FlightID"),
+                        dt.Rows[i].Field<DateTime>("DepartureTime"),
+                        dt.Rows[i].Field<long>("StatusFlight"),
+                        dt.Rows[i].Field<string>("FlightNumber"),
+                        new GateDTO(
+                            dt.Rows[i].Field<long>("OriginGateID"), 
+                            dt.Rows[i].Field<string>("OriginGateName"), 
+                            new SpaceportDTO(
+                                dt.Rows[i].Field<long>("OriginSpaceportID"), 
+                                dt.Rows[i].Field<string>("OriginSpaceportName"), 
+                                new PointOfInterestDTO(
+                                    dt.Rows[i].Field<long>("OriginPointOfInterestID"),
+                                    dt.Rows[i].Field<string>("OriginPointOfInterestName"),
+                                    dt.Rows[i].Field<decimal>("OriginPointOfInterestRadius"),
+                                    dt.Rows[i].Field<decimal>("OriginPointOfInterestAngleX"),
+                                    dt.Rows[i].Field<decimal>("OriginPointOfInterestAngleY")
+                                )
+                            )
+                        ), 
+                        new GateDTO(
+                            dt.Rows[i].Field<long>("DestinationGateID"), 
+                            dt.Rows[i].Field<string>("DestinationGateName"), 
+                            new SpaceportDTO(
+                                dt.Rows[i].Field<long>("DestinationSpaceportID"), 
+                                dt.Rows[i].Field<string>("DestinationSpaceportName"),
+                                new PointOfInterestDTO(
+                                    dt.Rows[i].Field<long>("DestinationPointOfInterestID"),
+                                    dt.Rows[i].Field<string>("DestinationPointOfInterestName"),
+                                    dt.Rows[i].Field<decimal>("DestinationPointOfInterestRadius"),
+                                    dt.Rows[i].Field<decimal>("DestinationPointOfInterestAngleX"),
+                                    dt.Rows[i].Field<decimal>("DestinationPointOfInterestAngleY")
+                                )
+                            )
+                        ), 
+                        new SpaceshipDTO(
+                            dt.Rows[i].Field<long>("SpaceshipID"),
+                            dt.Rows[i].Field<string>("SpaceshipName"),
+                            dt.Rows[i].Field<int>("Seat"),
+                            dt.Rows[i].Field<decimal>("Speed"),
+                            dt.Rows[i].Field<long>("SpaceshipRoleID")
+                        )
+                    )
+                );
+            }
+
+            return DTOs;
         }
 
-        public FlightDTO GetById(ulong id)
+        public FlightDTO GetById(long id)
         {
             throw new NotImplementedException();
         }

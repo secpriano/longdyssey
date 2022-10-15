@@ -7,22 +7,28 @@ namespace BLL.Container
 {
     public class FlightContainer
     {
-        IFlightDAL Data;
+        IFlightDAL db;
 
         public FlightContainer(IFlightDAL data)
         {
-            Data = data;
+            db = data;
         }
 
         public void Add(Flight flight) 
         {
-            FlightDTO dto = flight.GetDTO();
-            Data.Insert(dto);
-        }
+/*            FlightDTO dto = flight.GetDTO();
+            db.Insert(dto);
+*/        }
 
-        public DataTable GetAll()
+        public List<Flight> GetAll()
         {
-            return Data.GetAll();
+            List<Flight> DTOs = new();
+
+            db.GetAll().ForEach(flightDTO => 
+            {
+                DTOs.Add(new(flightDTO));
+            });
+            return DTOs;
         }
     }
 }
