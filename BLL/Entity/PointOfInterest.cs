@@ -16,5 +16,20 @@
             AngleX = angleX;
             AngleY = angleY;
         }
+
+        private static double DegreeToRadians(double degree) => degree * (Math.PI / 180);
+
+        public double[] SphericalToCartesianCoordinates()
+        {
+            double azimuth = DegreeToRadians((double)AngleX);
+            double inclination = DegreeToRadians((double)AngleY);
+
+            return new double[3]
+            {
+                (double)Radius * Math.Cos(inclination) * Math.Cos(azimuth),
+                (double)Radius * Math.Cos(inclination) * Math.Sin(azimuth),
+                (double)Radius * Math.Sin(inclination)
+            };
+        }
     }
 }

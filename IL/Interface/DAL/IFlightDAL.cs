@@ -1,5 +1,4 @@
 ﻿using IL.DTO;
-using System.Data;
 
 namespace IL.Interface.DAL
 {

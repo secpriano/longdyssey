@@ -45,7 +45,7 @@ namespace DAL
                                     dt.Rows[i].Field<decimal>("OriginPointOfInterestAngleY")
                                 )
                             )
-                        ), 
+                        ),
                         new GateDTO(
                             dt.Rows[i].Field<long>("DestinationGateID"), 
                             dt.Rows[i].Field<string>("DestinationGateName"), 
