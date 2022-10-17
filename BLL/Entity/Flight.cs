@@ -87,15 +87,16 @@ namespace BLL.Entity
             Hour,
             Minute
         }
-        /*        public FlightDTO GetDTO()
-                {
-                    SpaceportDTO spaceportV = new(OriginGate.Spaceport.Id, OriginGate.Spaceport.Name, OriginGate.Spaceport.X, OriginGate.Spaceport.Y, OriginGate.Spaceport.Z);
-                    GateDTO gateV = new(OriginGate.Id, OriginGate.Name, spaceportV);
-                    SpaceportDTO spaceportA = new(DestinationGate.Spaceport.Id, DestinationGate.Spaceport.Name, DestinationGate.Spaceport.X, DestinationGate.Spaceport.Y, DestinationGate.Spaceport.Z);
-                    GateDTO gateA = new(DestinationGate.Id, DestinationGate.Name, spaceportA);
 
-                    return new FlightDTO(Departuretime, Status, FlightNumber, gateV, gateA, new SpaceshipDTO(Spaceship.Id, Spaceship.Name, Spaceship.Seat, Spaceship.Speed, Spaceship.Role));
-                }
-        */
+        public FlightDTO GetDTO()
+        {
+            SpaceportDTO spaceportV = new(OriginGate.Spaceport.Id, OriginGate.Spaceport.Name, new(OriginGate.Spaceport.pointOfInterest.Id, OriginGate.Spaceport.pointOfInterest.Name, OriginGate.Spaceport.pointOfInterest.Radius, OriginGate.Spaceport.pointOfInterest.Azimuth, OriginGate.Spaceport.pointOfInterest.Inclination));
+            GateDTO gateV = new(OriginGate.Id, OriginGate.Name, spaceportV);
+            SpaceportDTO spaceportA = new(DestinationGate.Spaceport.Id, DestinationGate.Spaceport.Name, new(DestinationGate.Spaceport.pointOfInterest.Id, DestinationGate.Spaceport.pointOfInterest.Name, DestinationGate.Spaceport.pointOfInterest.Radius, DestinationGate.Spaceport.pointOfInterest.Azimuth, DestinationGate.Spaceport.pointOfInterest.Inclination));
+            GateDTO gateA = new(DestinationGate.Id, DestinationGate.Name, spaceportA);
+
+            return new FlightDTO(Id, Departuretime, Status, FlightNumber, gateV, gateA, new(Spaceship.Id, Spaceship.Name, Spaceship.Seat, Spaceship.Speed, Spaceship.Role));
+        }
+
     }
 }

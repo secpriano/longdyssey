@@ -16,9 +16,9 @@ namespace BLL.Container
 
         public void Add(Flight flight) 
         {
-/*            FlightDTO dto = flight.GetDTO();
+            FlightDTO dto = flight.GetDTO();
             db.Insert(dto);
-*/        
+        
         }
 
         public List<Flight> GetAll()

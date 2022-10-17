@@ -9,45 +9,29 @@ namespace UIL
     {
         FlightContainer fc = new(new FlightDAL());
         PointOfInterestContainer pc = new(new PointOfInterestDAL());
+        
+        private readonly Graphics g;
+        private readonly Pen orbit = new(Color.Blue, 3);
+        private readonly Pen path = new(Color.Purple, 3);
+
+        private readonly int formMidX, formMidY;
 
         public VluchtZoeken()
         {
             InitializeComponent();
 
-            int row = 25;
+            g = CreateGraphics();
 
-            fc.GetAll().ForEach(flight =>
-            {
-                Button flightLink = new()
-                {
-                    Text = $"From: {flight.OriginGate.Spaceport.pointOfInterest.Name} | To: {flight.DestinationGate.Spaceport.pointOfInterest.Name}\n" +
-                    $"From spaceport: {flight.OriginGate.Spaceport.Name} | To spaceport: {flight.DestinationGate.Spaceport.Name}\n" +
-                    $"Departure gate: {flight.OriginGate.Name} | Arrival gate: {flight.DestinationGate.Name}\n\n" +
-                    $"Spaceship: {flight.Spaceship.Name}\n" + 
-                    flight.GetFlightDuration(),
-                    AutoSize = true
-                };
-
-                flightLink.Click += (sender, args) =>
-                {
-                    FlightLink_Click(flight);
-                };
-
-                Controls.Add(flightLink);
-                flightLink.Location = new Point((Size.Width / 2) - (flightLink.Size.Width / 2), row);
-                row += 50;
-            });
+            formMidX = Size.Width / 2;
+            formMidY = Size.Height / 2;
         }
 
-        private readonly List<decimal> X = new();
-        private readonly List<decimal> Y = new();
+        private readonly List<decimal> pointOfInterestsX = new();
+        private readonly List<decimal> pointOfInterestsY = new();
 
         private void VluchtZoeken_Load(object sender, EventArgs e)
         {
-            Brush blackBrush = (Brush)Brushes.Black;
-            Graphics g = CreateGraphics();
-
-
+            // Zonnestelsel maken
             pc.GetAll().ForEach(PointOfInterest =>
             {
                 Button buttonPoint = new()
@@ -58,32 +42,98 @@ namespace UIL
                 buttonPoints.Add(buttonPoint);
                 Controls.Add(buttonPoint);
 
-                int originPointX = (int)(PointOfInterest.SphericalToCartesianCoordinates()[0] * 35);
-                int originPointY = (int)(PointOfInterest.SphericalToCartesianCoordinates()[1] * 35);
+                int pointOfInterestX = (int)(PointOfInterest.SphericalToCartesianCoordinates()[0] * 30);
+                int pointOfInterestY = (int)(PointOfInterest.SphericalToCartesianCoordinates()[1] * 30);
 
-                X.Add(originPointX); 
-                Y.Add(originPointY);
+                pointOfInterestsX.Add(pointOfInterestX); 
+                pointOfInterestsY.Add(pointOfInterestY);
 
-                buttonPoint.Location = new Point((Size.Width / 2) + originPointX, (Size.Height / 2) + originPointY);
-                                
-                //g.FillRectangle(blackBrush, (X, y, 3, 3);
+                buttonPoint.Location = new Point((formMidX - buttonPoint.Width / 2) + pointOfInterestX, (formMidY - buttonPoint.Height / 2) + pointOfInterestY);
             });
+
+            int row = 75;
+
+            // Vluchten laten zien
+            fc.GetAll().ForEach(flight =>
+            {
+                Button flightLink = new()
+                {
+                    Text = $"From: {flight.OriginGate.Spaceport.pointOfInterest.Name} | To: {flight.DestinationGate.Spaceport.pointOfInterest.Name}\n" +
+                    $"From spaceport: {flight.OriginGate.Spaceport.Name} | To spaceport: {flight.DestinationGate.Spaceport.Name}\n" +
+                    $"Departure gate: {flight.OriginGate.Name} | Arrival gate: {flight.DestinationGate.Name}\n\n" +
+                    $"Spaceship: {flight.Spaceship.Name}\n" +
+                    flight.GetFlightDuration(),
+                    AutoSize = true
+                };
+
+                flightLink.Click += (sender, args) =>
+                {
+                    FlightLink_Click(flight);
+                };
+
+                Controls.Add(flightLink);
+                flightLink.Location = new Point((Size.Width) - 400, row);
+                row += 125;
+            });
+
+            DrawOrbit();
         }
+
+        Flight selectedFlight;
+        // Knop ingedrukt van een vlucht afhandelen
         public void FlightLink_Click(Flight flight)
-        {   
+        {
+            selectedFlight = flight;
+            DrawPath();
         }
 
         private readonly List<Button> buttonPoints = new List<Button>();
 
+        // Zoom of zoom uit van het zonnestelsel
         private void TrackBarZoom_ValueChanged(object sender, EventArgs e)
         {
+            g.Clear(Color.FromArgb(240, 240, 240));
             decimal zoom = (decimal)trackBarZoom.Value / 10 + 1;
             for (int i = 0; i < buttonPoints.Count; i++)
             {
-                decimal zoomX = X[i] * zoom;
-                decimal zoomY = Y[i] * zoom;
+                decimal zoomX = pointOfInterestsX[i] * zoom;
+                decimal zoomY = pointOfInterestsY[i] * zoom;
 
-                buttonPoints[i].Location = new Point((int)(Size.Width / 2 + zoomX), (int)(Size.Height / 2 + zoomY));
+                buttonPoints[i].Location = new Point((int)(formMidX - buttonPoints[i].Width / 2 + zoomX), (int)(formMidY - buttonPoints[i].Height / 2 + zoomY));
+            }
+            DrawOrbit();
+            DrawPath();
+        }
+
+        // Maakt een pad van een gekozen vlucht
+        Point point1 = new(), point2 = new();
+        private void DrawPath()
+        {
+            buttonPoints.ForEach(bp =>
+            {
+                if (bp.Text == selectedFlight.OriginGate.Spaceport.pointOfInterest.Name)
+                {
+                    point1 = new Point(bp.Location.X + bp.Width / 2, bp.Location.Y + bp.Height / 2);
+                }
+                if (bp.Text == selectedFlight.DestinationGate.Spaceport.pointOfInterest.Name)
+                {
+                    point2 = new Point(bp.Location.X + bp.Width / 2, bp.Location.Y + bp.Height / 2);
+                }
+            });
+
+            g.Clear(Color.FromArgb(240, 240, 240));
+            DrawOrbit();
+            g.DrawLine(path, point1, point2);
+        }
+
+        // Voeg de orbits van point of interest
+        private void DrawOrbit()
+        {
+            foreach (Button button in buttonPoints)
+            {
+                int diameter = (int)Math.Sqrt(Math.Pow(button.Location.X + button.Width / 2 - formMidX, 2) + Math.Pow(button.Location.Y + button.Height / 2 - formMidY, 2)) * 2;
+                int radius = diameter / 2;
+                g.DrawEllipse(orbit, formMidX - radius, formMidY - radius, diameter, diameter);
             }
         }
     }
