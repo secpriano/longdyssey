@@ -33,6 +33,7 @@ namespace BLL.Entity
             DestinationGate = new(dto.DestinationGate);
             Spaceship = new(dto.Spaceship);
         }
+
         private void GenerateFlightNumber()
         {
             FlightNumber = "";

@@ -7,7 +7,7 @@ namespace BLL.Container
 {
     public class FlightContainer
     {
-        IFlightDAL db;
+        private readonly IFlightDAL db;
 
         public FlightContainer(IFlightDAL data)
         {
@@ -18,7 +18,8 @@ namespace BLL.Container
         {
 /*            FlightDTO dto = flight.GetDTO();
             db.Insert(dto);
-*/        }
+*/        
+        }
 
         public List<Flight> GetAll()
         {

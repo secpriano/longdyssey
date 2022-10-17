@@ -8,19 +8,23 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Long\\.nuget\\packages\\": {}
+    "C:\\Users\\longt\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Dev\\school\\longdyssey\\IL\\IL.csproj",
+      "projectUniqueName": "C:\\Dev\\School\\longdyssey\\IL\\IL.csproj",
       "projectName": "IL",
-      "projectPath": "C:\\Dev\\school\\longdyssey\\IL\\IL.csproj",
-      "packagesPath": "C:\\Users\\Long\\.nuget\\packages\\",
-      "outputPath": "C:\\Dev\\school\\longdyssey\\IL\\obj\\",
+      "projectPath": "C:\\Dev\\School\\longdyssey\\IL\\IL.csproj",
+      "packagesPath": "C:\\Users\\longt\\.nuget\\packages\\",
+      "outputPath": "C:\\Dev\\School\\longdyssey\\IL\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Long\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\longt\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -61,7 +65,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400-preview.22330.6\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100-rc.2.22477.23\\RuntimeIdentifierGraph.json"
       }
     }
   }

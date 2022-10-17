@@ -22,7 +22,7 @@ namespace BLL.Entity
         {
             Id = dto.Id;
             Name = dto.Name;
-            pointOfInterest = new(dto.PointOfInterest.Id, dto.PointOfInterest.Name, dto.PointOfInterest.Radius, dto.PointOfInterest.AngleX, dto.PointOfInterest.AngleY);
+            pointOfInterest = new(dto.PointOfInterest.Id, dto.PointOfInterest.Name, dto.PointOfInterest.Radius, dto.PointOfInterest.Azimuth, dto.PointOfInterest.Inclination);
         }
 
         public List<Gate> GetAllGates()

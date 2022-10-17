@@ -20,15 +20,5 @@
             DestinationGate = destinationGate;
             Spaceship = spaceship;
         }
-
-        public FlightDTO(DateTime departureTime, long status, string flightNumber, GateDTO originGate, GateDTO destinationGate, SpaceshipDTO spaceship)
-        {
-            DepartureTime = departureTime;
-            Status = status;
-            FlightNumber = flightNumber;
-            OriginGate = originGate;
-            DestinationGate = destinationGate;
-            Spaceship = spaceship;
-        }
     }
 }
