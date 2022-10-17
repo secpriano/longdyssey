@@ -42,8 +42,8 @@ namespace UIL
                 buttonPoints.Add(buttonPoint);
                 Controls.Add(buttonPoint);
 
-                int pointOfInterestX = (int)(PointOfInterest.SphericalToCartesianCoordinates()[0] * 30);
-                int pointOfInterestY = (int)(PointOfInterest.SphericalToCartesianCoordinates()[1] * 30);
+                int pointOfInterestX = (int)(PointOfInterest.SphericalToCartesianCoordinates()[0] * 15);
+                int pointOfInterestY = (int)(PointOfInterest.SphericalToCartesianCoordinates()[1] * 15);
 
                 pointOfInterestsX.Add(pointOfInterestX); 
                 pointOfInterestsY.Add(pointOfInterestY);
@@ -92,7 +92,7 @@ namespace UIL
         // Zoom of zoom uit van het zonnestelsel
         private void TrackBarZoom_ValueChanged(object sender, EventArgs e)
         {
-            g.Clear(Color.FromArgb(240, 240, 240));
+            g.Clear(Color.FromArgb(0, 0, 0));
             decimal zoom = (decimal)trackBarZoom.Value / 10 + 1;
             for (int i = 0; i < buttonPoints.Count; i++)
             {
@@ -102,7 +102,10 @@ namespace UIL
                 buttonPoints[i].Location = new Point((int)(formMidX - buttonPoints[i].Width / 2 + zoomX), (int)(formMidY - buttonPoints[i].Height / 2 + zoomY));
             }
             DrawOrbit();
-            DrawPath();
+            if (selectedFlight != null)
+            {
+                DrawPath();
+            }
         }
 
         // Maakt een pad van een gekozen vlucht
@@ -121,7 +124,7 @@ namespace UIL
                 }
             });
 
-            g.Clear(Color.FromArgb(240, 240, 240));
+            g.Clear(Color.FromArgb(0, 0, 0));
             DrawOrbit();
             g.DrawLine(path, point1, point2);
         }
