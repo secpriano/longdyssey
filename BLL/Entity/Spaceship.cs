@@ -27,5 +27,7 @@ namespace BLL.Entity
             Speed = dto.Speed;
             Role = dto.Role;
         }
+
+        public SpaceshipDTO GetDTO() => new SpaceshipDTO(Id, Name, Seat, Speed, Role);
     }
 }

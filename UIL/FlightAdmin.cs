@@ -33,14 +33,15 @@ namespace UIL
         private void ButtonViewAll_Click(object sender, EventArgs e)
         {
             dataGridViewFlight.DataSource = fc.GetAll();
-            fc.GetAll().ForEach(f => { 
-                MessageBox.Show($"{ f.DestinationGate.Spaceport.pointOfInterest.Radius }");
-            });
         }
 
         private void ButtonViewOneById_Click(object sender, EventArgs e)
         {
-
+            List<Flight> flights = new List<Flight>
+            {
+                fc.GetByID((long)numericUpDownID.Value)
+            };
+            dataGridViewFlight.DataSource = flights[0];
         }
 
         private void ButtonInsert_Click(object sender, EventArgs e)
@@ -57,7 +58,7 @@ namespace UIL
 
         private void ButtonDelete_Click(object sender, EventArgs e)
         {
-
+            fc.DeleteByID((long)numericUpDownID.Value);
         }
 
         private void ComboBoxOriginSpaceport_SelectedIndexChanged(object sender, EventArgs e)

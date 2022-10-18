@@ -10,18 +10,18 @@ namespace BLL.Container
 {
     public class PointOfInterestContainer
     {
-        private readonly IPointOfInterestDAL db;
+        private readonly IPointOfInterestDAL Db;
 
-        public PointOfInterestContainer(IPointOfInterestDAL data)
+        public PointOfInterestContainer(IPointOfInterestDAL db)
         {
-            db = data;
+            Db = db;
         }
 
         public List<PointOfInterest> GetAll()
         {
             List<PointOfInterest> DTOs = new();
 
-            db.GetAll().ForEach(pointOfInterestDTO =>
+            Db.GetAll().ForEach(pointOfInterestDTO =>
             {
                 DTOs.Add(new(pointOfInterestDTO));
             });

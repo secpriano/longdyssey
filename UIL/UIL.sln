@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "..\DAL\DAL.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IL", "..\IL\IL.csproj", "{C5A6E865-9CC8-4169-9315-F30A998F7CD3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "..\Test\Test.csproj", "{AA4B0F91-5705-45CD-8366-7CB98BD6FE7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "..\Test\Test.csproj", "{AA4B0F91-5705-45CD-8366-7CB98BD6FE7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LongdysseyWebApplication", "..\LongdysseyWebApplication\LongdysseyWebApplication.csproj", "{F224A626-58BD-4B73-84D9-4E9D08F2EA60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{AA4B0F91-5705-45CD-8366-7CB98BD6FE7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA4B0F91-5705-45CD-8366-7CB98BD6FE7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA4B0F91-5705-45CD-8366-7CB98BD6FE7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F224A626-58BD-4B73-84D9-4E9D08F2EA60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F224A626-58BD-4B73-84D9-4E9D08F2EA60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F224A626-58BD-4B73-84D9-4E9D08F2EA60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F224A626-58BD-4B73-84D9-4E9D08F2EA60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,6 @@
 ﻿using BLL.Container;
 using BLL.Entity;
 using DAL;
-using System.Drawing;
 
 namespace UIL
 {
@@ -58,7 +57,7 @@ namespace UIL
             {
                 Button flightLink = new()
                 {
-                    Text = $"From: {flight.OriginGate.Spaceport.pointOfInterest.Name} | To: {flight.DestinationGate.Spaceport.pointOfInterest.Name}\n" +
+                    Text = $"From: {flight.OriginGate.Spaceport.PointOfInterest.Name} | To: {flight.DestinationGate.Spaceport.PointOfInterest.Name}\n" +
                     $"From spaceport: {flight.OriginGate.Spaceport.Name} | To spaceport: {flight.DestinationGate.Spaceport.Name}\n" +
                     $"Departure gate: {flight.OriginGate.Name} | Arrival gate: {flight.DestinationGate.Name}\n\n" +
                     $"Spaceship: {flight.Spaceship.Name}\n" +
@@ -114,11 +113,11 @@ namespace UIL
         {
             buttonPoints.ForEach(bp =>
             {
-                if (bp.Text == selectedFlight.OriginGate.Spaceport.pointOfInterest.Name)
+                if (bp.Text == selectedFlight.OriginGate.Spaceport.PointOfInterest.Name)
                 {
                     point1 = new Point(bp.Location.X + bp.Width / 2, bp.Location.Y + bp.Height / 2);
                 }
-                if (bp.Text == selectedFlight.DestinationGate.Spaceport.pointOfInterest.Name)
+                if (bp.Text == selectedFlight.DestinationGate.Spaceport.PointOfInterest.Name)
                 {
                     point2 = new Point(bp.Location.X + bp.Width / 2, bp.Location.Y + bp.Height / 2);
                 }

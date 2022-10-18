@@ -34,7 +34,7 @@
             this.ButtonUpdate = new System.Windows.Forms.Button();
             this.ButtonInsert = new System.Windows.Forms.Button();
             this.dataGridViewFlight = new System.Windows.Forms.DataGridView();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownID = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -49,7 +49,7 @@
             this.DateTimePickerVertrekDatum = new System.Windows.Forms.DateTimePicker();
             this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFlight)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownID)).BeginInit();
             this.SuspendLayout();
             // 
             // ButtonViewOneById
@@ -117,12 +117,12 @@
             this.dataGridViewFlight.Size = new System.Drawing.Size(649, 285);
             this.dataGridViewFlight.TabIndex = 16;
             // 
-            // numericUpDown1
+            // numericUpDownID
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(40, 303);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(56, 27);
-            this.numericUpDown1.TabIndex = 22;
+            this.numericUpDownID.Location = new System.Drawing.Point(40, 303);
+            this.numericUpDownID.Name = "numericUpDownID";
+            this.numericUpDownID.Size = new System.Drawing.Size(56, 27);
+            this.numericUpDownID.TabIndex = 22;
             // 
             // label1
             // 
@@ -255,7 +255,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.numericUpDownID);
             this.Controls.Add(this.ButtonViewOneById);
             this.Controls.Add(this.ButtonViewAll);
             this.Controls.Add(this.ButtonDelete);
@@ -265,7 +265,7 @@
             this.Name = "FlightAdmin";
             this.Text = "FlightAdmin";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFlight)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownID)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -279,7 +279,7 @@
         private Button ButtonUpdate;
         private Button ButtonInsert;
         private DataGridView dataGridViewFlight;
-        private NumericUpDown numericUpDown1;
+        private NumericUpDown numericUpDownID;
         private Label label1;
         private Label label2;
         private Label label3;

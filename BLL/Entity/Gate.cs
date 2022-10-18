@@ -21,5 +21,7 @@ namespace BLL.Entity
             Name = dto.Name;
             Spaceport = new(dto.Spaceport);
         }
+
+        public GateDTO GetDTO() => new GateDTO(Id, Name, Spaceport.GetDTO());
     }
 }

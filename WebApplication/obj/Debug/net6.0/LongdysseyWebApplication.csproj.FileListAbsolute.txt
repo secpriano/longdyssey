@@ -1,0 +1,8 @@
+C:\Dev\School\longdyssey\WebApplication\obj\Debug\net6.0\LongdysseyWebApplication.csproj.AssemblyReference.cache
+C:\Dev\School\longdyssey\WebApplication\obj\Debug\net6.0\LongdysseyWebApplication.GeneratedMSBuildEditorConfig.editorconfig
+C:\Dev\School\longdyssey\WebApplication\obj\Debug\net6.0\LongdysseyWebApplication.AssemblyInfoInputs.cache
+C:\Dev\School\longdyssey\WebApplication\obj\Debug\net6.0\LongdysseyWebApplication.AssemblyInfo.cs
+C:\Dev\School\longdyssey\WebApplication\obj\Debug\net6.0\LongdysseyWebApplication.csproj.CoreCompileInputs.cache
+C:\Dev\School\longdyssey\WebApplication\obj\Debug\net6.0\LongdysseyWebApplication.MvcApplicationPartsAssemblyInfo.cache
+C:\Dev\School\longdyssey\WebApplication\obj\Debug\net6.0\LongdysseyWebApplication.RazorAssemblyInfo.cache
+C:\Dev\School\longdyssey\WebApplication\obj\Debug\net6.0\LongdysseyWebApplication.RazorAssemblyInfo.cs

@@ -5,17 +5,17 @@ namespace BLL.Container
 {
     public class SpaceshipContainer
     {
-        private readonly ISpaceshipDAL db;
+        private readonly ISpaceshipDAL Db;
 
-        public SpaceshipContainer(ISpaceshipDAL data)
+        public SpaceshipContainer(ISpaceshipDAL db)
         {
-            db = data;
+            Db = db;
         }
 
         public List<Spaceship> GetAll()
         {
             List<Spaceship> list = new();
-            db.GetAll().ToList().ForEach(spaceship => { list.Add(new(spaceship)); }); 
+            Db.GetAll().ToList().ForEach(spaceship => { list.Add(new(spaceship)); }); 
             return list;
         }
     }

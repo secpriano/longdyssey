@@ -42,5 +42,7 @@ namespace BLL.Entity
                 (double)Radius * Math.Sin(inclinationInRadians)
             };
         }
+
+        public PointOfInterestDTO GetDTO() => new PointOfInterestDTO(Id, Name, Radius, Azimuth, Inclination);
     }
 }

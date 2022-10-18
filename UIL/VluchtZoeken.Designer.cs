@@ -37,24 +37,23 @@
             this.trackBarZoom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.trackBarZoom.LargeChange = 1;
-            this.trackBarZoom.Location = new System.Drawing.Point(10, 510);
-            this.trackBarZoom.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.trackBarZoom.Maximum = 50;
+            this.trackBarZoom.Location = new System.Drawing.Point(161, 680);
+            this.trackBarZoom.Maximum = 100;
             this.trackBarZoom.Name = "trackBarZoom";
-            this.trackBarZoom.Size = new System.Drawing.Size(568, 45);
+            this.trackBarZoom.Size = new System.Drawing.Size(340, 56);
+            this.trackBarZoom.SmallChange = 2;
             this.trackBarZoom.TabIndex = 0;
             this.trackBarZoom.ValueChanged += new System.EventHandler(this.TrackBarZoom_ValueChanged);
             // 
             // VluchtZoeken
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(589, 561);
+            this.ClientSize = new System.Drawing.Size(673, 748);
             this.Controls.Add(this.trackBarZoom);
             this.ForeColor = System.Drawing.Color.White;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "VluchtZoeken";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "VluchtZoeken";

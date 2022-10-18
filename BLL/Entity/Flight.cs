@@ -41,9 +41,9 @@ namespace BLL.Entity
 
         private double CalcuclateFlightDistance()
         {
-            double[] originCoordinates = OriginGate.Spaceport.pointOfInterest.SphericalToCartesianCoordinates();
+            double[] originCoordinates = OriginGate.Spaceport.PointOfInterest.SphericalToCartesianCoordinates();
 
-            double[] destinationCoordinates = DestinationGate.Spaceport.pointOfInterest.SphericalToCartesianCoordinates();
+            double[] destinationCoordinates = DestinationGate.Spaceport.PointOfInterest.SphericalToCartesianCoordinates();
 
             return Math.Sqrt(
                 Math.Pow(originCoordinates[(byte)Coordinates.X] - destinationCoordinates[(byte)Coordinates.X], 2)
@@ -90,12 +90,7 @@ namespace BLL.Entity
 
         public FlightDTO GetDTO()
         {
-            SpaceportDTO spaceportV = new(OriginGate.Spaceport.Id, OriginGate.Spaceport.Name, new(OriginGate.Spaceport.pointOfInterest.Id, OriginGate.Spaceport.pointOfInterest.Name, OriginGate.Spaceport.pointOfInterest.Radius, OriginGate.Spaceport.pointOfInterest.Azimuth, OriginGate.Spaceport.pointOfInterest.Inclination));
-            GateDTO gateV = new(OriginGate.Id, OriginGate.Name, spaceportV);
-            SpaceportDTO spaceportA = new(DestinationGate.Spaceport.Id, DestinationGate.Spaceport.Name, new(DestinationGate.Spaceport.pointOfInterest.Id, DestinationGate.Spaceport.pointOfInterest.Name, DestinationGate.Spaceport.pointOfInterest.Radius, DestinationGate.Spaceport.pointOfInterest.Azimuth, DestinationGate.Spaceport.pointOfInterest.Inclination));
-            GateDTO gateA = new(DestinationGate.Id, DestinationGate.Name, spaceportA);
-
-            return new FlightDTO(Id, Departuretime, Status, FlightNumber, gateV, gateA, new(Spaceship.Id, Spaceship.Name, Spaceship.Seat, Spaceship.Speed, Spaceship.Role));
+            return new FlightDTO(Id, Departuretime, Status, FlightNumber, OriginGate.GetDTO(), DestinationGate.GetDTO(), new(Spaceship.Id, Spaceship.Name, Spaceship.Seat, Spaceship.Speed, Spaceship.Role));
         }
 
     }
