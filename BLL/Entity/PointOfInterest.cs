@@ -44,5 +44,12 @@ namespace BLL.Entity
         }
 
         public PointOfInterestDTO GetDTO() => new PointOfInterestDTO(Id, Name, Radius, Azimuth, Inclination);
+
+        public enum Coordinates
+        {
+            X,
+            Y,
+            Z
+        }
     }
 }

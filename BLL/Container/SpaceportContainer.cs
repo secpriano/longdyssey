@@ -14,9 +14,9 @@ namespace BLL.Container
 
         public List<Spaceport> GetAll()
         {
-            List<Spaceport> list = new();
-            Db.GetAll().ToList().ForEach(spaceport => { list.Add(new(spaceport)); }); 
-            return list;
+            List<Spaceport> spaceports = new();
+            Db.GetAll().ToList().ForEach(spaceport => { spaceports.Add(new(spaceport)); }); 
+            return spaceports;
         }
     }
 }

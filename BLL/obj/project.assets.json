@@ -73,7 +73,7 @@
           }
         }
       },
-      "System.Data.SqlClient/4.8.3": {
+      "System.Data.SqlClient/4.8.4": {
         "type": "package",
         "dependencies": {
           "Microsoft.Win32.Registry": "4.7.0",
@@ -152,7 +152,7 @@
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "IL": "1.0.0",
-          "System.Data.SqlClient": "4.8.3"
+          "System.Data.SqlClient": "4.8.4"
         },
         "compile": {
           "bin/placeholder/DAL.dll": {}
@@ -298,10 +298,10 @@
         "version.txt"
       ]
     },
-    "System.Data.SqlClient/4.8.3": {
-      "sha512": "yERfVLXAY0QbylAgaGLByYN0hFxX28aeEQ0hUgJO+Ntn1AfmWl5HHUoYJA0Yl9HhIUUJHVaS/Sw/RLZr5aaC+A==",
+    "System.Data.SqlClient/4.8.4": {
+      "sha512": "45YflfcVXAu+Tnf0WnZzQIp9iGm+XvSvh8OosYHqax/nW3gV28NBSRvHFZ/IsuwV4JIypYCKBEOVzW+RB5+zgQ==",
       "type": "package",
-      "path": "system.data.sqlclient/4.8.3",
+      "path": "system.data.sqlclient/4.8.4",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -378,7 +378,7 @@
         "runtimes/win/lib/netstandard2.0/System.Data.SqlClient.xml",
         "runtimes/win/lib/uap10.0.16299/System.Data.SqlClient.dll",
         "runtimes/win/lib/uap10.0.16299/System.Data.SqlClient.xml",
-        "system.data.sqlclient.4.8.3.nupkg.sha512",
+        "system.data.sqlclient.4.8.4.nupkg.sha512",
         "system.data.sqlclient.nuspec",
         "useSharedDesignerContext.txt",
         "version.txt"
@@ -502,23 +502,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\longt\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\Long\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Dev\\School\\longdyssey\\BLL\\BLL.csproj",
+      "projectUniqueName": "C:\\Dev\\school\\longdyssey\\BLL\\BLL.csproj",
       "projectName": "BLL",
-      "projectPath": "C:\\Dev\\School\\longdyssey\\BLL\\BLL.csproj",
-      "packagesPath": "C:\\Users\\longt\\.nuget\\packages\\",
-      "outputPath": "C:\\Dev\\School\\longdyssey\\BLL\\obj\\",
+      "projectPath": "C:\\Dev\\school\\longdyssey\\BLL\\BLL.csproj",
+      "packagesPath": "C:\\Users\\Long\\.nuget\\packages\\",
+      "outputPath": "C:\\Dev\\school\\longdyssey\\BLL\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\longt\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Long\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -532,11 +528,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Dev\\School\\longdyssey\\DAL\\DAL.csproj": {
-              "projectPath": "C:\\Dev\\School\\longdyssey\\DAL\\DAL.csproj"
+            "C:\\Dev\\school\\longdyssey\\DAL\\DAL.csproj": {
+              "projectPath": "C:\\Dev\\school\\longdyssey\\DAL\\DAL.csproj"
             },
-            "C:\\Dev\\School\\longdyssey\\IL\\IL.csproj": {
-              "projectPath": "C:\\Dev\\School\\longdyssey\\IL\\IL.csproj"
+            "C:\\Dev\\school\\longdyssey\\IL\\IL.csproj": {
+              "projectPath": "C:\\Dev\\school\\longdyssey\\IL\\IL.csproj"
             }
           }
         }
@@ -566,7 +562,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100-rc.2.22477.23\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400-preview.22330.6\\RuntimeIdentifierGraph.json"
       }
     }
   }

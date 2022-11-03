@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IL", "..\IL\IL.csproj", "{C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "..\Test\Test.csproj", "{AA4B0F91-5705-45CD-8366-7CB98BD6FE7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LongdysseyWebApplication", "..\LongdysseyWebApplication\LongdysseyWebApplication.csproj", "{F224A626-58BD-4B73-84D9-4E9D08F2EA60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LongdysseyWebApplication", "..\LongdysseyWebApplication\LongdysseyWebApplication.csproj", "{F224A626-58BD-4B73-84D9-4E9D08F2EA60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

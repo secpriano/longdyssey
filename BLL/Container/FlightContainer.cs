@@ -1,7 +1,6 @@
 ﻿using BLL.Entity;
 using IL.DTO;
 using IL.Interface.DAL;
-using System.Data;
 
 namespace BLL.Container
 {
@@ -18,18 +17,18 @@ namespace BLL.Container
         {
             FlightDTO dto = flight.GetDTO();
             Db.Insert(dto);
-        
-        }
+                }
 
         public List<Flight> GetAll()
         {
-            List<Flight> DTOs = new();
+            List<Flight> flights = new();
 
             Db.GetAll().ForEach(flightDTO => 
             {
-                DTOs.Add(new(flightDTO));
+                flights.Add(new(flightDTO));
             });
-            return DTOs;
+
+            return flights;
         }
 
         public Flight GetByID(long id)

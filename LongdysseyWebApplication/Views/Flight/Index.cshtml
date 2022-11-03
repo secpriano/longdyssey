@@ -1,0 +1,112 @@
+﻿@model FlightViewModel;
+
+@{
+    ViewData["Title"] = "Solar system";
+}
+    <section class="searchFlight">
+        <form>
+            <label>Depart from location</label>
+            <input list="poid" />
+            <datalist id="poid">
+                @for (int i = 0; i < Model.PointOfInterests.Count; i++)
+                {
+                    <option value="@Model.PointOfInterests[i].Name">@Model.PointOfInterests[i].Name</option>
+                }
+            </datalist>
+            <label>Arrive on location</label>
+            <input list="poia" />
+            <datalist id="poia">
+                @for (int i = 0; i < Model.PointOfInterests.Count; i++)
+                {
+                    <option value="@Model.PointOfInterests[i].Name">@Model.PointOfInterests[i].Name</option>
+                }
+            </datalist>
+    </form>
+    </section>
+
+    <h1>Solar system</h1>
+
+    <section id="solarSystem">
+        @for (var i = 0; i < Model.PointOfInterests.Count; i++)
+        {
+        <div class="@Model.PointOfInterests[i].Name">
+            <div class="orbit" style="width: @Model.PointOfInterestRadius[i]px; height: @Model.PointOfInterestRadius[i]px;"></div>
+            <div class="pointOfInterest" style="left: calc(50% + @Model.pointOfInterestsX[i]px); top: calc(50% + @Model.pointOfInterestsY[i]px);">
+                <p class="text">@Model.PointOfInterests[i].Name</p>
+            </div>
+        </div>
+        }
+    <div class="zoom">
+            <button onclick="ZoomIn()">
+                +
+            </button>
+            <button onclick="ZoomOut()">
+                -
+            </button>
+        </div>
+    </section>
+
+    <script>
+        const pointOfInterestsX = @Html.Raw(Json.Serialize(Model.pointOfInterestsX));
+        const pointOfInterestsY = @Html.Raw(Json.Serialize(Model.pointOfInterestsY));
+        const PointOfInterestRadius = @Html.Raw(Json.Serialize(Model.PointOfInterestRadius));
+
+        const orbits = document.getElementsByClassName('orbit');
+        const POIs = document.getElementsByClassName('pointOfInterest');
+
+        let zoomStrength = 1.2;
+
+        function ZoomIn() {
+            for (let i = 0; i < POIs.length; i++) {
+                ZoomInPOI(i);
+            }
+        }
+        function ZoomOut() {
+            for (let i = 0; i < POIs.length; i++) {
+                ZoomOutPOI(i);
+            }
+        }
+
+        function ZoomInPOI(i) {
+
+            pointOfInterestsX[i] *= zoomStrength;
+            pointOfInterestsY[i] *= zoomStrength;
+
+            ApplyZoom(i);
+        }
+
+        function ZoomOutPOI(i) {
+
+            pointOfInterestsX[i] /= zoomStrength;
+            pointOfInterestsY[i] /= zoomStrength;
+
+            ApplyZoom(i);
+        }
+
+        function ApplyZoom(i) {
+
+            ZoomPOI(i);
+            ZoomOrbit(i);
+        }
+
+        function ZoomPOI(i) {
+
+            POIs[i].style.left = "calc(50% + " + pointOfInterestsX[i] + "px)";
+            POIs[i].style.top = "calc(50% + " + pointOfInterestsY[i] + "px)";
+        }
+
+        function ZoomOrbit(i) {
+
+            let d = GetDiameterFromPOI(pointOfInterestsX[i], pointOfInterestsY[i]);
+            orbits[i].style.width = d + "px";
+            orbits[i].style.height = d + "px";
+        }
+
+        function GetDiameterFromPOI(x, y) {
+            let radius = Math.sqrt(Math.pow(0 - x, 2) + Math.pow(0 - y, 2));
+            let diameter = radius * 2;
+
+            return diameter;
+        }
+
+    </script>

@@ -46,11 +46,11 @@ namespace BLL.Entity
             double[] destinationCoordinates = DestinationGate.Spaceport.PointOfInterest.SphericalToCartesianCoordinates();
 
             return Math.Sqrt(
-                Math.Pow(originCoordinates[(byte)Coordinates.X] - destinationCoordinates[(byte)Coordinates.X], 2)
+                Math.Pow(originCoordinates[(byte)PointOfInterest.Coordinates.X] - destinationCoordinates[(byte)PointOfInterest.Coordinates.X], 2)
                 +
-                Math.Pow(originCoordinates[(byte)Coordinates.Y] - destinationCoordinates[(byte)Coordinates.Y], 2)
+                Math.Pow(originCoordinates[(byte)PointOfInterest.Coordinates.Y] - destinationCoordinates[(byte)PointOfInterest.Coordinates.Y], 2)
                 +
-                Math.Pow(originCoordinates[(byte)Coordinates.Z] - destinationCoordinates[(byte)Coordinates.Z], 2)
+                Math.Pow(originCoordinates[(byte)PointOfInterest.Coordinates.Z] - destinationCoordinates[(byte)PointOfInterest.Coordinates.Z], 2)
             );
         }
 
@@ -76,12 +76,6 @@ namespace BLL.Entity
             return $"Flight time: {flightTime[(byte)Time.Hour]} Hour and {flightTime[(byte)Time.Minute]} minutes.";
         }
 
-        private enum Coordinates
-        {
-            X, 
-            Y, 
-            Z
-        }
         private enum Time
         {
             Hour,
