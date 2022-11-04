@@ -5,7 +5,7 @@ namespace Test.STUB
 {
     public class SpaceshipSTUB : ISpaceshipDAL
     {
-        List<SpaceshipDTO> spaceships = new()
+        public List<SpaceshipDTO> spaceships = new()
         {
             new(1, "Cosmic", 59000, 0.1M, 1),
             new(2, "Saggitarius", 4895, 0.2M, 2),

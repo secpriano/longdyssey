@@ -7,7 +7,7 @@ namespace DAL
 {
     public class FlightDAL : Database, IFlightDAL
     {
-        public bool Delete(long id)
+        public bool DeleteByID(long id)
         {
             string cmdText = "DELETE FROM Flight WHERE FlightID = @ID";
 

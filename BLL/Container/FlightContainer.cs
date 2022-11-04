@@ -13,11 +13,12 @@ namespace BLL.Container
             Db = db;
         }
 
-        public void Add(Flight flight) 
+        public bool Add(Flight flight)
         {
             FlightDTO dto = flight.GetDTO();
-            Db.Insert(dto);
-                }
+
+            return Db.Insert(dto);
+        }
 
         public List<Flight> GetAll()
         {
@@ -38,7 +39,7 @@ namespace BLL.Container
 
         public bool DeleteByID(long id)
         {
-            return Db.Delete(id);
+            return Db.DeleteByID(id);
         }
     }
 }

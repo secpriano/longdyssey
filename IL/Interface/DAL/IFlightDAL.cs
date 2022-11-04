@@ -8,6 +8,6 @@ namespace IL.Interface.DAL
         public FlightDTO GetById(long id);
         public bool Insert(FlightDTO entity);
         public bool Update(FlightDTO entity);
-        public bool Delete(long id);
+        public bool DeleteByID(long id);
     }
 }
