@@ -9220,19 +9220,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Long\\.nuget\\packages\\": {}
+    "C:\\Users\\longt\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Dev\\school\\longdyssey\\LongdysseyWebApplication\\LongdysseyWebApplication.csproj",
+      "projectUniqueName": "C:\\Dev\\School\\longdyssey\\LongdysseyWebApplication\\LongdysseyWebApplication.csproj",
       "projectName": "LongdysseyWebApplication",
-      "projectPath": "C:\\Dev\\school\\longdyssey\\LongdysseyWebApplication\\LongdysseyWebApplication.csproj",
-      "packagesPath": "C:\\Users\\Long\\.nuget\\packages\\",
-      "outputPath": "C:\\Dev\\school\\longdyssey\\LongdysseyWebApplication\\obj\\",
+      "projectPath": "C:\\Dev\\School\\longdyssey\\LongdysseyWebApplication\\LongdysseyWebApplication.csproj",
+      "packagesPath": "C:\\Users\\longt\\.nuget\\packages\\",
+      "outputPath": "C:\\Dev\\School\\longdyssey\\LongdysseyWebApplication\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Long\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\longt\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -9246,8 +9250,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Dev\\school\\longdyssey\\BLL\\BLL.csproj": {
-              "projectPath": "C:\\Dev\\school\\longdyssey\\BLL\\BLL.csproj"
+            "C:\\Dev\\School\\longdyssey\\BLL\\BLL.csproj": {
+              "projectPath": "C:\\Dev\\School\\longdyssey\\BLL\\BLL.csproj"
             }
           }
         }
@@ -9286,7 +9290,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400-preview.22330.6\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100-rc.2.22477.23\\RuntimeIdentifierGraph.json"
       }
     }
   }
