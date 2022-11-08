@@ -10,17 +10,17 @@ namespace Test
     {
 
         [TestMethod]
-        public void GetAllFlight()
+        public void GetAllFlightAmountRows()
         {
             // Arrange
             FlightContainer fc = new(new FlightSTUB());
             FlightSTUB fs = new();
 
             // Act
-            int expected = fs.GetAll().Count;
+            int actual = fc.GetAll().Count;
 
             // Assert
-            int actual = fc.GetAll().Count;
+            int expected = fs.GetAll().Count;
             Assert.AreEqual(expected, actual, "List not the same :(");
         }
 
@@ -32,10 +32,10 @@ namespace Test
             FlightSTUB fs = new();
 
             // Act
-            bool expected = fs.DeleteByID(0);
+            bool actual = fc.DeleteByID(0);
 
             // Assert
-            bool actual = fc.DeleteByID(0);
+            bool expected = fs.DeleteByID(0);
             Assert.AreEqual(expected, actual, "Flight not deleted :(");
         }
 

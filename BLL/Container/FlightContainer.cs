@@ -32,6 +32,18 @@ namespace BLL.Container
             return flights;
         }
 
+        public List<Flight> SearchFlights(DateTime leaveDate, long originGate, long destinationGate, long travelers)
+        {
+            List<Flight> flights = new();
+
+            Db.SearchFlights(leaveDate, originGate, destinationGate, travelers).ForEach(flightDTO => 
+            {
+                flights.Add(new(flightDTO));
+            });
+
+            return flights;
+        }
+
         public Flight GetByID(long id)
         {
             return new(Db.GetById(id));

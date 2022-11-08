@@ -36,6 +36,11 @@ namespace Test.STUB
             return DTOs.Contains(entity);
         }
 
+        public List<FlightDTO> SearchFlights(DateTime leaveDate, long originGate, long destinationGate, long travelers)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool Update(FlightDTO entity)
         {
             throw new NotImplementedException();

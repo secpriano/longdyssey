@@ -3,50 +3,86 @@
 @{
     ViewData["Title"] = "Solar system";
 }
-    <section class="searchFlight">
-        <form>
-            <label>Depart from location</label>
-            <input list="poid" />
-            <datalist id="poid">
-                @for (int i = 0; i < Model.PointOfInterests.Count; i++)
-                {
-                    <option value="@Model.PointOfInterests[i].Name">@Model.PointOfInterests[i].Name</option>
-                }
-            </datalist>
-            <label>Arrive on location</label>
-            <input list="poia" />
-            <datalist id="poia">
-                @for (int i = 0; i < Model.PointOfInterests.Count; i++)
-                {
-                    <option value="@Model.PointOfInterests[i].Name">@Model.PointOfInterests[i].Name</option>
-                }
-            </datalist>
-        </form>
-    </section>
+    <div class="UI">
+        <section class="searchFlight">
+            @using (Html.BeginForm("Index", "Flight", FormMethod.Post))
+            {
+                <label>Depart from</label>
+                <input type="search" value="" list="poid" placeholder="Earth | EAUSNY" asp-for="OriginPOI" />
+                <datalist id="poid">
+                    @foreach (var spaceport in Model.Spaceports)
+                    {
+                        <option value="@spaceport.PointOfInterest.Name | @spaceport.Name">@spaceport.PointOfInterest.Name | @spaceport.Name</option>
+                    }
+                </datalist>
 
-    <h1>Solar system</h1>
+                <label>Arrive on</label>
+                <input type="search" value="" list="poia" placeholder="Jupiter | JUFRPA" asp-for="DestinationPOI"/>
+                <datalist id="poia">
+                    @foreach (var spaceport in Model.Spaceports)
+                    {
+                        <option value="@spaceport.PointOfInterest.Name | @spaceport.Name">@spaceport.PointOfInterest.Name | @spaceport.Name</option>
+                    }
+                </datalist>
 
+                <label>Leaving date</label>
+                <input type="date" asp-for="LeaveDate"/>
+
+                <label>Flying with</label>
+                <input type="number" value="1" min="1" max="10" asp-for="Travelers"/>
+                <p>Passenger</p>
+
+                <button class="select" type="submit">Find flights</button>
+            }
+        </section>
+
+        <h1>Solar system</h1>
+    </div>
     <section id="solarSystem">
         @for (var i = 0; i < Model.PointOfInterests.Count; i++)
         {
-        <div class="@Model.PointOfInterests[i].Name">
-            <div class="orbit" style="width: @Model.PointOfInterestRadius[i]px; height: @Model.PointOfInterestRadius[i]px;"></div>
-            <div class="pointOfInterest" style="left: calc(50% + @Model.pointOfInterestsX[i]px); top: calc(50% + @Model.pointOfInterestsY[i]px);">
-                <p class="text">@Model.PointOfInterests[i].Name</p>
+            <div class="@Model.PointOfInterests[i].Name">
+                <div class="orbit" style="width: @Model.PointOfInterestRadius[i]px; height: @Model.PointOfInterestRadius[i]px;"></div>
+                <div class="pointOfInterest" style="left: calc(50% + @Model.pointOfInterestsX[i]px); top: calc(50% + @Model.pointOfInterestsY[i]px);">
+                    <p class="text">@Model.PointOfInterests[i].Name</p>
+                </div>
             </div>
-        </div>
         }
     <div class="zoom">
-            <button onclick="ZoomIn()">
-                +
-            </button>
             <button onclick="ZoomOut()">
                 -
             </button>
+            <button onclick="ZoomIn()">
+                +
+            </button>
         </div>
     </section>
+    <section class="flights">
+    @foreach (var flight in Model.Flights)
+    {
+        <div class="flight">
+            <p>
+                <span>From: @flight.OriginGate.Spaceport.PointOfInterest.Name | To: @flight.DestinationGate.Spaceport.PointOfInterest.Name</span>
+                <span>From spaceport: @flight.OriginGate.Spaceport.Name | To spaceport: @flight.DestinationGate.Spaceport.Name</span>
+                <span>Departure gate: @flight.OriginGate.Name | Arrival gate: @flight.DestinationGate.Name</span>
+                <span>Spaceship: @flight.Spaceship.Name</span>
+                <span>Depart Date & Time: @flight.Departuretime</span>
+                <span>Flight time: @flight.GetFlightDuration()</span>
+            </p>
+        </div>
+    }
+</section>
 
     <script>
+        let date = new Date().toJSON();
+        let currentDate = new Date().toJSON().slice(0, 10);
+
+        const dateControl = document.querySelector('input[type="date"]');
+
+        dateControl.setAttribute("min", currentDate);
+        dateControl.value = currentDate;
+        dateControl.setAttribute("placeholder", currentDate);
+
         const pointOfInterestsX = @Html.Raw(Json.Serialize(Model.pointOfInterestsX));
         const pointOfInterestsY = @Html.Raw(Json.Serialize(Model.pointOfInterestsY));
         const PointOfInterestRadius = @Html.Raw(Json.Serialize(Model.PointOfInterestRadius));

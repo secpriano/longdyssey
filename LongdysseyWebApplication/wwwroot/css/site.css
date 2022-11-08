@@ -39,12 +39,61 @@ footer {
     color: white;
 }
 
-h1, h2, h3, h4, h5, h6 {
+p, h1, h2, h3, h4, h5, h6 {
     color: white;
+}
+
+p {
+    display: inline;
 }
 
 label {
     color: white;
+}
+
+.UI {
+    z-index: 99;
+    position: relative;
+}
+
+.searchFlight {
+    display: flex;
+    justify-content: center;
+    background-color: black;
+    padding: 20px 5px;
+    border: 1px solid white;
+    border-top: none;
+}
+
+.searchFlight input[type="number"] {
+    width: 50px;
+}
+
+.flights {
+    z-index: 99;
+    position: absolute;
+    right: 50px;
+}
+
+.flight {
+    background-color: black;
+    margin: 20px 0;
+    border: 1px solid white;
+    padding: 20px;
+    transition: ease-in-out 0.2s;
+}
+
+.flight:hover {
+    background-color: white;
+}
+
+.flight span {
+    display: block;
+    transition: ease-in-out 0.2s;
+}
+
+.flight:hover span {
+    color: black;
 }
 
 .zoom {
@@ -89,6 +138,7 @@ label {
 }
 
 .pointOfInterest .text {
+    display: block;
     color: white;
     margin-top: -25px;
     margin-left: 5px;
@@ -156,6 +206,14 @@ label {
 .Neptune .pointOfInterest,
 .Neptune .orbit {
     border: 1px solid var(--neptune);
+}
+
+.select {
+    color: white;
+    background-color: blue;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
 }
 
 :root {
