@@ -42,10 +42,10 @@
         @for (var i = 0; i < Model.PointOfInterests.Count; i++)
         {
             <div class="@Model.PointOfInterests[i].Name">
-                <div class="orbit" style="width: @Model.PointOfInterestRadius[i]px; height: @Model.PointOfInterestRadius[i]px;"></div>
                 <div class="pointOfInterest" style="left: calc(50% + @Model.pointOfInterestsX[i]px); top: calc(50% + @Model.pointOfInterestsY[i]px);">
                     <p class="text">@Model.PointOfInterests[i].Name</p>
                 </div>
+                <div class="orbit" style="width: @Model.PointOfInterestRadius[i]px; height: @Model.PointOfInterestRadius[i]px;"></div>
             </div>
         }
     <div class="zoom">
@@ -58,20 +58,70 @@
         </div>
     </section>
     <section class="flights">
-    @foreach (var flight in Model.Flights)
-    {
-        <div class="flight">
-            <p>
-                <span>From: @flight.OriginGate.Spaceport.PointOfInterest.Name | To: @flight.DestinationGate.Spaceport.PointOfInterest.Name</span>
-                <span>From spaceport: @flight.OriginGate.Spaceport.Name | To spaceport: @flight.DestinationGate.Spaceport.Name</span>
-                <span>Departure gate: @flight.OriginGate.Name | Arrival gate: @flight.DestinationGate.Name</span>
-                <span>Spaceship: @flight.Spaceship.Name</span>
-                <span>Depart Date & Time: @flight.Departuretime</span>
-                <span>Flight time: @flight.GetFlightDuration()</span>
-            </p>
-        </div>
-    }
-</section>
+        @switch (Model.Flights.Count)
+        {
+            case 0:
+                break;
+            case 1:
+                <h2>Flight</h2>
+                break;
+            default:
+                <h2>Flights</h2>
+                break;
+        }
+        @foreach (var flight in Model.Flights)
+        {
+            <div class="flight">
+                <div>
+                    <div>
+                        <span>From:</span>
+                        <span class="label">@flight.OriginGate.Spaceport.PointOfInterest.Name</span>
+                    </div>
+                    <div>
+                        <span>To:</span>
+                        <span class="label">@flight.DestinationGate.Spaceport.PointOfInterest.Name</span>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <span>From spaceport:</span>
+                        <span class="label">@flight.OriginGate.Spaceport.Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    </div>
+                    <div>
+                        <span>To spaceport:</span>
+                        <span class="label">@flight.DestinationGate.Spaceport.Name</span>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <span>Departure gate:</span>
+                        <span class="label">@flight.OriginGate.Name</span>
+                    </div>
+                    <div>
+                        <span>Arrival gate:</span>
+                        <span class="label">@flight.DestinationGate.Name</span>
+                    </div>
+                </div>
+                <br>
+                <div>
+                    <span>Spaceship:</span>
+                    <span class="label">@flight.Spaceship.Name</span>
+                </div>
+                <div>
+                    <span>Departure Date & Time:</span>
+                    <span class="label">@flight.DepartureTime</span>
+                </div>
+                <div>
+                    <span>Flight time:</span>
+                    <span class="label">@flight.GetFlightDuration()</span>
+                </div>
+                <div>
+                    <span>Arrival Date & Time:</span>
+                    <span class="label">@flight.CalculateArrivalDateTime()</span>
+                </div>
+            </div>
+        }
+    </section>
 
     <script>
         let date = new Date().toJSON();

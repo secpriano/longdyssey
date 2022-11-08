@@ -23,6 +23,15 @@ a {
     text-decoration: none;
 }
 
+nav {
+    border-bottom: 1px solid var(--main);
+    box-shadow: 0 0 10px -2px var(--main);
+}
+
+footer {
+    border-top: 1px solid var(--main);
+}
+
 nav a {
     padding: 0 10px;
 }
@@ -33,6 +42,12 @@ footer {
     z-index: 100;
     position: relative;
     background-color: black;
+}
+
+header a,
+footer a,
+footer div {
+    color: white;
 }
 
 .navbar-nav {
@@ -49,7 +64,20 @@ p {
 
 label {
     color: white;
+    font-weight: bold;
 }
+
+button {
+    color: black;
+    background-color: var(--main);
+    border: none;
+    transition: ease-in-out 0.2s;
+}
+
+button:hover {
+    background-color: #bda25b;
+}
+
 
 .UI {
     z-index: 99;
@@ -61,7 +89,8 @@ label {
     justify-content: center;
     background-color: black;
     padding: 20px 5px;
-    border: 1px solid white;
+    border: 1px solid var(--main);
+    box-shadow: 0 0 10px -2px var(--main);
     border-top: none;
 }
 
@@ -78,22 +107,37 @@ label {
 .flight {
     background-color: black;
     margin: 20px 0;
-    border: 1px solid white;
+    border: 1px solid var(--main);
+    box-shadow: 0 0 10px -2px var(--main);
     padding: 20px;
     transition: ease-in-out 0.2s;
 }
+.flight > div {
+    display: flex;
+    justify-content: space-between;
+}
 
 .flight:hover {
-    background-color: white;
+    background-color: var(--main);
+    box-shadow: 0 0 40px var(--main);
+}
+
+.flight > span {
+    display: block;
 }
 
 .flight span {
-    display: block;
+    color: white;
     transition: ease-in-out 0.2s;
 }
 
 .flight:hover span {
     color: black;
+}
+
+span.label {
+    color: var(--main);
+    font-weight: bold;
 }
 
 .zoom {
@@ -108,9 +152,12 @@ label {
     position: relative;
     width: 50px;
     height: 50px;
-    color: white;
-    background-color: black;
     font-size: 25px;
+    border: none;
+}
+
+.zoom button:hover {
+    border: 1px solid var(--main);
 }
 
 .orbit,
@@ -137,6 +184,15 @@ label {
     border-radius: 50%;
 }
 
+.pointOfInterest:hover {
+    width: 30px;
+    height: 30px;
+}
+
+.pointOfInterest:hover ~ .orbit{
+    border-width: 4px;
+}
+
 .pointOfInterest .text {
     display: block;
     color: white;
@@ -151,6 +207,9 @@ label {
 .Mercury .orbit {
     border: 1px solid var(--mercury);
 }
+.Mercury .pointOfInterest:hover {
+    background-color: var(--mercury);
+}
 
 .Venus {
     color: var(--venus);
@@ -158,6 +217,9 @@ label {
 .Venus .pointOfInterest,
 .Venus .orbit {
     border: 1px solid var(--venus);
+}
+.Venus .pointOfInterest:hover {
+    background-color: var(--venus);
 }
 
 .Earth {
@@ -167,6 +229,9 @@ label {
 .Earth .orbit {
     border: 1px solid var(--earth);
 }
+.Earth .pointOfInterest:hover {
+    background-color: var(--earth);
+}
 
 .Mars {
     color: var(--mars);
@@ -174,6 +239,9 @@ label {
 .Mars .pointOfInterest,
 .Mars .orbit {
     border: 1px solid var(--mars);
+}
+.Mars .pointOfInterest:hover {
+    background-color: var(--mars);
 }
 
 .Jupiter {
@@ -183,6 +251,9 @@ label {
 .Jupiter .orbit {
     border: 1px solid var(--jupiter);
 }
+.Jupiter .pointOfInterest:hover {
+    background-color: var(--jupiter);
+}
 
 .Saturn {
     color: var(--saturn);
@@ -190,6 +261,9 @@ label {
 .Saturn .pointOfInterest,
 .Saturn .orbit {
     border: 1px solid var(--saturn);
+}
+.Saturn .pointOfInterest:hover {
+    background-color: var(--saturn);
 }
 
 .Uranus {
@@ -199,6 +273,9 @@ label {
 .Uranus .orbit {
     border: 1px solid var(--uranus);
 }
+.Uranus .pointOfInterest:hover {
+    background-color: var(--uranus);
+}
 
 .neptune {
     color: var(--neptune);
@@ -207,16 +284,20 @@ label {
 .Neptune .orbit {
     border: 1px solid var(--neptune);
 }
+.Neptune .pointOfInterest:hover {
+    background-color: var(--neptune);
+}
 
 .select {
-    color: white;
-    background-color: blue;
+    color: black;
+    background-color: var(--main);
     border: none;
     border-radius: 3px;
     padding: 5px 10px;
 }
 
 :root {
+    --main: #fed97b;
     --sun: #f7f4df;
     --sunMed: #b8b7a7;
     --sunDark: #626259;

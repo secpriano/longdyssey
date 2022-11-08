@@ -5,7 +5,7 @@ namespace BLL.Entity
     public class Flight
     {
         public long Id { get; set; }
-        public DateTime Departuretime { get; set; }
+        public DateTime DepartureTime { get; set; }
         public long Status { get; set; }
         public string FlightNumber { get; set; }
         public Gate OriginGate { get; set; }
@@ -14,7 +14,7 @@ namespace BLL.Entity
 
         public Flight(DateTime departuretime, long status, Gate originGate, Gate destinationGate, Spaceship spaceship)
         {
-            Departuretime = departuretime;
+            DepartureTime = departuretime;
             Status = status;
             OriginGate = originGate;
             DestinationGate = destinationGate;
@@ -26,7 +26,7 @@ namespace BLL.Entity
         public Flight(FlightDTO dto)
         {
             Id = dto.Id;
-            Departuretime = dto.DepartureTime;
+            DepartureTime = dto.DepartureTime;
             Status = dto.Status;
             FlightNumber = dto.FlightNumber;
             OriginGate = new(dto.OriginGate);
@@ -73,7 +73,13 @@ namespace BLL.Entity
         public string GetFlightDuration()
         {
             decimal[] flightTime = CalcuclateFlightDuration();
-            return $"Flight time: {flightTime[(byte)Time.Hour]} Hour and {flightTime[(byte)Time.Minute]} minutes.";
+            return $"{flightTime[(byte)Time.Hour]} Hours and {flightTime[(byte)Time.Minute]} minutes.";
+        }
+        public DateTime CalculateArrivalDateTime()
+        {
+            decimal[] flightTime = CalcuclateFlightDuration();
+            TimeSpan flightDuration = new TimeSpan((int)flightTime[(byte)Time.Hour], (int)flightTime[(byte)Time.Minute], 0);
+            return DepartureTime + flightDuration;
         }
 
         private enum Time
@@ -84,7 +90,7 @@ namespace BLL.Entity
 
         public FlightDTO GetDTO()
         {
-            return new FlightDTO(Id, Departuretime, Status, FlightNumber, OriginGate.GetDTO(), DestinationGate.GetDTO(), new(Spaceship.Id, Spaceship.Name, Spaceship.Seat, Spaceship.Speed, Spaceship.Role));
+            return new FlightDTO(Id, DepartureTime, Status, FlightNumber, OriginGate.GetDTO(), DestinationGate.GetDTO(), new(Spaceship.Id, Spaceship.Name, Spaceship.Seat, Spaceship.Speed, Spaceship.Role));
         }
 
     }
