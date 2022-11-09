@@ -71,7 +71,7 @@
         }
         @foreach (var flight in Model.Flights)
         {
-            <div class="flight">
+            <div class="flight" onclick="location.href='@Url.Action("Detail", "Flight", new{flight.Id})'">
                 <div>
                     <div>
                         <span>From:</span>

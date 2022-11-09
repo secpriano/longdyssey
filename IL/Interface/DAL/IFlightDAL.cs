@@ -5,7 +5,7 @@ namespace IL.Interface.DAL
     public interface IFlightDAL
     {
         public List<FlightDTO> GetAll();
-        public List<FlightDTO> SearchFlights(DateTime leaveDate, long originGate, long destinationGate, long travelers);
+        public List<FlightDTO> SearchFlights(DateTime leaveDate, long originSpaceportId, long destinationSpaceportId, long amountTravelers);
         public FlightDTO GetById(long id);
         public bool Insert(FlightDTO entity);
         public bool Update(FlightDTO entity);

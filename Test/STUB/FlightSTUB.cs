@@ -1,5 +1,6 @@
 ﻿using IL.DTO;
 using IL.Interface.DAL;
+using System.Collections.Generic;
 using Test.STUB;
 
 namespace Test.STUB
@@ -36,9 +37,17 @@ namespace Test.STUB
             return DTOs.Contains(entity);
         }
 
-        public List<FlightDTO> SearchFlights(DateTime leaveDate, long originGate, long destinationGate, long travelers)
+        public List<FlightDTO> SearchFlights(DateTime leaveDate, long originSpaceportId, long destinationSpaceportId, long amountTravelers)
         {
-            throw new NotImplementedException();
+            List<FlightDTO> searchList = new();
+            DTOs.ForEach(DTO =>
+            {
+                if (DTO.DepartureTime == leaveDate && DTO.OriginGate.Spaceport.Id == originSpaceportId && DTO.DestinationGate.Spaceport.Id == destinationSpaceportId && DTO.Spaceship.Seat >= amountTravelers)
+                {
+                    searchList.Add(DTO);
+                }
+            });
+            return searchList;
         }
 
         public bool Update(FlightDTO entity)

@@ -23,7 +23,7 @@ namespace LongdysseyWebApplication.Controllers
 
         // GET: FlightController/Details/5
         [HttpGet]
-        public ActionResult Details(int id)
+        public ActionResult Detail(int id)
         {
             return View();
         }

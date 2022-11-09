@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Dev\\school\\longdyssey\\LongdysseyWebApplication\\LongdysseyWebApplication.csproj": {}
+    "C:\\Dev\\School\\longdyssey\\LongdysseyWebApplication\\LongdysseyWebApplication.csproj": {}
   },
   "projects": {
-    "C:\\Dev\\school\\longdyssey\\BLL\\BLL.csproj": {
+    "C:\\Dev\\School\\longdyssey\\BLL\\BLL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Dev\\school\\longdyssey\\BLL\\BLL.csproj",
+        "projectUniqueName": "C:\\Dev\\School\\longdyssey\\BLL\\BLL.csproj",
         "projectName": "BLL",
-        "projectPath": "C:\\Dev\\school\\longdyssey\\BLL\\BLL.csproj",
-        "packagesPath": "C:\\Users\\Long\\.nuget\\packages\\",
-        "outputPath": "C:\\Dev\\school\\longdyssey\\BLL\\obj\\",
+        "projectPath": "C:\\Dev\\School\\longdyssey\\BLL\\BLL.csproj",
+        "packagesPath": "C:\\Users\\longt\\.nuget\\packages\\",
+        "outputPath": "C:\\Dev\\School\\longdyssey\\BLL\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Long\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\longt\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,11 +31,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Dev\\school\\longdyssey\\DAL\\DAL.csproj": {
-                "projectPath": "C:\\Dev\\school\\longdyssey\\DAL\\DAL.csproj"
+              "C:\\Dev\\School\\longdyssey\\DAL\\DAL.csproj": {
+                "projectPath": "C:\\Dev\\School\\longdyssey\\DAL\\DAL.csproj"
               },
-              "C:\\Dev\\school\\longdyssey\\IL\\IL.csproj": {
-                "projectPath": "C:\\Dev\\school\\longdyssey\\IL\\IL.csproj"
+              "C:\\Dev\\School\\longdyssey\\IL\\IL.csproj": {
+                "projectPath": "C:\\Dev\\School\\longdyssey\\IL\\IL.csproj"
               }
             }
           }
@@ -62,21 +65,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100-rc.2.22477.23\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Dev\\school\\longdyssey\\DAL\\DAL.csproj": {
+    "C:\\Dev\\School\\longdyssey\\DAL\\DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Dev\\school\\longdyssey\\DAL\\DAL.csproj",
+        "projectUniqueName": "C:\\Dev\\School\\longdyssey\\DAL\\DAL.csproj",
         "projectName": "DAL",
-        "projectPath": "C:\\Dev\\school\\longdyssey\\DAL\\DAL.csproj",
-        "packagesPath": "C:\\Users\\Long\\.nuget\\packages\\",
-        "outputPath": "C:\\Dev\\school\\longdyssey\\DAL\\obj\\",
+        "projectPath": "C:\\Dev\\School\\longdyssey\\DAL\\DAL.csproj",
+        "packagesPath": "C:\\Users\\longt\\.nuget\\packages\\",
+        "outputPath": "C:\\Dev\\School\\longdyssey\\DAL\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Long\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\longt\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -90,8 +96,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Dev\\school\\longdyssey\\IL\\IL.csproj": {
-                "projectPath": "C:\\Dev\\school\\longdyssey\\IL\\IL.csproj"
+              "C:\\Dev\\School\\longdyssey\\IL\\IL.csproj": {
+                "projectPath": "C:\\Dev\\School\\longdyssey\\IL\\IL.csproj"
               }
             }
           }
@@ -108,7 +114,7 @@
           "dependencies": {
             "System.Data.SqlClient": {
               "target": "Package",
-              "version": "[4.8.4, )"
+              "version": "[4.8.5, )"
             }
           },
           "imports": [
@@ -127,21 +133,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100-rc.2.22477.23\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Dev\\school\\longdyssey\\IL\\IL.csproj": {
+    "C:\\Dev\\School\\longdyssey\\IL\\IL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Dev\\school\\longdyssey\\IL\\IL.csproj",
+        "projectUniqueName": "C:\\Dev\\School\\longdyssey\\IL\\IL.csproj",
         "projectName": "IL",
-        "projectPath": "C:\\Dev\\school\\longdyssey\\IL\\IL.csproj",
-        "packagesPath": "C:\\Users\\Long\\.nuget\\packages\\",
-        "outputPath": "C:\\Dev\\school\\longdyssey\\IL\\obj\\",
+        "projectPath": "C:\\Dev\\School\\longdyssey\\IL\\IL.csproj",
+        "packagesPath": "C:\\Users\\longt\\.nuget\\packages\\",
+        "outputPath": "C:\\Dev\\School\\longdyssey\\IL\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Long\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\longt\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -182,39 +191,42 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100-rc.2.22477.23\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Dev\\school\\longdyssey\\LongdysseyWebApplication\\LongdysseyWebApplication.csproj": {
+    "C:\\Dev\\School\\longdyssey\\LongdysseyWebApplication\\LongdysseyWebApplication.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Dev\\school\\longdyssey\\LongdysseyWebApplication\\LongdysseyWebApplication.csproj",
+        "projectUniqueName": "C:\\Dev\\School\\longdyssey\\LongdysseyWebApplication\\LongdysseyWebApplication.csproj",
         "projectName": "LongdysseyWebApplication",
-        "projectPath": "C:\\Dev\\school\\longdyssey\\LongdysseyWebApplication\\LongdysseyWebApplication.csproj",
-        "packagesPath": "C:\\Users\\Long\\.nuget\\packages\\",
-        "outputPath": "C:\\Dev\\school\\longdyssey\\LongdysseyWebApplication\\obj\\",
+        "projectPath": "C:\\Dev\\School\\longdyssey\\LongdysseyWebApplication\\LongdysseyWebApplication.csproj",
+        "packagesPath": "C:\\Users\\longt\\.nuget\\packages\\",
+        "outputPath": "C:\\Dev\\School\\longdyssey\\LongdysseyWebApplication\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Long\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\longt\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net6.0"
+          "net7.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
+          "net7.0": {
+            "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Dev\\school\\longdyssey\\BLL\\BLL.csproj": {
-                "projectPath": "C:\\Dev\\school\\longdyssey\\BLL\\BLL.csproj"
+              "C:\\Dev\\School\\longdyssey\\BLL\\BLL.csproj": {
+                "projectPath": "C:\\Dev\\School\\longdyssey\\BLL\\BLL.csproj"
               },
-              "C:\\Dev\\school\\longdyssey\\Test\\Test.csproj": {
-                "projectPath": "C:\\Dev\\school\\longdyssey\\Test\\Test.csproj"
+              "C:\\Dev\\School\\longdyssey\\Test\\Test.csproj": {
+                "projectPath": "C:\\Dev\\School\\longdyssey\\Test\\Test.csproj"
               }
             }
           }
@@ -226,12 +238,12 @@
         }
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net7.0": {
+          "targetAlias": "net7.0",
           "dependencies": {
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
-              "version": "[6.0.10, )"
+              "version": "[7.0.0, )"
             }
           },
           "imports": [
@@ -253,21 +265,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100-rc.2.22477.23\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Dev\\school\\longdyssey\\Test\\Test.csproj": {
+    "C:\\Dev\\School\\longdyssey\\Test\\Test.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Dev\\school\\longdyssey\\Test\\Test.csproj",
+        "projectUniqueName": "C:\\Dev\\School\\longdyssey\\Test\\Test.csproj",
         "projectName": "Test",
-        "projectPath": "C:\\Dev\\school\\longdyssey\\Test\\Test.csproj",
-        "packagesPath": "C:\\Users\\Long\\.nuget\\packages\\",
-        "outputPath": "C:\\Dev\\school\\longdyssey\\Test\\obj\\",
+        "projectPath": "C:\\Dev\\School\\longdyssey\\Test\\Test.csproj",
+        "packagesPath": "C:\\Users\\longt\\.nuget\\packages\\",
+        "outputPath": "C:\\Dev\\School\\longdyssey\\Test\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Long\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\longt\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -281,11 +296,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Dev\\school\\longdyssey\\BLL\\BLL.csproj": {
-                "projectPath": "C:\\Dev\\school\\longdyssey\\BLL\\BLL.csproj"
+              "C:\\Dev\\School\\longdyssey\\BLL\\BLL.csproj": {
+                "projectPath": "C:\\Dev\\School\\longdyssey\\BLL\\BLL.csproj"
               },
-              "C:\\Dev\\school\\longdyssey\\IL\\IL.csproj": {
-                "projectPath": "C:\\Dev\\school\\longdyssey\\IL\\IL.csproj"
+              "C:\\Dev\\School\\longdyssey\\IL\\IL.csproj": {
+                "projectPath": "C:\\Dev\\School\\longdyssey\\IL\\IL.csproj"
               }
             }
           }
@@ -310,11 +325,13 @@
             },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
-              "version": "[17.3.2, )"
+              "version": "[17.4.0, )"
             },
             "coverlet.collector": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
-              "version": "[3.1.2, )"
+              "version": "[3.2.0, )"
             }
           },
           "imports": [
@@ -333,7 +350,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100-rc.2.22477.23\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
