@@ -1,0 +1,15 @@
+C:\Dev\School\longdyssey\DAL\bin\Release\net6.0\DAL.deps.json
+C:\Dev\School\longdyssey\DAL\bin\Release\net6.0\DAL.dll
+C:\Dev\School\longdyssey\DAL\bin\Release\net6.0\DAL.pdb
+C:\Dev\School\longdyssey\DAL\bin\Release\net6.0\IL.dll
+C:\Dev\School\longdyssey\DAL\bin\Release\net6.0\IL.pdb
+C:\Dev\School\longdyssey\DAL\obj\Release\net6.0\DAL.csproj.AssemblyReference.cache
+C:\Dev\School\longdyssey\DAL\obj\Release\net6.0\DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Dev\School\longdyssey\DAL\obj\Release\net6.0\DAL.AssemblyInfoInputs.cache
+C:\Dev\School\longdyssey\DAL\obj\Release\net6.0\DAL.AssemblyInfo.cs
+C:\Dev\School\longdyssey\DAL\obj\Release\net6.0\DAL.csproj.CoreCompileInputs.cache
+C:\Dev\School\longdyssey\DAL\obj\Release\net6.0\DAL.csproj.CopyComplete
+C:\Dev\School\longdyssey\DAL\obj\Release\net6.0\DAL.dll
+C:\Dev\School\longdyssey\DAL\obj\Release\net6.0\refint\DAL.dll
+C:\Dev\School\longdyssey\DAL\obj\Release\net6.0\DAL.pdb
+C:\Dev\School\longdyssey\DAL\obj\Release\net6.0\ref\DAL.dll

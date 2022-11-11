@@ -15,9 +15,9 @@ namespace LongdysseyWebApplication.Models
         public List<string> PointOfInterestRadius = new();
 
         private long originPOI;
-        public string OriginPOI 
-        { 
-            get => originPOI.ToString(); 
+        public string OriginPOI
+        {
+            get => originPOI.ToString();
             set
             {
                 SpaceportContainer sc = new(new SpaceportSTUB());
@@ -31,7 +31,7 @@ namespace LongdysseyWebApplication.Models
             }
         }
         private long destinationPOI;
-        public string DestinationPOI 
+        public string DestinationPOI
         {
             get => destinationPOI.ToString();
             set

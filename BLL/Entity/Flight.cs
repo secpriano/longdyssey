@@ -1,4 +1,5 @@
 ﻿using IL.DTO;
+using IL.Interface.DAL;
 
 namespace BLL.Entity
 {
@@ -11,6 +12,7 @@ namespace BLL.Entity
         public Gate OriginGate { get; set; }
         public Gate DestinationGate { get; set; }
         public Spaceship Spaceship { get; set; }
+        public IBoardingpassDAL? C { get; set; }
 
         public Flight(DateTime departuretime, long status, Gate originGate, Gate destinationGate, Spaceship spaceship)
         {
@@ -82,6 +84,11 @@ namespace BLL.Entity
             return DepartureTime + flightDuration;
         }
 
+        public bool BookFlight(User user)
+        {
+            return C.BookFlight(5, Id, user.Id);
+        }
+
         private enum Time
         {
             Hour,
@@ -92,6 +99,5 @@ namespace BLL.Entity
         {
             return new FlightDTO(Id, DepartureTime, Status, FlightNumber, OriginGate.GetDTO(), DestinationGate.GetDTO(), new(Spaceship.Id, Spaceship.Name, Spaceship.Seat, Spaceship.Speed, Spaceship.Role));
         }
-
     }
 }

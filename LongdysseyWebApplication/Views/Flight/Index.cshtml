@@ -3,12 +3,15 @@
 @{
     ViewData["Title"] = "Solar system";
 }
+<head>
+    <link rel="stylesheet" href="~/css/flights.css" asp-append-version="true" />
+</head>
     <div class="UI">
         <section class="searchFlight">
             @using (Html.BeginForm("Index", "Flight", FormMethod.Post))
             {
                 <label>Depart from</label>
-                <input type="search" value="" list="poid" placeholder="Earth | EAUSNY" asp-for="OriginPOI" />
+            <input type="search" value="" list="poid" placeholder="Earth | EAUSNY" asp-for="OriginPOI" autocomplete="off" />
                 <datalist id="poid">
                     @foreach (var spaceport in Model.Spaceports)
                     {
@@ -17,7 +20,7 @@
                 </datalist>
 
                 <label>Arrive on</label>
-                <input type="search" value="" list="poia" placeholder="Jupiter | JUFRPA" asp-for="DestinationPOI"/>
+            <input type="search" value="" list="poia" placeholder="Jupiter | JUFRPA" asp-for="DestinationPOI" autocomplete="off" />
                 <datalist id="poia">
                     @foreach (var spaceport in Model.Spaceports)
                     {
@@ -38,6 +41,7 @@
 
         <h1>Solar system</h1>
     </div>
+    <section id="bg"></section>
     <section id="solarSystem">
         @for (var i = 0; i < Model.PointOfInterests.Count; i++)
         {
@@ -48,7 +52,7 @@
                 <div class="orbit" style="width: @Model.PointOfInterestRadius[i]px; height: @Model.PointOfInterestRadius[i]px;"></div>
             </div>
         }
-    <div class="zoom">
+        <div class="zoom">
             <button onclick="ZoomOut()">
                 -
             </button>

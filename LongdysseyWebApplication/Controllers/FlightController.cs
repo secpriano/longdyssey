@@ -1,6 +1,8 @@
 ﻿using BLL.Container;
+using BLL.Entity;
 using DAL;
 using LongdysseyWebApplication.Models;
+using LongdysseyWebApplication.Models.FlightModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Test.STUB;
@@ -21,11 +23,21 @@ namespace LongdysseyWebApplication.Controllers
             return View(flightViewModel);
         }
 
-        // GET: FlightController/Details/5
+        // GET: FlightController/Detail/5
         [HttpGet]
         public ActionResult Detail(int id)
         {
-            return View();
+            FlightDetailViewModel flightDetailViewModel = new(fc.GetByID(id));
+            return View(flightDetailViewModel);
+        }
+
+        // GET: FlightController/BookFlight/5
+        [HttpGet]
+        public ActionResult BookFlight(int id)
+        {
+            Flight flight = fc.GetByID(id);
+            flight.BookFlight(new(1, "an", "on", "anon@email.com", 1481, true));
+            return RedirectToAction("Index");
         }
 
         [HttpPost]

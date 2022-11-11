@@ -17,10 +17,16 @@ namespace Test.STUB
 
         public bool DeleteByID(long id)
         {
-            FlightDTO DTO = DTOs[(int)id];
-            DTOs.RemoveAt((int)id);
+            foreach (var DTO in DTOs)
+            {
+                if (DTO.Id == id)
+                {
+                    DTOs.RemoveAt((int)id);
+                    return true;
+                }
+            }
 
-            return !DTOs.Contains(DTO);
+            return false;
         }
 
         public List<FlightDTO> GetAll() => DTOs;

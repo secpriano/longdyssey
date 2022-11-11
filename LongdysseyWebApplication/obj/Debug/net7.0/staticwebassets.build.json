@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "MC5yYo1l/LN2JHy4yvOk90kFsbdYR3DYbzgGDcx9reM=",
+  "Hash": "UQ3fTTmVv8mqqOgoNjt1DXvGgrKiw7cNOvC7xgYJ2+M=",
   "Source": "LongdysseyWebApplication",
   "BasePath": "_content/LongdysseyWebApplication",
   "Mode": "Default",
@@ -83,6 +83,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Dev\\School\\longdyssey\\LongdysseyWebApplication\\wwwroot\\img\\BG.webp",
+      "SourceId": "LongdysseyWebApplication",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Dev\\School\\longdyssey\\LongdysseyWebApplication\\wwwroot\\",
+      "BasePath": "_content/LongdysseyWebApplication",
+      "RelativePath": "img/BG.webp",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\BG.webp"
     },
     {
       "Identity": "C:\\Dev\\School\\longdyssey\\LongdysseyWebApplication\\wwwroot\\js\\site.js",

@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Dev\\School\\longdyssey\\LongdysseyWebApplication\\wwwroot\\img\\BG.webp",
+      "PackagePath": "staticwebassets\\img\\BG.webp"
+    },
+    {
       "Id": "C:\\Dev\\School\\longdyssey\\LongdysseyWebApplication\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

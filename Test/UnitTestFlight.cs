@@ -8,13 +8,12 @@ namespace Test
     [TestClass]
     public class UnitTestFlight
     {
-
-        FlightContainer fc = new(new FlightSTUB());
         [TestMethod]
         public void GetAllFlightAmountRows()
         {
             // Arrange
             FlightSTUB fs = new();
+            FlightContainer fc = new(fs);
             List<Flight> expected = new();
             fs.GetAll().ForEach(DTO =>
             {
@@ -33,12 +32,33 @@ namespace Test
         {
             // Arrange
             FlightSTUB fs = new();
+            FlightContainer fc = new(fs);
+            bool notContainsObject = true;
+            fs.DTOs.ForEach(DTO =>
+            {
+                if (DTO.Id == 1)
+                {
+                    notContainsObject = false;
+                }
+            });
 
             // Act
-            bool actual = fc.DeleteByID(0);
+            bool actual = fc.DeleteByID(1);
 
             // Assert
-            bool expected = fs.DeleteByID(0);
+            fs.DTOs.ForEach(DTO =>
+            {
+                if (DTO.Id != 1)
+                {
+                    notContainsObject = false;
+                }
+                else
+                {
+                    notContainsObject = true;
+                }
+            });
+
+            bool expected = notContainsObject;
             Assert.AreEqual(expected, actual, "Flight not deleted :(");
         }
 
@@ -53,6 +73,7 @@ namespace Test
             FlightDTO flightDTO = new(new(2069, 4, 8), 2, "JUJATO", GateData.gates[20], GateData.gates[21], SpaceshipData.spaceships[5]);
             Flight flight = new(new(2069, 4, 8), 2, new(GateData.gates[20]), new(GateData.gates[21]), new(SpaceshipData.spaceships[5]));
             FlightSTUB fs = new();
+            FlightContainer fc = new(fs);
             bool expected = fs.Insert(flightDTO);
 
             // Act
@@ -73,6 +94,7 @@ namespace Test
             DateTime leaveDate = new(2050, 12, 21);
 
             FlightSTUB fs = new();
+            FlightContainer fc = new(fs);
             List<Flight> expected = new();
             fs.SearchFlights(leaveDate, originSpaceport, destinationSpaceport, travelers).ForEach(DTO =>
             {

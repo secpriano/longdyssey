@@ -1,0 +1,333 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+    overflow: hidden;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: black;
+}
+
+a {
+    text-decoration: none;
+}
+
+nav {
+    border-bottom: 1px solid var(--main);
+    box-shadow: 0 0 10px -2px var(--main);
+}
+
+footer {
+    border-top: 1px solid var(--main);
+}
+
+nav a {
+    padding: 0 10px;
+}
+
+nav,
+header,
+footer {
+    z-index: 100;
+    position: relative;
+    background-color: black;
+}
+
+header a,
+footer a,
+footer div {
+    color: white;
+}
+
+.navbar-nav {
+    color: white;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+    color: white;
+}
+
+p {
+    display: inline;
+}
+
+label {
+    color: white;
+    font-weight: bold;
+}
+
+button {
+    color: black;
+    background-color: var(--main);
+    border: none;
+    transition: ease-in-out 0.2s;
+}
+
+button:hover {
+    background-color: #bda25b;
+}
+
+
+.UI {
+    z-index: 99;
+    position: relative;
+}
+
+.searchFlight {
+    display: flex;
+    justify-content: center;
+    background-color: black;
+    padding: 20px 5px;
+    border: 1px solid var(--main);
+    box-shadow: 0 0 10px -2px var(--main);
+    border-top: none;
+}
+
+.searchFlight input[type="number"] {
+    width: 50px;
+}
+
+.flights {
+    z-index: 99;
+    position: absolute;
+    right: 50px;
+}
+
+.flight {
+    background-color: black;
+    margin: 20px 0;
+    border: 1px solid var(--main);
+    box-shadow: 0 0 10px -2px var(--main);
+    padding: 20px;
+    transition: ease-in-out 0.2s;
+}
+.flight > div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flight:hover {
+    background-color: var(--main);
+    box-shadow: 0 0 40px var(--main);
+}
+
+.flight > span {
+    display: block;
+}
+
+.flight span {
+    color: white;
+    transition: ease-in-out 0.2s;
+}
+
+.flight:hover span {
+    color: black;
+}
+
+span.label {
+    color: var(--main);
+    font-weight: bold;
+}
+
+.zoom {
+    z-index: 99;
+    position: absolute;
+    top: 87%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.zoom button {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    font-size: 25px;
+    border: none;
+}
+
+.zoom button:hover {
+    border: 1px solid var(--main);
+}
+
+.orbit,
+.pointOfInterest {
+    transition: ease-in-out 0.4s;
+}
+
+
+.orbit {
+    z-index: 0;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+.pointOfInterest {
+    z-index: 98;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
+
+.pointOfInterest:hover {
+    width: 30px;
+    height: 30px;
+}
+
+.pointOfInterest:hover ~ .orbit{
+    border-width: 4px;
+}
+
+.pointOfInterest .text {
+    display: block;
+    color: white;
+    margin-top: -25px;
+    margin-left: 5px;
+}
+
+.Mercury {
+    color: var(--mercury);
+}
+.Mercury .pointOfInterest,
+.Mercury .orbit {
+    border: 1px solid var(--mercury);
+}
+.Mercury .pointOfInterest:hover {
+    background-color: var(--mercury);
+}
+
+.Venus {
+    color: var(--venus);
+}
+.Venus .pointOfInterest,
+.Venus .orbit {
+    border: 1px solid var(--venus);
+}
+.Venus .pointOfInterest:hover {
+    background-color: var(--venus);
+}
+
+.Earth {
+    color: var(--earth);
+}
+.Earth .pointOfInterest,
+.Earth .orbit {
+    border: 1px solid var(--earth);
+}
+.Earth .pointOfInterest:hover {
+    background-color: var(--earth);
+}
+
+.Mars {
+    color: var(--mars);
+}
+.Mars .pointOfInterest,
+.Mars .orbit {
+    border: 1px solid var(--mars);
+}
+.Mars .pointOfInterest:hover {
+    background-color: var(--mars);
+}
+
+.Jupiter {
+    color: var(--jupiter);
+}
+.Jupiter .pointOfInterest,
+.Jupiter .orbit {
+    border: 1px solid var(--jupiter);
+}
+.Jupiter .pointOfInterest:hover {
+    background-color: var(--jupiter);
+}
+
+.Saturn {
+    color: var(--saturn);
+}
+.Saturn .pointOfInterest,
+.Saturn .orbit {
+    border: 1px solid var(--saturn);
+}
+.Saturn .pointOfInterest:hover {
+    background-color: var(--saturn);
+}
+
+.Uranus {
+    color: var(--uranus);
+}
+.Uranus .pointOfInterest,
+.Uranus .orbit {
+    border: 1px solid var(--uranus);
+}
+.Uranus .pointOfInterest:hover {
+    background-color: var(--uranus);
+}
+
+.neptune {
+    color: var(--neptune);
+}
+.Neptune .pointOfInterest,
+.Neptune .orbit {
+    border: 1px solid var(--neptune);
+}
+.Neptune .pointOfInterest:hover {
+    background-color: var(--neptune);
+}
+
+.select {
+    color: black;
+    background-color: var(--main);
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+}
+
+:root {
+    --main: #fed97b;
+    --sun: #f7f4df;
+    --sunMed: #b8b7a7;
+    --sunDark: #626259;
+    --mercury: #9768ac;
+    --mercuryMed: #714e81;
+    --mercuryDark: #3c2a45;
+    --venus: #b07919;
+    --venusMed: #845b13;
+    --venusDark: #46300a;
+    --earth: #09c;
+    --earthMed: #007399;
+    --earthDark: #003d52;
+    --mars: #9a4e19;
+    --marsMed: #733a13;
+    --marsDark: #3d1f0a;
+    --jupiter: #da8b72;
+    --jupiterMed: #a36855;
+    --jupiterDark: #57382e;
+    --saturn: #d5c187;
+    --saturnMed: #786d4c;
+    --saturnDark: #554d36;
+    --uranus: #68ccda;
+    --uranusMed: #4e99a3;
+    --uranusDark: #2a5257;
+    --neptune: #708ce3;
+    --neptuneMed: #5469aa;
+    --neptuneDark: #2d385b;
+    --spacecraft: #cd9745;
+    --moon: #b6acac;
+    --dwarfPlanet: #929871;
+    --comet: #7e86b0;
+    --asteroid: #806262;
+}

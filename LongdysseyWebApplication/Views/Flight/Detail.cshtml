@@ -1,0 +1,60 @@
+﻿@model LongdysseyWebApplication.Models.FlightModels.FlightDetailViewModel
+
+@{
+    ViewData["Title"] = "Flight";
+}
+
+<h1>Flight</h1>
+
+<section>
+    <div class="flight" @*onclick="location.href='@Url.Action("Detail", "Flight", new{@Model.Flight.Id})'"*@>
+        <div>
+            <div>
+                <span>From:</span>
+                <span class="label">@Model.Flight.OriginGate.Spaceport.PointOfInterest.Name</span>
+            </div>
+            <div>
+                <span>To:</span>
+                <span class="label">@Model.Flight.DestinationGate.Spaceport.PointOfInterest.Name</span>
+            </div>
+        </div>
+        <div>
+            <div>
+                <span>From spaceport:</span>
+                <span class="label">@Model.Flight.OriginGate.Spaceport.Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            </div>
+            <div>
+                <span>To spaceport:</span>
+                <span class="label">@Model.Flight.DestinationGate.Spaceport.Name</span>
+            </div>
+        </div>
+        <div>
+            <div>
+                <span>Departure gate:</span>
+                <span class="label">@Model.Flight.OriginGate.Name</span>
+            </div>
+            <div>
+                <span>Arrival gate:</span>
+                <span class="label">@Model.Flight.DestinationGate.Name</span>
+            </div>
+        </div>
+        <br>
+        <div>
+            <span>Spaceship:</span>
+            <span class="label">@Model.Flight.Spaceship.Name</span>
+        </div>
+        <div>
+            <span>Departure Date & Time:</span>
+            <span class="label">@Model.Flight.DepartureTime</span>
+        </div>
+        <div>
+            <span>Flight time:</span>
+            <span class="label">@Model.Flight.GetFlightDuration()</span>
+        </div>
+        <div>
+            <span>Arrival Date & Time:</span>
+            <span class="label">@Model.Flight.CalculateArrivalDateTime()</span>
+        </div>
+    </div>
+    <button onclick="location.href='@Url.Action("BookFlight", "Flight", new{@Model.Flight.Id})'">Book flight</button>
+</section>

@@ -58,6 +58,10 @@ p, h1, h2, h3, h4, h5, h6 {
     color: white;
 }
 
+h1 {
+    margin-top: 50px;
+}
+
 p {
     display: inline;
 }
@@ -70,18 +74,30 @@ label {
 button {
     color: black;
     background-color: var(--main);
+    padding: 1rem 2rem;
     border: none;
     transition: ease-in-out 0.2s;
 }
 
 button:hover {
-    background-color: #bda25b;
+    background-color: var(--main_hover);
 }
 
 
 .UI {
     z-index: 99;
     position: relative;
+}
+
+#bg {
+    background-image: url(../img/BG.webp);
+    position: absolute;
+    height: 90vh;
+    width: 100vw;
+    background-repeat: round;
+    left: 0;
+    top: 60px;
+    filter: brightness(75%);
 }
 
 .searchFlight {
@@ -111,6 +127,7 @@ button:hover {
     box-shadow: 0 0 10px -2px var(--main);
     padding: 20px;
     transition: ease-in-out 0.2s;
+    cursor: pointer;
 }
 .flight > div {
     display: flex;
@@ -154,6 +171,7 @@ span.label {
     height: 50px;
     font-size: 25px;
     border: none;
+    padding: 0;
 }
 
 .zoom button:hover {
@@ -292,12 +310,12 @@ span.label {
     color: black;
     background-color: var(--main);
     border: none;
-    border-radius: 3px;
     padding: 5px 10px;
 }
 
 :root {
     --main: #fed97b;
+    --main_hover: #bda25b;
     --sun: #f7f4df;
     --sunMed: #b8b7a7;
     --sunDark: #626259;
