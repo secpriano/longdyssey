@@ -306,6 +306,14 @@ span.label {
     background-color: var(--neptune);
 }
 
+.Sun .pointOfInterest {
+    border: 1px solid var(--sun);
+    z-index: 0;
+}
+.Sun .pointOfInterest:hover {
+    background-color: var(--sun);
+}
+
 .select {
     color: black;
     background-color: var(--main);

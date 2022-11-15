@@ -58,8 +58,8 @@
     </div>
     @using (Html.BeginForm("BookFlight", "Flight", FormMethod.Post))
     {
-        <label>Depart from</label>
-        <input type="search" value="" list="seats" placeholder="Earth | EAUSNY" asp-for="SelectedSeat" autocomplete="off" />
+        <label>Select seat</label>
+        <input type="search" value="" list="seats" placeholder="seat number" asp-for="SelectedSeat" autocomplete="off" />
         <datalist id="seats">
             @foreach (var availableSeat in Model.AvailableSeats)
             {

@@ -39,7 +39,7 @@ namespace LongdysseyWebApplication.Controllers
                 reservedSeats.Add(boardingpass.Seat);
             });
 
-            for (int i = 1; i < flight.Spaceship.Seat; i++)
+            for (int i = 1; i <= flight.Spaceship.Seat; i++)
             {
                 if (!reservedSeats.Contains(i))
                 {
