@@ -103,7 +103,7 @@ button:hover {
 .searchFlight {
     display: flex;
     justify-content: center;
-    background-color: black;
+    background-color: rgba(0,0,0,0.5);
     padding: 20px 5px;
     border: 1px solid var(--main);
     box-shadow: 0 0 10px -2px var(--main);
@@ -121,7 +121,7 @@ button:hover {
 }
 
 .flight {
-    background-color: black;
+    background-color: rgba(0,0,0,0.5);
     margin: 20px 0;
     border: 1px solid var(--main);
     box-shadow: 0 0 10px -2px var(--main);

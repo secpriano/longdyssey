@@ -84,9 +84,17 @@ namespace BLL.Entity
             return DepartureTime + flightDuration;
         }
 
-        public bool BookFlight(User user)
+        public bool BookFlight(long seat, User user) => C.BookFlight(seat, Id, user.Id);
+        public List<Boardingpass> GetBookingByFlightId()
         {
-            return C.BookFlight(5, Id, user.Id);
+            List<Boardingpass> boardingpasses = new();
+
+            C.GetBookingByFlightId(Id).ForEach(DTO =>
+            {
+                boardingpasses.Add(new(DTO));
+            });
+
+            return boardingpasses;
         }
 
         private enum Time
@@ -95,9 +103,6 @@ namespace BLL.Entity
             Minute
         }
 
-        public FlightDTO GetDTO()
-        {
-            return new FlightDTO(Id, DepartureTime, Status, FlightNumber, OriginGate.GetDTO(), DestinationGate.GetDTO(), new(Spaceship.Id, Spaceship.Name, Spaceship.Seat, Spaceship.Speed, Spaceship.Role));
-        }
+        public FlightDTO GetDTO() => new(Id, DepartureTime, Status, FlightNumber, OriginGate.GetDTO(), DestinationGate.GetDTO(), Spaceship.GetDTO());
     }
 }

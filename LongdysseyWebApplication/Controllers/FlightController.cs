@@ -5,6 +5,7 @@ using LongdysseyWebApplication.Models;
 using LongdysseyWebApplication.Models.FlightModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 using Test.STUB;
 
 namespace LongdysseyWebApplication.Controllers
@@ -27,16 +28,34 @@ namespace LongdysseyWebApplication.Controllers
         [HttpGet]
         public ActionResult Detail(int id)
         {
-            FlightDetailViewModel flightDetailViewModel = new(fc.GetByID(id));
+            Flight flight = fc.GetByID(id);
+            flight.C = new BoardingpassDAL();
+            List<Boardingpass> boardingpasses = flight.GetBookingByFlightId();
+            List<long> availableSeats = new();
+            List<long> reservedSeats = new();
+
+            boardingpasses.ForEach(boardingpass =>
+            {
+                reservedSeats.Add(boardingpass.Seat);
+            });
+
+            for (int i = 1; i < flight.Spaceship.Seat; i++)
+            {
+                if (!reservedSeats.Contains(i))
+                {
+                    availableSeats.Add(i);
+                }
+            }
+            FlightDetailViewModel flightDetailViewModel = new(flight, availableSeats);
             return View(flightDetailViewModel);
         }
 
-        // GET: FlightController/BookFlight/5
-        [HttpGet]
-        public ActionResult BookFlight(int id)
+        [HttpPost]
+        public ActionResult BookFlight(FlightDetailViewModel flightDetailViewModel)
         {
-            Flight flight = fc.GetByID(id);
-            flight.BookFlight(new(1, "an", "on", "anon@email.com", 1481, true));
+            Flight flight = fc.GetByID(flightDetailViewModel.BookFlightId);
+            flight.C = new BoardingpassDAL();
+            flight.BookFlight(flightDetailViewModel.SelectedSeat, new(1, "an", "on", "anon@email.com", 1481, true));
             return RedirectToAction("Index");
         }
 

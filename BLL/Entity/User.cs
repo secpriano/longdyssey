@@ -9,14 +9,14 @@ namespace BLL.Entity
 {
     public class User
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
         public long SpaceMiles { get; set; }
         public bool IsLyMember { get; set; }
 
-        public User(int id, string firstName, string lastName, string email, long spaceMiles, bool isLyMember)
+        public User(long id, string firstName, string lastName, string email, long spaceMiles, bool isLyMember)
         {
             Id = id;
             FirstName = firstName;
@@ -26,9 +26,16 @@ namespace BLL.Entity
             IsLyMember = isLyMember;
         }
 
-        public UserDTO GetDTO()
+        public User(UserDTO dto)
         {
-            return new UserDTO(Id, FirstName, LastName, Email, SpaceMiles, IsLyMember);
+            Id = dto.Id;
+            FirstName = dto.FirstName;
+            LastName = dto.LastName;
+            Email = dto.Email;
+            SpaceMiles = dto.SpaceMiles;
+            IsLyMember = dto.IsLyMember;
         }
+
+        public UserDTO GetDTO() => new(Id, FirstName, LastName, Email, SpaceMiles, IsLyMember);
     }
 }

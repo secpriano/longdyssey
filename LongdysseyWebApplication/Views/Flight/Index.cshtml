@@ -11,7 +11,7 @@
             @using (Html.BeginForm("Index", "Flight", FormMethod.Post))
             {
                 <label>Depart from</label>
-            <input type="search" value="" list="poid" placeholder="Earth | EAUSNY" asp-for="OriginPOI" autocomplete="off" />
+                <input type="search" value="" list="poid" placeholder="Earth | EAUSNY" asp-for="OriginPOI" autocomplete="off" />
                 <datalist id="poid">
                     @foreach (var spaceport in Model.Spaceports)
                     {
@@ -20,7 +20,7 @@
                 </datalist>
 
                 <label>Arrive on</label>
-            <input type="search" value="" list="poia" placeholder="Jupiter | JUFRPA" asp-for="DestinationPOI" autocomplete="off" />
+                <input type="search" value="" list="poia" placeholder="Jupiter | JUFRPA" asp-for="DestinationPOI" autocomplete="off" />
                 <datalist id="poia">
                     @foreach (var spaceport in Model.Spaceports)
                     {
