@@ -32,18 +32,6 @@
             possibleRoute.RemoveAt(1);
             possibleRoute.Add(poi);
             possibleRoutes.Add(possibleRoute);
-
-                      2x  
-                3x    123
-                      132
-                      213
-                      231
-                      312
-                      321
-
-                      1x
-                2x    12
-                      21
         }
     }
 }
