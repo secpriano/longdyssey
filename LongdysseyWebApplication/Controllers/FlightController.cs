@@ -1,7 +1,6 @@
 ﻿using BLL.Container;
 using BLL.Entity;
 using DAL;
-using LongdysseyWebApplication.Models;
 using LongdysseyWebApplication.Models.FlightModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

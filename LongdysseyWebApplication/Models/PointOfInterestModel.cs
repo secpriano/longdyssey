@@ -1,8 +1,9 @@
-﻿using IL.DTO;
+﻿using BLL.Entity;
+using IL.DTO;
 
-namespace BLL.Entity
+namespace LongdysseyWebApplication.Models
 {
-    public class PointOfInterest
+    public class PointOfInterestModel
     {
         public long Id { get; set; }
         public string Name { get; set; }
@@ -10,22 +11,13 @@ namespace BLL.Entity
         public decimal Azimuth { get; set; }
         public decimal Inclination { get; set; }
 
-        public PointOfInterest(long id, string name, decimal radius, decimal azimuth, decimal inclination)
+        public PointOfInterestModel(PointOfInterest POI)
         {
-            Id = id;
-            Name = name;
-            Radius = radius;
-            Azimuth = azimuth;
-            Inclination = inclination;
-        }
-
-        public PointOfInterest(PointOfInterestDTO dto)
-        {
-            Id = dto.Id;
-            Name = dto.Name;
-            Radius = dto.Radius;
-            Azimuth = dto.Azimuth;
-            Inclination = dto.Inclination;
+            Id = POI.Id;
+            Name = POI.Name;
+            Radius = POI.Radius;
+            Azimuth = POI.Azimuth;
+            Inclination = POI.Inclination;
         }
 
         private static double DegreeToRadians(double degree) => degree * (Math.PI / 180);

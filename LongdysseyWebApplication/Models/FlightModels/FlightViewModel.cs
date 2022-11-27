@@ -3,7 +3,7 @@ using BLL.Entity;
 using System.Globalization;
 using Test.STUB;
 
-namespace LongdysseyWebApplication.Models
+namespace LongdysseyWebApplication.Models.FlightModels
 {
     public class FlightViewModel
     {

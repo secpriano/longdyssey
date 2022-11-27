@@ -341,5 +341,3 @@ C:\Dev\School\longdyssey\LongdysseyWebApplication\obj\Debug\net7.0\refint\Longdy
 C:\Dev\School\longdyssey\LongdysseyWebApplication\obj\Debug\net7.0\LongdysseyWebApplication.pdb
 C:\Dev\School\longdyssey\LongdysseyWebApplication\obj\Debug\net7.0\LongdysseyWebApplication.genruntimeconfig.cache
 C:\Dev\School\longdyssey\LongdysseyWebApplication\obj\Debug\net7.0\ref\LongdysseyWebApplication.dll
-C:\Dev\school\longdyssey\LongdysseyWebApplication\bin\Debug\net7.0\Microsoft.Extensions.DependencyInjection.dll
-C:\Dev\school\longdyssey\LongdysseyWebApplication\bin\Debug\net7.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
