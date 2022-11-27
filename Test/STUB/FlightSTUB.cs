@@ -1,7 +1,5 @@
 ﻿using IL.DTO;
 using IL.Interface.DAL;
-using System.Collections.Generic;
-using Test.STUB;
 
 namespace Test.STUB
 {
@@ -10,18 +8,18 @@ namespace Test.STUB
         static GateSTUB GateData = new();
         static SpaceshipSTUB SpaceshipData = new();
 
-        public List<FlightDTO> DTOs = new()
+        public List<FlightDTO> flights = new()
         {
             new(1, new(2050, 12, 21), 1, "EAUSNY4785", GateData.gates[0], GateData.gates[20], SpaceshipData.spaceships[4])
         };
 
         public bool DeleteByID(long id)
         {
-            foreach (var DTO in DTOs)
+            foreach (var DTO in flights)
             {
                 if (DTO.Id == id)
                 {
-                    DTOs.RemoveAt((int)id);
+                    flights.RemoveAt((int)id);
                     return true;
                 }
             }
@@ -29,7 +27,7 @@ namespace Test.STUB
             return false;
         }
 
-        public List<FlightDTO> GetAll() => DTOs;
+        public List<FlightDTO> GetAll() => flights;
 
         public FlightDTO GetById(long id)
         {
@@ -38,15 +36,15 @@ namespace Test.STUB
 
         public bool Insert(FlightDTO entity)
         {
-            DTOs.Add(entity);
+            flights.Add(entity);
 
-            return DTOs.Contains(entity);
+            return flights.Contains(entity);
         }
 
         public List<FlightDTO> SearchFlights(DateTime leaveDate, long originSpaceportId, long destinationSpaceportId, long amountTravelers)
         {
             List<FlightDTO> searchList = new();
-            DTOs.ForEach(DTO =>
+            flights.ForEach(DTO =>
             {
                 if (DTO.DepartureTime == leaveDate && DTO.OriginGate.Spaceport.Id == originSpaceportId && DTO.DestinationGate.Spaceport.Id == destinationSpaceportId && DTO.Spaceship.Seat >= amountTravelers)
                 {

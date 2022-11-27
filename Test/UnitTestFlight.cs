@@ -34,7 +34,7 @@ namespace Test
             FlightSTUB fs = new();
             FlightContainer fc = new(fs);
             bool notContainsObject = true;
-            fs.DTOs.ForEach(DTO =>
+            fs.flights.ForEach(DTO =>
             {
                 if (DTO.Id == 1)
                 {
@@ -46,7 +46,7 @@ namespace Test
             bool actual = fc.DeleteByID(1);
 
             // Assert
-            fs.DTOs.ForEach(DTO =>
+            fs.flights.ForEach(DTO =>
             {
                 if (DTO.Id != 1)
                 {
@@ -80,7 +80,7 @@ namespace Test
             fc.Add(flight);
 
             // Assert
-            bool actual = fs.DTOs.Contains(flightDTO);
+            bool actual = fs.flights.Contains(flightDTO);
             Assert.AreEqual(expected, actual, "Flight not added :(");
         }
 
@@ -179,5 +179,43 @@ namespace Test
                     obj.Spaceship.Role.GetHashCode();
             }
         }
+
+        [TestMethod]
+        public void UserID2BookFlightID1()
+        {
+            // Arrange
+            FlightSTUB fs = new();
+            UserSTUB us = new();
+            BoardingpassSTUB bs = new();
+
+            Flight expectedFlightToBook = new(fs.flights[Index(1)]);
+            expectedFlightToBook.C = bs;
+            User expectedUserToBook = new(us.users[Index(2)]);
+            long expectedSeatToBook = 1;
+
+            Boardingpass expected = new(expectedFlightToBook, expectedUserToBook, expectedSeatToBook);
+
+            bool actual = false;
+
+            // Act
+            expectedFlightToBook.BookFlight(expectedSeatToBook, expectedUserToBook);
+
+            bs.boardingpasses.ForEach(boardingpass =>
+            {
+                if (boardingpass.Flight.Id == expected.Flight.Id && boardingpass.User.Id == expected.User.Id && boardingpass.Seat == expected.Seat)
+                {
+                    actual = true;
+                }
+                else
+                {
+                    actual = false;
+                }
+            });
+
+            // Assert
+            Assert.AreEqual(true, actual, "Flight not booked :(");
+        }
+
+        private static int Index(int id) => id - 1;
     }
 }
