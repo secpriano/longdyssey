@@ -1,8 +1,0 @@
-C:\Dev\School\longdyssey\WebApplication\obj\Debug\net6.0\WebApplication.csproj.AssemblyReference.cache
-C:\Dev\School\longdyssey\WebApplication\obj\Debug\net6.0\WebApplication.GeneratedMSBuildEditorConfig.editorconfig
-C:\Dev\School\longdyssey\WebApplication\obj\Debug\net6.0\WebApplication.AssemblyInfoInputs.cache
-C:\Dev\School\longdyssey\WebApplication\obj\Debug\net6.0\WebApplication.AssemblyInfo.cs
-C:\Dev\School\longdyssey\WebApplication\obj\Debug\net6.0\WebApplication.csproj.CoreCompileInputs.cache
-C:\Dev\School\longdyssey\WebApplication\obj\Debug\net6.0\WebApplication.MvcApplicationPartsAssemblyInfo.cache
-C:\Dev\School\longdyssey\WebApplication\obj\Debug\net6.0\WebApplication.RazorAssemblyInfo.cache
-C:\Dev\School\longdyssey\WebApplication\obj\Debug\net6.0\WebApplication.RazorAssemblyInfo.cs
