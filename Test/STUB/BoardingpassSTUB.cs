@@ -13,8 +13,16 @@ namespace Test.STUB
             new(FlightData.flights[1-1], UserData.users[1-1], 5)
         };
 
+        public long FlightId { get; private set; }
+        public long UserId { get; private set; }
+        public long Seat { get; private set; }
+
         public bool BookFlight(long seat, long flightId, long userId)
         {
+            FlightId = flightId;
+            UserId = userId;
+            Seat = seat;
+
             boardingpasses.Add(new(FlightData.flights[(int)flightId - 1], UserData.users[(int)userId - 1], seat));
             return true;
         }

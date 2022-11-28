@@ -1,6 +1,7 @@
 using BLL.Container;
 using BLL.Entity;
 using IL.DTO;
+using Newtonsoft.Json;
 using Test.STUB;
 
 namespace Test
@@ -24,7 +25,7 @@ namespace Test
             List<Flight> actual = fc.GetAll();
 
             // Assert
-            Assert.IsTrue(expected.SequenceEqual(actual, new FlightsEqualityComparer()), "List not the same: (");
+            ListToJsonAreEqual(expected, actual, "List not the same: (");
         }
 
         [TestMethod]
@@ -95,126 +96,132 @@ namespace Test
 
             FlightSTUB fs = new();
             FlightContainer fc = new(fs);
-            List<Flight> expected = new();
+            List<Flight> expectedFlights = new();
             fs.SearchFlights(leaveDate, originSpaceport, destinationSpaceport, travelers).ForEach(DTO =>
             {
-                expected.Add(new(DTO));
+                expectedFlights.Add(new(DTO));
             });
 
             // Act
-            List<Flight> actual = fc.SearchFlights(leaveDate, originSpaceport, destinationSpaceport, travelers);
+            List<Flight> actualFlights = fc.SearchFlights(leaveDate, originSpaceport, destinationSpaceport, travelers);
 
             // Assert
-            Assert.IsTrue(expected.SequenceEqual(actual, new FlightsEqualityComparer()), "Flight search not the same: ("); // Works
+            ListToJsonAreEqual(expectedFlights, actualFlights, "Flight search not the same: (");
         }
-        public class FlightsEqualityComparer : IEqualityComparer<Flight>
+
+    public static bool ListToJsonAreEqual(object obj1, object obj2, string message)
+    {
+        if (ReferenceEquals(obj1, obj2)) return true;
+    
+        if (obj1 is null || obj2 is null) return false;
+    
+        if (obj1.GetType() != obj2.GetType()) return false;
+    
+        string objJson1 = JsonConvert.SerializeObject(obj1);
+        string objJson2 = JsonConvert.SerializeObject(obj2);
+
+        Assert.AreEqual(objJson1, objJson2, message);
+        return objJson1 == objJson2;
+    }
+
+
+        [TestMethod]
+        public void UserID2_BookFlightID1_With10Travelers_IsInsertedInSTUB()
         {
-            public bool Equals(Flight flightInfo1, Flight flightInfo2)
+            // Arrange
+            FlightSTUB flightSTUB = new();
+            UserSTUB userSTUB = new();
+            BoardingpassSTUB boardingpassSTUB = new();
+
+            /// welk vlucht booken
+            Flight flightToBook = new(flightSTUB.flights[Index(1)])
             {
-                if (ReferenceEquals(flightInfo1, flightInfo2)) return true;
+                BoardingpassDb = boardingpassSTUB
+            };
 
-                if (flightInfo1 is null || flightInfo2 is null) return false;
+            /// welke persoon bookt het
+            User user = new(userSTUB.users[Index(2)]);
 
-                return
-                    flightInfo1.Id == flightInfo2.Id &&
-                    flightInfo1.DepartureTime == flightInfo2.DepartureTime &&
-                    flightInfo1.Status == flightInfo2.Status &&
-                    flightInfo1.FlightNumber == flightInfo2.FlightNumber &&
-                    flightInfo1.OriginGate.Id == flightInfo2.OriginGate.Id &&
-                    flightInfo1.OriginGate.Name == flightInfo2.OriginGate.Name &&
-                    flightInfo1.OriginGate.Spaceport.Id == flightInfo2.OriginGate.Spaceport.Id &&
-                    flightInfo1.OriginGate.Spaceport.Name == flightInfo2.OriginGate.Spaceport.Name &&
-                    flightInfo1.OriginGate.Spaceport.PointOfInterest.Id == flightInfo2.OriginGate.Spaceport.PointOfInterest.Id &&
-                    flightInfo1.OriginGate.Spaceport.PointOfInterest.Name == flightInfo2.OriginGate.Spaceport.PointOfInterest.Name &&
-                    flightInfo1.OriginGate.Spaceport.PointOfInterest.Radius == flightInfo2.OriginGate.Spaceport.PointOfInterest.Radius &&
-                    flightInfo1.OriginGate.Spaceport.PointOfInterest.Azimuth == flightInfo2.OriginGate.Spaceport.PointOfInterest.Azimuth &&
-                    flightInfo1.OriginGate.Spaceport.PointOfInterest.Inclination == flightInfo2.OriginGate.Spaceport.PointOfInterest.Inclination &&
-                    flightInfo1.DestinationGate.Id == flightInfo2.DestinationGate.Id &&
-                    flightInfo1.DestinationGate.Name == flightInfo2.DestinationGate.Name &&
-                    flightInfo1.DestinationGate.Spaceport.Id == flightInfo2.DestinationGate.Spaceport.Id &&
-                    flightInfo1.DestinationGate.Spaceport.Name == flightInfo2.DestinationGate.Spaceport.Name &&
-                    flightInfo1.DestinationGate.Spaceport.PointOfInterest.Id == flightInfo2.DestinationGate.Spaceport.PointOfInterest.Id &&
-                    flightInfo1.DestinationGate.Spaceport.PointOfInterest.Name == flightInfo2.DestinationGate.Spaceport.PointOfInterest.Name &&
-                    flightInfo1.DestinationGate.Spaceport.PointOfInterest.Radius == flightInfo2.DestinationGate.Spaceport.PointOfInterest.Radius &&
-                    flightInfo1.DestinationGate.Spaceport.PointOfInterest.Azimuth == flightInfo2.DestinationGate.Spaceport.PointOfInterest.Azimuth &&
-                    flightInfo1.DestinationGate.Spaceport.PointOfInterest.Inclination == flightInfo2.DestinationGate.Spaceport.PointOfInterest.Inclination &&
-                    flightInfo1.Spaceship.Id == flightInfo2.Spaceship.Id &&
-                    flightInfo1.Spaceship.Name == flightInfo2.Spaceship.Name &&
-                    flightInfo1.Spaceship.Seat == flightInfo2.Spaceship.Seat &&
-                    flightInfo1.Spaceship.Speed == flightInfo2.Spaceship.Speed &&
-                    flightInfo1.Spaceship.Role == flightInfo2.Spaceship.Role;
-            }
+            /// welke zitplaats reserveren
+            long seat = 10;
 
-            public int GetHashCode(Flight obj)
+            /// Wat de boardingpass moet zijn
+            Boardingpass expectedBoardingpass = new(new(flightSTUB.flights[Index(1)]), user, seat);
+
+            // Act
+            Boardingpass actualbBoardingpass = new();
+
+            /// book vlucht
+            flightToBook.BookFlight(seat, user.Id);
+
+            /// zoek in de stub waar het toegevoegd is
+            boardingpassSTUB.boardingpasses.ForEach(boardingpass =>
             {
-                if (obj is null) return 0;
+                if (boardingpass.Flight.Id == expectedBoardingpass.Flight.Id && boardingpass.User.Id == expectedBoardingpass.User.Id && boardingpass.Seat == expectedBoardingpass.Seat)
+                {
+                    actualbBoardingpass = new(boardingpass);
+                }
+            });
 
-                return
-                    obj.Id.GetHashCode() ^
-                    obj.DepartureTime.GetHashCode() ^
-                    obj.Status.GetHashCode() ^
-                    obj.FlightNumber.GetHashCode() ^
-                    obj.OriginGate.Id.GetHashCode() ^
-                    obj.OriginGate.Name.GetHashCode() ^
-                    obj.OriginGate.Spaceport.Id.GetHashCode() ^
-                    obj.OriginGate.Spaceport.Name.GetHashCode() ^
-                    obj.OriginGate.Spaceport.PointOfInterest.Id.GetHashCode() ^
-                    obj.OriginGate.Spaceport.PointOfInterest.Name.GetHashCode() ^
-                    obj.OriginGate.Spaceport.PointOfInterest.Radius.GetHashCode() ^
-                    obj.OriginGate.Spaceport.PointOfInterest.Azimuth.GetHashCode() ^
-                    obj.OriginGate.Spaceport.PointOfInterest.Inclination.GetHashCode() ^
-                    obj.DestinationGate.Id.GetHashCode() ^
-                    obj.DestinationGate.Name.GetHashCode() ^
-                    obj.DestinationGate.Spaceport.Id.GetHashCode() ^
-                    obj.DestinationGate.Spaceport.Name.GetHashCode() ^
-                    obj.DestinationGate.Spaceport.PointOfInterest.Id.GetHashCode() ^
-                    obj.DestinationGate.Spaceport.PointOfInterest.Name.GetHashCode() ^
-                    obj.DestinationGate.Spaceport.PointOfInterest.Radius.GetHashCode() ^
-                    obj.DestinationGate.Spaceport.PointOfInterest.Azimuth.GetHashCode() ^
-                    obj.DestinationGate.Spaceport.PointOfInterest.Inclination.GetHashCode() ^
-                    obj.Spaceship.Id.GetHashCode() ^
-                    obj.Spaceship.Name.GetHashCode() ^
-                    obj.Spaceship.Seat.GetHashCode() ^
-                    obj.Spaceship.Speed.GetHashCode() ^
-                    obj.Spaceship.Role.GetHashCode();
-            }
+            // Assert
+            /// vergelijk boardingpasses in Json formaat
+            ListToJsonAreEqual(expectedBoardingpass, actualbBoardingpass, "Flight not booked :(");
         }
 
         [TestMethod]
-        public void UserID2BookFlightID1()
+        public void BookFlightQuery_UserID3_FlightID1_Travelers7_IsTheSameInSTUB()
         {
             // Arrange
-            FlightSTUB fs = new();
-            UserSTUB us = new();
-            BoardingpassSTUB bs = new();
+            FlightSTUB flightSTUB = new();
+            UserSTUB userSTUB = new();
+            BoardingpassSTUB boardingpassSTUB = new();
 
-            Flight expectedFlightToBook = new(fs.flights[Index(1)]);
-            expectedFlightToBook.C = bs;
-            User expectedUserToBook = new(us.users[Index(2)]);
-            long expectedSeatToBook = 1;
+            /// welke vlucht booken
+            Flight expectedFlightToBook = new(flightSTUB.flights[Index(1)])
+            {
+                BoardingpassDb = boardingpassSTUB
+            };
 
-            Boardingpass expected = new(expectedFlightToBook, expectedUserToBook, expectedSeatToBook);
+            /// welke persoon bookt het
+            User user = new(userSTUB.users[Index(3)]);
 
-            bool actual = false;
+            /// welke zitplaats reserveren
+            long seat = 7;
+
+            /// Wat de query moet zijn
+            List<long> expectedQueryParams = new()
+            {
+                flightSTUB.flights[Index(1)].Id,
+                user.Id,
+                seat
+            };
 
             // Act
-            expectedFlightToBook.BookFlight(expectedSeatToBook, expectedUserToBook);
+            /// book vlucht
+            expectedFlightToBook.BookFlight(seat, user.Id);
 
-            bs.boardingpasses.ForEach(boardingpass =>
+            /// Wat de query is
+            List<long> actualQueryParams = new()
             {
-                if (boardingpass.Flight.Id == expected.Flight.Id && boardingpass.User.Id == expected.User.Id && boardingpass.Seat == expected.Seat)
-                {
-                    actual = true;
-                }
-                else
-                {
-                    actual = false;
-                }
-            });
+                boardingpassSTUB.FlightId,
+                boardingpassSTUB.UserId,
+                boardingpassSTUB.Seat
+            };
+
 
             // Assert
-            Assert.AreEqual(true, actual, "Flight not booked :(");
+            /// Query parameters vergelijken
+            for (int i = 0; i < expectedQueryParams.Count; i++)
+            {
+                Assert.AreEqual(expectedQueryParams[i], actualQueryParams[i], "Query in STUB not the same as when send");
+            }
         }
+
+        // test maken voor volle vliegtuig
+
+        // test maken niet dezelfde zitplaats
+
+        // test maken voor verkeerde input
 
         private static int Index(int id) => id - 1;
     }

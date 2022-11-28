@@ -12,7 +12,7 @@ namespace BLL.Entity
         public Gate OriginGate { get; set; }
         public Gate DestinationGate { get; set; }
         public Spaceship Spaceship { get; set; }
-        public IBoardingpassDAL? C { get; set; }
+        public IBoardingpassDAL? BoardingpassDb { get; set; }
 
         public Flight(DateTime departuretime, long status, Gate originGate, Gate destinationGate, Spaceship spaceship)
         {
@@ -84,12 +84,12 @@ namespace BLL.Entity
             return DepartureTime + flightDuration;
         }
 
-        public bool BookFlight(long seat, User user) => C.BookFlight(seat, Id, user.Id);
+        public bool BookFlight(long seat, long userId) => BoardingpassDb.BookFlight(seat, Id, userId);
         public List<Boardingpass> GetBookingByFlightId()
         {
             List<Boardingpass> boardingpasses = new();
 
-            C.GetBookingByFlightId(Id).ForEach(DTO =>
+            BoardingpassDb.GetBookingByFlightId(Id).ForEach(DTO =>
             {
                 boardingpasses.Add(new(DTO));
             });

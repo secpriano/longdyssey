@@ -22,6 +22,10 @@ namespace BLL.Entity
             Seat = dto.Seat;
         }
 
+        public Boardingpass()
+        {
+        }
+
         public BoardingpassDTO GetDTO() => new(Flight.GetDTO(), User.GetDTO(), Seat);
     }
 }

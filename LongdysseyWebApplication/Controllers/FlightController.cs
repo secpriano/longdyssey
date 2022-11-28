@@ -28,7 +28,7 @@ namespace LongdysseyWebApplication.Controllers
         public ActionResult Detail(int id)
         {
             Flight flight = fc.GetByID(id);
-            flight.C = new BoardingpassDAL();
+            flight.BoardingpassDb = new BoardingpassDAL();
             List<Boardingpass> boardingpasses = flight.GetBookingByFlightId();
             List<long> availableSeats = new();
             List<long> reservedSeats = new();
@@ -53,8 +53,8 @@ namespace LongdysseyWebApplication.Controllers
         public ActionResult BookFlight(FlightDetailViewModel flightDetailViewModel)
         {
             Flight flight = fc.GetByID(flightDetailViewModel.BookFlightId);
-            flight.C = new BoardingpassDAL();
-            flight.BookFlight(flightDetailViewModel.SelectedSeat, new(1, "an", "on", "anon@email.com", 1481, true));
+            flight.BoardingpassDb = new BoardingpassDAL();
+            flight.BookFlight(flightDetailViewModel.SelectedSeat, 1);
             return RedirectToAction("Index");
         }
 
