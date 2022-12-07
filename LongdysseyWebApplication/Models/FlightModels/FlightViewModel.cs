@@ -9,39 +9,39 @@ namespace LongdysseyWebApplication.Models.FlightModels
     {
         public List<Flight> Flights = new();
         public List<Spaceport> Spaceports;
-        public List<PointOfInterest> PointOfInterests;
-        public List<string> pointOfInterestsX = new();
-        public List<string> pointOfInterestsY = new();
-        public List<string> PointOfInterestRadius = new();
+        public List<AstronomicalObject> AstronomicalObjects;
+        public List<string> AstronomicalObjectX = new();
+        public List<string> AstronomicalObjectY = new();
+        public List<string> AstronomicalObjectRadius = new();
 
-        private long originPOI;
-        public string OriginPOI
+        private long originAO;
+        public string OriginAO
         {
-            get => originPOI.ToString();
+            get => originAO.ToString();
             set
             {
                 SpaceportContainer sc = new(new SpaceportSTUB());
                 sc.GetAll().ForEach(spaceport =>
                 {
-                    if (value == $"{spaceport.PointOfInterest.Name} | {spaceport.Name}")
+                    if (value == $"{spaceport.AstronomicalObject.Name} | {spaceport.Name}")
                     {
-                        originPOI = spaceport.Id;
+                        originAO = spaceport.Id;
                     }
                 });
             }
         }
-        private long destinationPOI;
-        public string DestinationPOI
+        private long destinationAO;
+        public string DestinationAO
         {
-            get => destinationPOI.ToString();
+            get => destinationAO.ToString();
             set
             {
                 SpaceportContainer sc = new(new SpaceportSTUB());
                 sc.GetAll().ForEach(spaceport =>
                 {
-                    if (value == $"{spaceport.PointOfInterest.Name} | {spaceport.Name}")
+                    if (value == $"{spaceport.AstronomicalObject.Name} | {spaceport.Name}")
                     {
-                        destinationPOI = spaceport.Id;
+                        destinationAO = spaceport.Id;
                     }
                 });
             }
@@ -49,25 +49,25 @@ namespace LongdysseyWebApplication.Models.FlightModels
         public DateTime LeaveDate { get; set; }
         public long Travelers { get; set; }
 
-        // Format POI Spaceport
+        // Format AO Spaceport
 
-        public FlightViewModel(List<PointOfInterest> pointOfInterests, List<Spaceport> spaceports)
+        public FlightViewModel(List<AstronomicalObject> astronomicalObjects, List<Spaceport> spaceports)
         {
-            PointOfInterests = pointOfInterests;
+            AstronomicalObjects = astronomicalObjects;
             Spaceports = spaceports;
 
             int zoom = 15;
 
-            PointOfInterests.ForEach(poi =>
+            AstronomicalObjects.ForEach(AO =>
             {
-                double X = poi.SphericalToCartesianCoordinates()[(byte)PointOfInterest.Coordinates.X] * zoom;
-                double Y = poi.SphericalToCartesianCoordinates()[(byte)PointOfInterest.Coordinates.Y] * zoom;
-                pointOfInterestsX.Add(ConvertToDot(X));
-                pointOfInterestsY.Add(ConvertToDot(Y));
+                double X = AO.SphericalToCartesianCoordinates()[(byte)AstronomicalObject.Coordinates.X] * zoom;
+                double Y = AO.SphericalToCartesianCoordinates()[(byte)AstronomicalObject.Coordinates.Y] * zoom;
+                AstronomicalObjectX.Add(ConvertToDot(X));
+                AstronomicalObjectY.Add(ConvertToDot(Y));
 
                 int radius = (int)Math.Sqrt(Math.Pow(0 - X, 2) + Math.Pow(0 - Y, 2));
                 int diameter = radius * 2;
-                PointOfInterestRadius.Add(Convert.ToString(diameter, CultureInfo.GetCultureInfo("en-US")));
+                AstronomicalObjectRadius.Add(Convert.ToString(diameter, CultureInfo.GetCultureInfo("en-US")));
             });
         }
 

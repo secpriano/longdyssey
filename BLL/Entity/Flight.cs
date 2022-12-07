@@ -1,4 +1,6 @@
-﻿using IL.DTO;
+﻿using BLL.Container;
+using DAL;
+using IL.DTO;
 using IL.Interface.DAL;
 
 namespace BLL.Entity
@@ -23,6 +25,7 @@ namespace BLL.Entity
             Spaceship = spaceship;
 
             GenerateFlightNumber();
+
         }
 
         public Flight(FlightDTO dto)
@@ -34,6 +37,9 @@ namespace BLL.Entity
             OriginGate = new(dto.OriginGate);
             DestinationGate = new(dto.DestinationGate);
             Spaceship = new(dto.Spaceship);
+
+            AstronomicalObjectContainer AOc = new(new AstronomicalObjectDAL());
+            FlightLineScheduler fls = new(Spaceship, AOc.GetAll(), dto.DepartureTime);
         }
 
         private void GenerateFlightNumber()
@@ -41,27 +47,27 @@ namespace BLL.Entity
             FlightNumber = "";
         }
 
-        private double CalcuclateFlightDistance()
+        private double CalculateFlightDistance()
         {
-            double[] originCoordinates = OriginGate.Spaceport.PointOfInterest.SphericalToCartesianCoordinates();
+            double[] originCoordinates = OriginGate.Spaceport.AstronomicalObject.SphericalToCartesianCoordinates();
 
-            double[] destinationCoordinates = DestinationGate.Spaceport.PointOfInterest.SphericalToCartesianCoordinates();
+            double[] destinationCoordinates = DestinationGate.Spaceport.AstronomicalObject.SphericalToCartesianCoordinates();
 
             return Math.Sqrt(
-                Math.Pow(originCoordinates[(byte)PointOfInterest.Coordinates.X] - destinationCoordinates[(byte)PointOfInterest.Coordinates.X], 2)
+                Math.Pow(originCoordinates[(byte)AstronomicalObject.Coordinates.X] - destinationCoordinates[(byte)AstronomicalObject.Coordinates.X], 2)
                 +
-                Math.Pow(originCoordinates[(byte)PointOfInterest.Coordinates.Y] - destinationCoordinates[(byte)PointOfInterest.Coordinates.Y], 2)
+                Math.Pow(originCoordinates[(byte)AstronomicalObject.Coordinates.Y] - destinationCoordinates[(byte)AstronomicalObject.Coordinates.Y], 2)
                 +
-                Math.Pow(originCoordinates[(byte)PointOfInterest.Coordinates.Z] - destinationCoordinates[(byte)PointOfInterest.Coordinates.Z], 2)
+                Math.Pow(originCoordinates[(byte)AstronomicalObject.Coordinates.Z] - destinationCoordinates[(byte)AstronomicalObject.Coordinates.Z], 2)
             );
         }
 
-        private decimal[] CalcuclateFlightDuration()
+        private decimal[] CalculateFlightDuration()
         {
             const decimal AUinKM = 149597870.7M;
             const decimal CinKM = 299792.458M;
 
-            decimal distance = (decimal)CalcuclateFlightDistance();
+            decimal distance = (decimal)CalculateFlightDistance();
 
             decimal flightDurationInSeconds = (distance * AUinKM) / (Spaceship.Speed * CinKM);
             decimal flightDurationInHours = flightDurationInSeconds / 3600;
@@ -74,12 +80,12 @@ namespace BLL.Entity
 
         public string GetFlightDuration()
         {
-            decimal[] flightTime = CalcuclateFlightDuration();
+            decimal[] flightTime = CalculateFlightDuration();
             return $"{flightTime[(byte)Time.Hour]} Hours and {flightTime[(byte)Time.Minute]} minutes.";
         }
         public DateTime CalculateArrivalDateTime()
         {
-            decimal[] flightTime = CalcuclateFlightDuration();
+            decimal[] flightTime = CalculateFlightDuration();
             TimeSpan flightDuration = new TimeSpan((int)flightTime[(byte)Time.Hour], (int)flightTime[(byte)Time.Minute], 0);
             return DepartureTime + flightDuration;
         }

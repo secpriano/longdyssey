@@ -6,8 +6,8 @@ namespace UIL
 {
     public partial class VluchtZoeken : Form
     {
-        FlightContainer fc = new(new FlightDAL());
-        PointOfInterestContainer pc = new(new PointOfInterestDAL());
+        private readonly FlightContainer fc = new(new FlightDAL());
+        private readonly AstronomicalObjectContainer pc = new(new AstronomicalObjectDAL());
         
         private readonly Graphics g;
         private readonly Pen orbit = new(Color.Blue, 3);
@@ -25,8 +25,8 @@ namespace UIL
             formMidY = Size.Height / 2;
         }
 
-        private readonly List<decimal> pointOfInterestsX = new();
-        private readonly List<decimal> pointOfInterestsY = new();
+        private readonly List<decimal> Azimuths = new();
+        private readonly List<decimal> Inclinations = new();
 
         private void VluchtZoeken_Load(object sender, EventArgs e)
         {
@@ -44,8 +44,8 @@ namespace UIL
                 int pointOfInterestX = (int)(PointOfInterest.SphericalToCartesianCoordinates()[0] * 15);
                 int pointOfInterestY = (int)(PointOfInterest.SphericalToCartesianCoordinates()[1] * 15);
 
-                pointOfInterestsX.Add(pointOfInterestX); 
-                pointOfInterestsY.Add(pointOfInterestY);
+                Azimuths.Add(pointOfInterestX); 
+                Inclinations.Add(pointOfInterestY);
 
                 buttonPoint.Location = new Point((formMidX - buttonPoint.Width / 2) + pointOfInterestX, (formMidY - buttonPoint.Height / 2) + pointOfInterestY);
             });
@@ -57,7 +57,7 @@ namespace UIL
             {
                 Button flightLink = new()
                 {
-                    Text = $"From: {flight.OriginGate.Spaceport.PointOfInterest.Name} | To: {flight.DestinationGate.Spaceport.PointOfInterest.Name}\n" +
+                    Text = $"From: {flight.OriginGate.Spaceport.AstronomicalObject.Name} | To: {flight.DestinationGate.Spaceport.AstronomicalObject.Name}\n" +
                     $"From spaceport: {flight.OriginGate.Spaceport.Name} | To spaceport: {flight.DestinationGate.Spaceport.Name}\n" +
                     $"Departure gate: {flight.OriginGate.Name} | Arrival gate: {flight.DestinationGate.Name}\n\n" +
                     $"Spaceship: {flight.Spaceship.Name}\n" +
@@ -75,7 +75,7 @@ namespace UIL
                 row += 125;
             });
 
-            DrawOrbit();
+            DrawCanvas();
         }
 
         Flight selectedFlight;
@@ -95,16 +95,12 @@ namespace UIL
             decimal zoom = (decimal)trackBarZoom.Value / 10 + 1;
             for (int i = 0; i < buttonPoints.Count; i++)
             {
-                decimal zoomX = pointOfInterestsX[i] * zoom;
-                decimal zoomY = pointOfInterestsY[i] * zoom;
+                decimal zoomX = Azimuths[i] * zoom;
+                decimal zoomY = Inclinations[i] * zoom;
 
                 buttonPoints[i].Location = new Point((int)(formMidX - buttonPoints[i].Width / 2 + zoomX), (int)(formMidY - buttonPoints[i].Height / 2 + zoomY));
             }
-            DrawOrbit();
-            if (selectedFlight != null)
-            {
-                DrawPath();
-            }
+            DrawCanvas();
         }
 
         // Maakt een pad van een gekozen vlucht
@@ -113,18 +109,18 @@ namespace UIL
         {
             buttonPoints.ForEach(bp =>
             {
-                if (bp.Text == selectedFlight.OriginGate.Spaceport.PointOfInterest.Name)
+                if (bp.Text == selectedFlight.OriginGate.Spaceport.AstronomicalObject.Name)
                 {
                     point1 = new Point(bp.Location.X + bp.Width / 2, bp.Location.Y + bp.Height / 2);
                 }
-                if (bp.Text == selectedFlight.DestinationGate.Spaceport.PointOfInterest.Name)
+                if (bp.Text == selectedFlight.DestinationGate.Spaceport.AstronomicalObject.Name)
                 {
                     point2 = new Point(bp.Location.X + bp.Width / 2, bp.Location.Y + bp.Height / 2);
                 }
             });
 
             g.Clear(Color.FromArgb(0, 0, 0));
-            DrawOrbit();
+            DrawCanvas();            
             g.DrawLine(path, point1, point2);
         }
 
@@ -136,6 +132,15 @@ namespace UIL
                 int diameter = (int)Math.Sqrt(Math.Pow(button.Location.X + button.Width / 2 - formMidX, 2) + Math.Pow(button.Location.Y + button.Height / 2 - formMidY, 2)) * 2;
                 int radius = diameter / 2;
                 g.DrawEllipse(orbit, formMidX - radius, formMidY - radius, diameter, diameter);
+            }
+        }
+
+        private void DrawCanvas()
+        {
+            DrawOrbit();
+            if (selectedFlight != null)
+            {
+                DrawPath();
             }
         }
     }

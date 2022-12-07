@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace IL.Interface.DAL
 {
-    public interface IPointOfInterestDAL
+    public interface IAstronomicalObjectDAL
     {
-        public List<PointOfInterestDTO> GetAll();
+        public List<AstronomicalObjectDTO> GetAll();
     }
 }

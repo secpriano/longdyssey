@@ -20,7 +20,7 @@ namespace DAL
 
         public List<FlightDTO> GetAll()
         {
-            string cmdText = "SELECT FlightID, DepartureTime,StatusFlight,FlightNumber,Flight.SpaceshipID,Spaceship.SpaceshipName,Spaceship.Seat,Spaceship.Speed,Spaceship.SpaceshipRoleID,OriginGateID,DestinationGateID,OriginGate.GateName AS OriginGateName, DestinationGate.GateName AS DestinationGateName,OriginSpaceport.SpaceportID AS OriginSpaceportID,OriginSpaceport.SpaceportName AS OriginSpaceportName,DestinationSpaceport.SpaceportID AS DestinationSpaceportID,DestinationSpaceport.SpaceportName AS DestinationSpaceportName,OriginPointOfInterest.PointOfInterestID AS OriginPointOfInterestID,OriginPointOfInterest.PointOfInterestName AS OriginPointOfInterestName,OriginPointOfInterest.Radius AS OriginPointOfInterestRadius,OriginPointOfInterest.Azimuth AS OriginPointOfInterestAngleX,OriginPointOfInterest.Inclination AS OriginPointOfInterestAngleY,DestinationPointOfInterest.PointOfInterestID AS DestinationPointOfInterestID,DestinationPointOfInterest.PointOfInterestName AS DestinationPointOfInterestName,DestinationPointOfInterest.Radius AS DestinationPointOfInterestRadius,DestinationPointOfInterest.Azimuth AS DestinationPointOfInterestAngleX,DestinationPointOfInterest.Inclination AS DestinationPointOfInterestAngleY  FROM Flight  LEFT JOIN Gate AS OriginGate  ON Flight.OriginGateID = OriginGate.GateID  LEFT JOIN Gate  AS DestinationGate  ON Flight.DestinationGateID = DestinationGate.GateID  LEFT JOIN Spaceship   ON Flight.SpaceshipID = Spaceship.SpaceshipID  LEFT JOIN Spaceport AS OriginSpaceport  ON OriginGate.SpaceportID = OriginSpaceport.SpaceportID  LEFT JOIN Spaceport AS DestinationSpaceport  ON DestinationGate.SpaceportID = DestinationSpaceport.SpaceportID  LEFT JOIN PointOfInterest AS OriginPointOfInterest  ON OriginSpaceport.PointOfInterestID = OriginPointOfInterest.PointOfInterestID  LEFT JOIN PointOfInterest AS DestinationPointOfInterest  ON DestinationSpaceport.PointOfInterestID = DestinationPointOfInterest.PointOfInterestID";
+            string cmdText = "EXEC GetAllFlights";
 
             using SqlCommand com = new(cmdText);
 
@@ -43,12 +43,13 @@ namespace DAL
                             new SpaceportDTO(
                                 dt.Rows[i].Field<long>("OriginSpaceportID"), 
                                 dt.Rows[i].Field<string>("OriginSpaceportName"), 
-                                new PointOfInterestDTO(
-                                    dt.Rows[i].Field<long>("OriginPointOfInterestID"),
-                                    dt.Rows[i].Field<string>("OriginPointOfInterestName"),
-                                    dt.Rows[i].Field<decimal>("OriginPointOfInterestRadius"),
-                                    dt.Rows[i].Field<decimal>("OriginPointOfInterestAngleX"),
-                                    dt.Rows[i].Field<decimal>("OriginPointOfInterestAngleY")
+                                new AstronomicalObjectDTO(
+                                    dt.Rows[i].Field<long>("OriginAstronomicalObjectID"),
+                                    dt.Rows[i].Field<string>("OriginAstronomicalObjectName"),
+                                    dt.Rows[i].Field<decimal>("OriginAstronomicalObjectRadius"),
+                                    dt.Rows[i].Field<decimal>("OriginAstronomicalObjectAzimuth"),
+                                    dt.Rows[i].Field<decimal>("OriginAstronomicalObjectInclination"),
+                                    dt.Rows[i].Field<decimal>("OriginAstronomicalObjectOrbitalSpeed")
                                 )
                             )
                         ),
@@ -58,12 +59,13 @@ namespace DAL
                             new SpaceportDTO(
                                 dt.Rows[i].Field<long>("DestinationSpaceportID"), 
                                 dt.Rows[i].Field<string>("DestinationSpaceportName"),
-                                new PointOfInterestDTO(
-                                    dt.Rows[i].Field<long>("DestinationPointOfInterestID"),
-                                    dt.Rows[i].Field<string>("DestinationPointOfInterestName"),
-                                    dt.Rows[i].Field<decimal>("DestinationPointOfInterestRadius"),
-                                    dt.Rows[i].Field<decimal>("DestinationPointOfInterestAngleX"),
-                                    dt.Rows[i].Field<decimal>("DestinationPointOfInterestAngleY")
+                                new AstronomicalObjectDTO(
+                                    dt.Rows[i].Field<long>("DestinationAstronomicalObjectID"),
+                                    dt.Rows[i].Field<string>("DestinationAstronomicalObjectName"),
+                                    dt.Rows[i].Field<decimal>("DestinationAstronomicalObjectRadius"),
+                                    dt.Rows[i].Field<decimal>("DestinationAstronomicalObjectAzimuth"),
+                                    dt.Rows[i].Field<decimal>("DestinationAstronomicalObjectInclination"),
+                                    dt.Rows[i].Field<decimal>("DestinationAstronomicalObjectOrbitalSpeed")
                                 )
                             )
                         ), 
@@ -83,7 +85,7 @@ namespace DAL
 
         public List<FlightDTO> SearchFlights(DateTime leaveDate, long originGate, long destinationGate, long travelers)
         {
-            string cmdText = "SELECT FlightID, DepartureTime, StatusFlight, FlightNumber, Flight.SpaceshipID, Spaceship.SpaceshipName, Spaceship.Seat, Spaceship.Speed, Spaceship.SpaceshipRoleID, OriginGateID, DestinationGateID,  OriginGate.GateName AS OriginGateName,  DestinationGate.GateName AS DestinationGateName,  OriginSpaceport.SpaceportID AS OriginSpaceportID, OriginSpaceport.SpaceportName AS OriginSpaceportName,  DestinationSpaceport.SpaceportID AS DestinationSpaceportID, DestinationSpaceport.SpaceportName AS DestinationSpaceportName,  OriginPointOfInterest.PointOfInterestID AS OriginPointOfInterestID, OriginPointOfInterest.PointOfInterestName AS OriginPointOfInterestName, OriginPointOfInterest.Radius AS OriginPointOfInterestRadius, OriginPointOfInterest.Azimuth AS OriginPointOfInterestAngleX, OriginPointOfInterest.Inclination AS OriginPointOfInterestAngleY,  DestinationPointOfInterest.PointOfInterestID AS DestinationPointOfInterestID, DestinationPointOfInterest.PointOfInterestName AS DestinationPointOfInterestName, DestinationPointOfInterest.Radius AS DestinationPointOfInterestRadius, DestinationPointOfInterest.Azimuth AS DestinationPointOfInterestAngleX, DestinationPointOfInterest.Inclination AS DestinationPointOfInterestAngleY    FROM Flight    LEFT JOIN Gate AS OriginGate   ON Flight.OriginGateID = OriginGate.GateID   LEFT JOIN Gate  AS DestinationGate   ON Flight.DestinationGateID = DestinationGate.GateID    LEFT JOIN Spaceship    ON Flight.SpaceshipID = Spaceship.SpaceshipID    LEFT JOIN Spaceport AS OriginSpaceport   ON OriginGate.SpaceportID = OriginSpaceport.SpaceportID   LEFT JOIN Spaceport AS DestinationSpaceport   ON DestinationGate.SpaceportID = DestinationSpaceport.SpaceportID    LEFT JOIN PointOfInterest AS OriginPointOfInterest   ON OriginSpaceport.PointOfInterestID = OriginPointOfInterest.PointOfInterestID   LEFT JOIN PointOfInterest AS DestinationPointOfInterest   ON DestinationSpaceport.PointOfInterestID = DestinationPointOfInterest.PointOfInterestID    WHERE DepartureTime BETWEEN @LeaveDate AND @MaxTime  AND OriginSpaceport.SpaceportID = @OriginGate   AND DestinationSpaceport.SpaceportID = @DestinationGate   AND Spaceship.Seat >= @Travelers";
+            string cmdText = "EXEC SearchFlight @LeaveDate, @MaxTime, @OriginGate, @DestinationGate, @Travelers";
 
             using SqlCommand com = new(cmdText);
 
@@ -116,27 +118,29 @@ namespace DAL
                             new SpaceportDTO(
                                 dt.Rows[i].Field<long>("OriginSpaceportID"), 
                                 dt.Rows[i].Field<string>("OriginSpaceportName"), 
-                                new PointOfInterestDTO(
-                                    dt.Rows[i].Field<long>("OriginPointOfInterestID"),
-                                    dt.Rows[i].Field<string>("OriginPointOfInterestName"),
-                                    dt.Rows[i].Field<decimal>("OriginPointOfInterestRadius"),
-                                    dt.Rows[i].Field<decimal>("OriginPointOfInterestAngleX"),
-                                    dt.Rows[i].Field<decimal>("OriginPointOfInterestAngleY")
+                                new AstronomicalObjectDTO(
+                                    dt.Rows[i].Field<long>("OriginAstronomicalObjectID"),
+                                    dt.Rows[i].Field<string>("OriginAstronomicalObjectName"),
+                                    dt.Rows[i].Field<decimal>("OriginAstronomicalObjectRadius"),
+                                    dt.Rows[i].Field<decimal>("OriginAstronomicalObjectAzimuth"),
+                                    dt.Rows[i].Field<decimal>("OriginAstronomicalObjectInclination"),
+                                    dt.Rows[i].Field<decimal>("OriginAstronomicalObjectOrbitalSpeed")
                                 )
                             )
                         ),
                         new GateDTO(
-                            dt.Rows[i].Field<long>("DestinationGateID"), 
-                            dt.Rows[i].Field<string>("DestinationGateName"), 
+                            dt.Rows[i].Field<long>("DestinationGateID"),
+                            dt.Rows[i].Field<string>("DestinationGateName"),
                             new SpaceportDTO(
-                                dt.Rows[i].Field<long>("DestinationSpaceportID"), 
+                                dt.Rows[i].Field<long>("DestinationSpaceportID"),
                                 dt.Rows[i].Field<string>("DestinationSpaceportName"),
-                                new PointOfInterestDTO(
-                                    dt.Rows[i].Field<long>("DestinationPointOfInterestID"),
-                                    dt.Rows[i].Field<string>("DestinationPointOfInterestName"),
-                                    dt.Rows[i].Field<decimal>("DestinationPointOfInterestRadius"),
-                                    dt.Rows[i].Field<decimal>("DestinationPointOfInterestAngleX"),
-                                    dt.Rows[i].Field<decimal>("DestinationPointOfInterestAngleY")
+                                new AstronomicalObjectDTO(
+                                    dt.Rows[i].Field<long>("DestinationAstronomicalObjectID"),
+                                    dt.Rows[i].Field<string>("DestinationAstronomicalObjectName"),
+                                    dt.Rows[i].Field<decimal>("DestinationAstronomicalObjectRadius"),
+                                    dt.Rows[i].Field<decimal>("DestinationAstronomicalObjectAzimuth"),
+                                    dt.Rows[i].Field<decimal>("DestinationAstronomicalObjectInclination"),
+                                    dt.Rows[i].Field<decimal>("DestinationAstronomicalObjectOrbitalSpeed")
                                 )
                             )
                         ), 
@@ -156,11 +160,11 @@ namespace DAL
 
         public FlightDTO GetById(long id)
         {
-            string cmdText = "SELECT FlightID, DepartureTime,StatusFlight,FlightNumber,Flight.SpaceshipID,Spaceship.SpaceshipName,Spaceship.Seat,Spaceship.Speed,Spaceship.SpaceshipRoleID,OriginGateID,DestinationGateID,OriginGate.GateName AS OriginGateName, DestinationGate.GateName AS DestinationGateName,OriginSpaceport.SpaceportID AS OriginSpaceportID,OriginSpaceport.SpaceportName AS OriginSpaceportName,DestinationSpaceport.SpaceportID AS DestinationSpaceportID,DestinationSpaceport.SpaceportName AS DestinationSpaceportName,OriginPointOfInterest.PointOfInterestID AS OriginPointOfInterestID,OriginPointOfInterest.PointOfInterestName AS OriginPointOfInterestName,OriginPointOfInterest.Radius AS OriginPointOfInterestRadius,OriginPointOfInterest.Azimuth AS OriginPointOfInterestAngleX,OriginPointOfInterest.Inclination AS OriginPointOfInterestAngleY,DestinationPointOfInterest.PointOfInterestID AS DestinationPointOfInterestID,DestinationPointOfInterest.PointOfInterestName AS DestinationPointOfInterestName,DestinationPointOfInterest.Radius AS DestinationPointOfInterestRadius,DestinationPointOfInterest.Azimuth AS DestinationPointOfInterestAngleX,DestinationPointOfInterest.Inclination AS DestinationPointOfInterestAngleY  FROM Flight  LEFT JOIN Gate AS OriginGate  ON Flight.OriginGateID = OriginGate.GateID  LEFT JOIN Gate  AS DestinationGate  ON Flight.DestinationGateID = DestinationGate.GateID  LEFT JOIN Spaceship   ON Flight.SpaceshipID = Spaceship.SpaceshipID  LEFT JOIN Spaceport AS OriginSpaceport  ON OriginGate.SpaceportID = OriginSpaceport.SpaceportID  LEFT JOIN Spaceport AS DestinationSpaceport  ON DestinationGate.SpaceportID = DestinationSpaceport.SpaceportID  LEFT JOIN PointOfInterest AS OriginPointOfInterest  ON OriginSpaceport.PointOfInterestID = OriginPointOfInterest.PointOfInterestID  LEFT JOIN PointOfInterest AS DestinationPointOfInterest  ON DestinationSpaceport.PointOfInterestID = DestinationPointOfInterest.PointOfInterestID WHERE FlightID = @ID";
+            string cmdText = "EXEC GetFlightByID @FlightID";
 
             using SqlCommand com = new(cmdText);
 
-            com.Parameters.AddWithValue("@ID", id);
+            com.Parameters.AddWithValue("@FlightID", id);
 
             DataTable dt = new();
             dt = Fetch(com);
@@ -175,12 +179,13 @@ namespace DAL
                             new SpaceportDTO(
                                 dt.Rows[0].Field<long>("OriginSpaceportID"),
                                 dt.Rows[0].Field<string>("OriginSpaceportName"),
-                                new PointOfInterestDTO(
-                                    dt.Rows[0].Field<long>("OriginPointOfInterestID"),
-                                    dt.Rows[0].Field<string>("OriginPointOfInterestName"),
-                                    dt.Rows[0].Field<decimal>("OriginPointOfInterestRadius"),
-                                    dt.Rows[0].Field<decimal>("OriginPointOfInterestAngleX"),
-                                    dt.Rows[0].Field<decimal>("OriginPointOfInterestAngleY")
+                                new AstronomicalObjectDTO(
+                                    dt.Rows[0].Field<long>("OriginAstronomicalObjectID"),
+                                    dt.Rows[0].Field<string>("OriginAstronomicalObjectName"),
+                                    dt.Rows[0].Field<decimal>("OriginAstronomicalObjectRadius"),
+                                    dt.Rows[0].Field<decimal>("OriginAstronomicalObjectAzimuth"),
+                                    dt.Rows[0].Field<decimal>("OriginAstronomicalObjectInclination"),
+                                    dt.Rows[0].Field<decimal>("OriginAstronomicalObjectOrbitalSpeed")
                                 )
                             )
                         ),
@@ -190,12 +195,13 @@ namespace DAL
                             new SpaceportDTO(
                                 dt.Rows[0].Field<long>("DestinationSpaceportID"),
                                 dt.Rows[0].Field<string>("DestinationSpaceportName"),
-                                new PointOfInterestDTO(
-                                    dt.Rows[0].Field<long>("DestinationPointOfInterestID"),
-                                    dt.Rows[0].Field<string>("DestinationPointOfInterestName"),
-                                    dt.Rows[0].Field<decimal>("DestinationPointOfInterestRadius"),
-                                    dt.Rows[0].Field<decimal>("DestinationPointOfInterestAngleX"),
-                                    dt.Rows[0].Field<decimal>("DestinationPointOfInterestAngleY")
+                                new AstronomicalObjectDTO(
+                                    dt.Rows[0].Field<long>("DestinationAstronomicalObjectID"),
+                                    dt.Rows[0].Field<string>("DestinationAstronomicalObjectName"),
+                                    dt.Rows[0].Field<decimal>("DestinationAstronomicalObjectRadius"),
+                                    dt.Rows[0].Field<decimal>("DestinationAstronomicalObjectAzimuth"),
+                                    dt.Rows[0].Field<decimal>("DestinationAstronomicalObjectInclination"),
+                                    dt.Rows[0].Field<decimal>("DestinationAstronomicalObjectOrbitalSpeed")
                                 )
                             )
                         ),

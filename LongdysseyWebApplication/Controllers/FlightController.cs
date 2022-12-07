@@ -12,7 +12,7 @@ namespace LongdysseyWebApplication.Controllers
     public class FlightController : Controller
     {
         private readonly FlightContainer fc = new(new FlightDAL());
-        private readonly PointOfInterestContainer pc = new(new PointOfInterestDAL());
+        private readonly AstronomicalObjectContainer pc = new(new AstronomicalObjectDAL());
         private readonly SpaceportContainer sc = new(new SpaceportSTUB());
 
         // GET: FlightController
@@ -63,7 +63,7 @@ namespace LongdysseyWebApplication.Controllers
         {
             FlightViewModel newFlightViewModel = new(pc.GetAll(), sc.GetAll())
             {
-                Flights = fc.SearchFlights(flightViewModel.LeaveDate, Convert.ToInt64(flightViewModel.OriginPOI), Convert.ToInt64(flightViewModel.DestinationPOI), flightViewModel.Travelers)
+                Flights = fc.SearchFlights(flightViewModel.LeaveDate, Convert.ToInt64(flightViewModel.OriginAO), Convert.ToInt64(flightViewModel.DestinationAO), flightViewModel.Travelers)
             };
             return View(newFlightViewModel);
         }

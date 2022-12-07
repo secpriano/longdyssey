@@ -7,14 +7,14 @@ namespace BLL.Entity
     {
         public long Id { get; set; }
         public string Name { get; set; }
-        public PointOfInterest PointOfInterest { get; set; }
+        public AstronomicalObject AstronomicalObject { get; set; }
         public IGateDAL? C { get; set; }
 
-        public Spaceport(long id, string name, PointOfInterest pointOfInterest, IGateDAL? c)
+        public Spaceport(long id, string name, AstronomicalObject astronomicalObject, IGateDAL? c)
         {
             Id = id;
             Name = name;
-            PointOfInterest = pointOfInterest;
+            AstronomicalObject = astronomicalObject;
             C = c;
         }
 
@@ -22,7 +22,7 @@ namespace BLL.Entity
         {
             Id = dto.Id;
             Name = dto.Name;
-            PointOfInterest = new(dto.PointOfInterest.Id, dto.PointOfInterest.Name, dto.PointOfInterest.Radius, dto.PointOfInterest.Azimuth, dto.PointOfInterest.Inclination);
+            AstronomicalObject = new(dto.AstronomicalObject.Id, dto.AstronomicalObject.Name, dto.AstronomicalObject.Radius, dto.AstronomicalObject.Azimuth, dto.AstronomicalObject.Inclination, dto.AstronomicalObject.OrbitalSpeed);
         }
 
         public List<Gate> GetAllGates()
@@ -32,6 +32,6 @@ namespace BLL.Entity
             return list;
         }
 
-        public SpaceportDTO GetDTO() => new(Id, Name, PointOfInterest.GetDTO());
+        public SpaceportDTO GetDTO() => new(Id, Name, AstronomicalObject.GetDTO());
     }
 }

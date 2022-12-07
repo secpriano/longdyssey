@@ -11,20 +11,20 @@
             @using (Html.BeginForm("Index", "Flight", FormMethod.Post))
             {
                 <label>Depart from</label>
-                <input type="search" value="" list="poid" placeholder="Earth | EAUSNY" asp-for="OriginPOI" autocomplete="off" />
-                <datalist id="poid">
+                <input type="search" value="" list="aod" placeholder="Earth | EAUSNY" asp-for="OriginAO" autocomplete="off" />
+                <datalist id="aod">
                     @foreach (var spaceport in Model.Spaceports)
                     {
-                        <option value="@spaceport.PointOfInterest.Name | @spaceport.Name">@spaceport.PointOfInterest.Name | @spaceport.Name</option>
+                        <option value="@spaceport.AstronomicalObject.Name | @spaceport.Name">@spaceport.AstronomicalObject.Name | @spaceport.Name</option>
                     }
                 </datalist>
 
                 <label>Arrive on</label>
-                <input type="search" value="" list="poia" placeholder="Jupiter | JUFRPA" asp-for="DestinationPOI" autocomplete="off" />
-                <datalist id="poia">
+                <input type="search" value="" list="aoa" placeholder="Jupiter | JUFRPA" asp-for="DestinationAO" autocomplete="off" />
+                <datalist id="aoa">
                     @foreach (var spaceport in Model.Spaceports)
                     {
-                        <option value="@spaceport.PointOfInterest.Name | @spaceport.Name">@spaceport.PointOfInterest.Name | @spaceport.Name</option>
+                        <option value="@spaceport.AstronomicalObject.Name | @spaceport.Name">@spaceport.AstronomicalObject.Name | @spaceport.Name</option>
                     }
                 </datalist>
 
@@ -43,13 +43,13 @@
     </div>
     <section id="bg"></section>
     <section id="solarSystem">
-        @for (var i = 0; i < Model.PointOfInterests.Count; i++)
+        @for (var i = 0; i < Model.AstronomicalObjects.Count; i++)
         {
-            <div class="@Model.PointOfInterests[i].Name">
-                <div class="pointOfInterest" style="left: calc(50% + @Model.pointOfInterestsX[i]px); top: calc(50% + @Model.pointOfInterestsY[i]px);">
-                    <p class="text">@Model.PointOfInterests[i].Name</p>
+            <div class="@Model.AstronomicalObjects[i].Name">
+                <div class="pointOfInterest" style="left: calc(50% + @Model.AstronomicalObjectX[i]px); top: calc(50% + @Model.AstronomicalObjectY[i]px);">
+                    <p class="text">@Model.AstronomicalObjects[i].Name</p>
                 </div>
-                <div class="orbit" style="width: @Model.PointOfInterestRadius[i]px; height: @Model.PointOfInterestRadius[i]px;"></div>
+                <div class="orbit" style="width: @Model.AstronomicalObjectRadius[i]px; height: @Model.AstronomicalObjectRadius[i]px;"></div>
             </div>
         }
         <div class="zoom">
@@ -79,11 +79,11 @@
                 <div>
                     <div>
                         <span>From:</span>
-                        <span class="label">@flight.OriginGate.Spaceport.PointOfInterest.Name</span>
+                        <span class="label">@flight.OriginGate.Spaceport.AstronomicalObject.Name</span>
                     </div>
                     <div>
                         <span>To:</span>
-                        <span class="label">@flight.DestinationGate.Spaceport.PointOfInterest.Name</span>
+                        <span class="label">@flight.DestinationGate.Spaceport.AstronomicalObject.Name</span>
                     </div>
                 </div>
                 <div>
@@ -137,9 +137,9 @@
         dateControl.value = currentDate;
         dateControl.setAttribute("placeholder", currentDate);
 
-        const pointOfInterestsX = @Html.Raw(Json.Serialize(Model.pointOfInterestsX));
-        const pointOfInterestsY = @Html.Raw(Json.Serialize(Model.pointOfInterestsY));
-        const PointOfInterestRadius = @Html.Raw(Json.Serialize(Model.PointOfInterestRadius));
+        const astronomicalObjectsX = @Html.Raw(Json.Serialize(Model.AstronomicalObjectX));
+        const astronomicalObjectsY = @Html.Raw(Json.Serialize(Model.AstronomicalObjectY));
+        const PointOfInterestRadius = @Html.Raw(Json.Serialize(Model.AstronomicalObjectRadius));
 
         const orbits = document.getElementsByClassName('orbit');
         const POIs = document.getElementsByClassName('pointOfInterest');
@@ -159,16 +159,16 @@
 
         function ZoomInPOI(i) {
 
-            pointOfInterestsX[i] *= zoomStrength;
-            pointOfInterestsY[i] *= zoomStrength;
+            astronomicalObjectsX[i] *= zoomStrength;
+            astronomicalObjectsY[i] *= zoomStrength;
 
             ApplyZoom(i);
         }
 
         function ZoomOutPOI(i) {
 
-            pointOfInterestsX[i] /= zoomStrength;
-            pointOfInterestsY[i] /= zoomStrength;
+            astronomicalObjectsX[i] /= zoomStrength;
+            astronomicalObjectsY[i] /= zoomStrength;
 
             ApplyZoom(i);
         }
@@ -181,13 +181,13 @@
 
         function ZoomPOI(i) {
 
-            POIs[i].style.left = "calc(50% + " + pointOfInterestsX[i] + "px)";
-            POIs[i].style.top = "calc(50% + " + pointOfInterestsY[i] + "px)";
+            POIs[i].style.left = "calc(50% + " + astronomicalObjectsX[i] + "px)";
+            POIs[i].style.top = "calc(50% + " + astronomicalObjectsY[i] + "px)";
         }
 
         function ZoomOrbit(i) {
 
-            let d = GetDiameterFromPOI(pointOfInterestsX[i], pointOfInterestsY[i]);
+            let d = GetDiameterFromPOI(astronomicalObjectsX[i], astronomicalObjectsY[i]);
             orbits[i].style.width = d + "px";
             orbits[i].style.height = d + "px";
         }

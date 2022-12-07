@@ -1,31 +1,25 @@
-﻿using IL.DTO;
+﻿using BLL.Entity;
+using IL.DTO;
 
-namespace BLL.Entity
+namespace LongdysseyWebApplication.Models
 {
-    public class PointOfInterest
+    public class AstronomicalObjectModel
     {
         public long Id { get; set; }
         public string Name { get; set; }
         public decimal Radius { get; set; }
         public decimal Azimuth { get; set; }
         public decimal Inclination { get; set; }
+        public decimal OrbitalSpeed { get; set; }
 
-        public PointOfInterest(long id, string name, decimal radius, decimal azimuth, decimal inclination)
+        public AstronomicalObjectModel(AstronomicalObject AO)
         {
-            Id = id;
-            Name = name;
-            Radius = radius;
-            Azimuth = azimuth;
-            Inclination = inclination;
-        }
-
-        public PointOfInterest(PointOfInterestDTO dto)
-        {
-            Id = dto.Id;
-            Name = dto.Name;
-            Radius = dto.Radius;
-            Azimuth = dto.Azimuth;
-            Inclination = dto.Inclination;
+            Id = AO.Id;
+            Name = AO.Name;
+            Radius = AO.Radius;
+            Azimuth = AO.Azimuth;
+            Inclination = AO.Inclination;
+            OrbitalSpeed = AO.OrbitalSpeed;
         }
 
         private static double DegreeToRadians(double degree) => degree * (Math.PI / 180);
@@ -43,7 +37,7 @@ namespace BLL.Entity
             };
         }
 
-        public PointOfInterestDTO GetDTO() => new(Id, Name, Radius, Azimuth, Inclination);
+        public AstronomicalObjectDTO GetDTO() => new(Id, Name, Radius, Azimuth, Inclination, OrbitalSpeed);
 
         public enum Coordinates
         {

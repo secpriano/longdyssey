@@ -5,16 +5,16 @@ namespace Test.STUB
 {
     public class SpaceportSTUB : ISpaceportDAL
     {
-        static PointOfInterestSTUB PointOfInterestData = new();
+        static AstronomicalObjectSTUB PointOfInterestData = new();
         public List<SpaceportDTO> spaceports = new()
         {
-            new(1, "EANLAM", PointOfInterestData.pointOfInterest[0]),
-            new(2, "EAUSNY", PointOfInterestData.pointOfInterest[0]),
-            new(3, "EAJPTO", PointOfInterestData.pointOfInterest[0]),
-            new(4, "EAUKLO", PointOfInterestData.pointOfInterest[0]),
-            new(5, "EARUMO", PointOfInterestData.pointOfInterest[0]),
-            new(6, "JUNLAM", PointOfInterestData.pointOfInterest[4]),
-            new(7, "NEVNHA", PointOfInterestData.pointOfInterest[7]),
+            new(1, "EANLAM", PointOfInterestData.astronomicalObject[0]),
+            new(2, "EAUSNY", PointOfInterestData.astronomicalObject[0]),
+            new(3, "EAJPTO", PointOfInterestData.astronomicalObject[0]),
+            new(4, "EAUKLO", PointOfInterestData.astronomicalObject[0]),
+            new(5, "EARUMO", PointOfInterestData.astronomicalObject[0]),
+            new(6, "JUNLAM", PointOfInterestData.astronomicalObject[4]),
+            new(7, "NEVNHA", PointOfInterestData.astronomicalObject[7]),
         };
 
         public bool Delete(long id)

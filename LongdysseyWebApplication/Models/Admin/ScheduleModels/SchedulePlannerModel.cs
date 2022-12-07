@@ -3,8 +3,8 @@
     public class SchedulePlannerModel
     {
         public SpaceshipModel Spaceship {  get; set; }
-        List<PointOfInterestModel> PointOfInterests { get; set; }
-        public SchedulePlannerModel(SpaceshipModel spaceship, List<PointOfInterestModel> pointOfInterests)
+        List<AstronomicalObjectModel> PointOfInterests { get; set; }
+        public SchedulePlannerModel(SpaceshipModel spaceship, List<AstronomicalObjectModel> pointOfInterests)
         {
             Spaceship = spaceship;
             PointOfInterests = pointOfInterests;
@@ -12,8 +12,8 @@
 
         private void CalculateAllroutes()
         {
-            List<List<PointOfInterestModel>> possibleRoutes = new List<List<PointOfInterestModel>>();
-            List<PointOfInterestModel> possibleRoute = new List<PointOfInterestModel>();
+            List<List<AstronomicalObjectModel>> possibleRoutes = new List<List<AstronomicalObjectModel>>();
+            List<AstronomicalObjectModel> possibleRoute = new List<AstronomicalObjectModel>();
 
             PointOfInterests.ForEach(pointOfInterest =>
             {
@@ -28,7 +28,7 @@
             }
             possibleRoutes.Add(possibleRoute);
 
-            PointOfInterestModel poi = possibleRoute[1];
+            AstronomicalObjectModel poi = possibleRoute[1];
             possibleRoute.RemoveAt(1);
             possibleRoute.Add(poi);
             possibleRoutes.Add(possibleRoute);
