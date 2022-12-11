@@ -37,19 +37,21 @@
             // 
             // ButtonVluchtZoeken
             // 
-            this.ButtonVluchtZoeken.Location = new System.Drawing.Point(12, 68);
+            this.ButtonVluchtZoeken.Location = new System.Drawing.Point(10, 51);
+            this.ButtonVluchtZoeken.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ButtonVluchtZoeken.Name = "ButtonVluchtZoeken";
-            this.ButtonVluchtZoeken.Size = new System.Drawing.Size(125, 50);
+            this.ButtonVluchtZoeken.Size = new System.Drawing.Size(109, 38);
             this.ButtonVluchtZoeken.TabIndex = 0;
-            this.ButtonVluchtZoeken.Text = "Vlucht zoeken";
+            this.ButtonVluchtZoeken.Text = "Dienstregeling";
             this.ButtonVluchtZoeken.UseVisualStyleBackColor = true;
             this.ButtonVluchtZoeken.Click += new System.EventHandler(this.ButtonVluchtZoeken_Click);
             // 
             // ButtonVluchtAdmin
             // 
-            this.ButtonVluchtAdmin.Location = new System.Drawing.Point(344, 12);
+            this.ButtonVluchtAdmin.Location = new System.Drawing.Point(301, 9);
+            this.ButtonVluchtAdmin.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ButtonVluchtAdmin.Name = "ButtonVluchtAdmin";
-            this.ButtonVluchtAdmin.Size = new System.Drawing.Size(125, 50);
+            this.ButtonVluchtAdmin.Size = new System.Drawing.Size(109, 38);
             this.ButtonVluchtAdmin.TabIndex = 1;
             this.ButtonVluchtAdmin.Text = "Vlucht beheer";
             this.ButtonVluchtAdmin.UseVisualStyleBackColor = true;
@@ -57,9 +59,10 @@
             // 
             // ButtonSpaceshipAdmin
             // 
-            this.ButtonSpaceshipAdmin.Location = new System.Drawing.Point(12, 12);
+            this.ButtonSpaceshipAdmin.Location = new System.Drawing.Point(10, 9);
+            this.ButtonSpaceshipAdmin.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ButtonSpaceshipAdmin.Name = "ButtonSpaceshipAdmin";
-            this.ButtonSpaceshipAdmin.Size = new System.Drawing.Size(160, 50);
+            this.ButtonSpaceshipAdmin.Size = new System.Drawing.Size(140, 38);
             this.ButtonSpaceshipAdmin.TabIndex = 2;
             this.ButtonSpaceshipAdmin.Text = "Ruimte schip beheer";
             this.ButtonSpaceshipAdmin.UseVisualStyleBackColor = true;
@@ -67,9 +70,10 @@
             // 
             // buttonSpaceportAdmin
             // 
-            this.buttonSpaceportAdmin.Location = new System.Drawing.Point(178, 12);
+            this.buttonSpaceportAdmin.Location = new System.Drawing.Point(156, 9);
+            this.buttonSpaceportAdmin.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonSpaceportAdmin.Name = "buttonSpaceportAdmin";
-            this.buttonSpaceportAdmin.Size = new System.Drawing.Size(160, 50);
+            this.buttonSpaceportAdmin.Size = new System.Drawing.Size(140, 38);
             this.buttonSpaceportAdmin.TabIndex = 3;
             this.buttonSpaceportAdmin.Text = "Spaceport beheer";
             this.buttonSpaceportAdmin.UseVisualStyleBackColor = true;
@@ -77,9 +81,10 @@
             // 
             // ButtonUserAdmin
             // 
-            this.ButtonUserAdmin.Location = new System.Drawing.Point(475, 12);
+            this.ButtonUserAdmin.Location = new System.Drawing.Point(416, 9);
+            this.ButtonUserAdmin.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ButtonUserAdmin.Name = "ButtonUserAdmin";
-            this.ButtonUserAdmin.Size = new System.Drawing.Size(135, 50);
+            this.ButtonUserAdmin.Size = new System.Drawing.Size(118, 38);
             this.ButtonUserAdmin.TabIndex = 4;
             this.ButtonUserAdmin.Text = "Gebruiker beheer";
             this.ButtonUserAdmin.UseVisualStyleBackColor = true;
@@ -87,14 +92,15 @@
             // 
             // Dashboard
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(620, 129);
+            this.ClientSize = new System.Drawing.Size(542, 97);
             this.Controls.Add(this.ButtonUserAdmin);
             this.Controls.Add(this.buttonSpaceportAdmin);
             this.Controls.Add(this.ButtonSpaceshipAdmin);
             this.Controls.Add(this.ButtonVluchtAdmin);
             this.Controls.Add(this.ButtonVluchtZoeken);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Dashboard";
             this.Text = "Dashboard";
             this.ResumeLayout(false);

@@ -1,7 +1,10 @@
-﻿namespace BLL.Entity
+﻿using UIL;
+
+namespace BLL.Entity
 {
     public class FlightLineScheduler
     {
+        private Dienstregeling FormDienstregeling;
         public Spaceship Spaceship { get; set; }
         public List<AstronomicalObject> AOs { get; set; }
         public List<AstronomicalObject> Route { get; set; }
@@ -23,8 +26,9 @@
             SpaceshipAday = spaceshipAday;
         }
 
-        public FlightLineScheduler(Spaceship spaceship, List<AstronomicalObject> aOs, DateTime startDate)
+        public FlightLineScheduler(Dienstregeling formDienstregeling, Spaceship spaceship, List<AstronomicalObject> aOs, DateTime startDate)
         {
+            FormDienstregeling = formDienstregeling;
             Spaceship = spaceship;
             AOs = aOs;
             StartDate = startDate;
@@ -56,12 +60,14 @@
         private void FindNearestAO() 
         {
             decimal flightRadius = 0;
-            
+            FormDienstregeling.DrawFlightRadius(DepartAO, flightRadius);
+
             do
             {
                 flightRadius += 0.1m;
                 CalculateAOposition(flightRadius, 0);
-            
+                FormDienstregeling.DrawFlightRadius(DepartAO, flightRadius);
+
             } while (!CheckIfAOisInRadius(flightRadius));
         } 
 

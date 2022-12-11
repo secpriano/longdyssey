@@ -1,21 +1,24 @@
 ﻿using BLL.Container;
 using BLL.Entity;
 using DAL;
+using Test.STUB;
 
 namespace UIL
 {
-    public partial class VluchtZoeken : Form
+    public partial class Dienstregeling : Form
     {
-        private readonly FlightContainer fc = new(new FlightDAL());
-        private readonly AstronomicalObjectContainer pc = new(new AstronomicalObjectDAL());
-        
+        private readonly AstronomicalObjectContainer AOc = new(new AstronomicalObjectDAL());
+        public FlightLineScheduler FlightLineScheduler { get; set; }
+
         private readonly Graphics g;
         private readonly Pen orbit = new(Color.Blue, 3);
         private readonly Pen path = new(Color.Purple, 3);
 
         private readonly int formMidX, formMidY;
 
-        public VluchtZoeken()
+        private decimal zoom = 0;
+
+        public Dienstregeling()
         {
             InitializeComponent();
 
@@ -30,8 +33,12 @@ namespace UIL
 
         private void VluchtZoeken_Load(object sender, EventArgs e)
         {
+            SpaceshipContainer spaceshipContainer = new(new SpaceshipSTUB());
+            comboBoxSpaceships.DataSource = spaceshipContainer.GetAll();
+            comboBoxSpaceships.DisplayMember = "Name";
+
             // Zonnestelsel maken
-            pc.GetAll().ForEach(PointOfInterest =>
+            AOc.GetAll().ForEach(PointOfInterest =>
             {
                 Button buttonPoint = new()
                 {
@@ -50,40 +57,7 @@ namespace UIL
                 buttonPoint.Location = new Point((formMidX - buttonPoint.Width / 2) + pointOfInterestX, (formMidY - buttonPoint.Height / 2) + pointOfInterestY);
             });
 
-            int row = 75;
-
-            // Vluchten laten zien
-            fc.GetAll().ForEach(flight =>
-            {
-                Button flightLink = new()
-                {
-                    Text = $"From: {flight.OriginGate.Spaceport.AstronomicalObject.Name} | To: {flight.DestinationGate.Spaceport.AstronomicalObject.Name}\n" +
-                    $"From spaceport: {flight.OriginGate.Spaceport.Name} | To spaceport: {flight.DestinationGate.Spaceport.Name}\n" +
-                    $"Departure gate: {flight.OriginGate.Name} | Arrival gate: {flight.DestinationGate.Name}\n\n" +
-                    $"Spaceship: {flight.Spaceship.Name}\n" +
-                    flight.GetFlightDuration(),
-                    AutoSize = true
-                };
-
-                flightLink.Click += (sender, args) =>
-                {
-                    FlightLink_Click(flight);
-                };
-
-                Controls.Add(flightLink);
-                flightLink.Location = new Point((Size.Width) - 400, row);
-                row += 125;
-            });
-
             DrawCanvas();
-        }
-
-        Flight selectedFlight;
-        // Knop ingedrukt van een vlucht afhandelen
-        public void FlightLink_Click(Flight flight)
-        {
-            selectedFlight = flight;
-            DrawPath();
         }
 
         private readonly List<Button> buttonPoints = new List<Button>();
@@ -92,7 +66,7 @@ namespace UIL
         private void TrackBarZoom_ValueChanged(object sender, EventArgs e)
         {
             g.Clear(Color.FromArgb(0, 0, 0));
-            decimal zoom = (decimal)trackBarZoom.Value / 10 + 1;
+            zoom = (decimal)trackBarZoom.Value / 10 + 1;
             for (int i = 0; i < buttonPoints.Count; i++)
             {
                 decimal zoomX = Azimuths[i] * zoom;
@@ -101,27 +75,6 @@ namespace UIL
                 buttonPoints[i].Location = new Point((int)(formMidX - buttonPoints[i].Width / 2 + zoomX), (int)(formMidY - buttonPoints[i].Height / 2 + zoomY));
             }
             DrawCanvas();
-        }
-
-        // Maakt een pad van een gekozen vlucht
-        Point point1 = new(), point2 = new();
-        private void DrawPath()
-        {
-            buttonPoints.ForEach(bp =>
-            {
-                if (bp.Text == selectedFlight.OriginGate.Spaceport.AstronomicalObject.Name)
-                {
-                    point1 = new Point(bp.Location.X + bp.Width / 2, bp.Location.Y + bp.Height / 2);
-                }
-                if (bp.Text == selectedFlight.DestinationGate.Spaceport.AstronomicalObject.Name)
-                {
-                    point2 = new Point(bp.Location.X + bp.Width / 2, bp.Location.Y + bp.Height / 2);
-                }
-            });
-
-            g.Clear(Color.FromArgb(0, 0, 0));
-            DrawCanvas();            
-            g.DrawLine(path, point1, point2);
         }
 
         // Voeg de orbits van point of interest
@@ -135,13 +88,33 @@ namespace UIL
             }
         }
 
+        public void DrawFlightRadius(AstronomicalObject departAO, decimal flightRadius)
+        {
+            foreach (Button button in buttonPoints)
+            {
+                if (button.Text == departAO.Name)
+                {
+                    int D = (int)(flightRadius * 15 * zoom);
+                    int R = D / 2;
+
+                    g.Clear(Color.FromArgb(0, 0, 0));
+                    g.DrawEllipse(path, (button.Location.X + button.Width / 2) - R, (button.Location.Y + button.Height / 2) - R, D, D);
+                    DrawCanvas();
+                    break;
+                }
+            }
+            Thread.Sleep(50);
+
+        }
+
+        private void ButtonGenerateSchedule_Click(object sender, EventArgs e)
+        {
+            FlightLineScheduler = new(this, (Spaceship)comboBoxSpaceships.SelectedItem, AOc.GetAll(), dateTimePickerStartDate.Value);
+        }
+
         private void DrawCanvas()
         {
             DrawOrbit();
-            if (selectedFlight != null)
-            {
-                DrawPath();
-            }
         }
     }
 }

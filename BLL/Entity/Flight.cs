@@ -37,9 +37,6 @@ namespace BLL.Entity
             OriginGate = new(dto.OriginGate);
             DestinationGate = new(dto.DestinationGate);
             Spaceship = new(dto.Spaceship);
-
-            AstronomicalObjectContainer AOc = new(new AstronomicalObjectDAL());
-            FlightLineScheduler fls = new(Spaceship, AOc.GetAll(), dto.DepartureTime);
         }
 
         private void GenerateFlightNumber()

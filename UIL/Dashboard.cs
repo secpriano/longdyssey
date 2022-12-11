@@ -19,7 +19,7 @@ namespace UIL
 
         private void ButtonVluchtZoeken_Click(object sender, EventArgs e)
         {
-            VluchtZoeken vluchtZoeken = new();
+            Dienstregeling vluchtZoeken = new();
             vluchtZoeken.ShowDialog();
         }
 
