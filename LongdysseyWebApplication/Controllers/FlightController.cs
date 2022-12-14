@@ -52,9 +52,7 @@ namespace LongdysseyWebApplication.Controllers
         [HttpPost]
         public ActionResult BookFlight(FlightDetailViewModel flightDetailViewModel)
         {
-            Flight flight = fc.GetByID(flightDetailViewModel.BookFlightId);
-            flight.BoardingpassDb = new BoardingpassDAL();
-            flight.BookFlight(flightDetailViewModel.SelectedSeat, 1);
+            Flight.BookSeat(new BoardingpassDAL(), flightDetailViewModel.BookFlightId, flightDetailViewModel.SelectedSeat, 1);
             return RedirectToAction("Index");
         }
 

@@ -152,7 +152,7 @@ namespace Test
             Boardingpass actualbBoardingpass = new();
 
             /// book vlucht
-            flightToBook.BookFlight(seat, user.Id);
+            flightToBook.BookSeat(seat, user.Id);
 
             /// zoek in de stub waar het toegevoegd is
             boardingpassSTUB.boardingpasses.ForEach(boardingpass =>
@@ -198,7 +198,7 @@ namespace Test
 
             // Act
             /// book vlucht
-            expectedFlightToBook.BookFlight(seat, user.Id);
+            expectedFlightToBook.BookSeat(seat, user.Id);
 
             /// Wat de query is
             List<long> actualQueryParams = new()

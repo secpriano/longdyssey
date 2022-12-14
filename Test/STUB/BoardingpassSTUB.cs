@@ -17,7 +17,7 @@ namespace Test.STUB
         public long UserId { get; private set; }
         public long Seat { get; private set; }
 
-        public bool BookFlight(long seat, long flightId, long userId)
+        public bool BookSeatFromFlight(long seat, long flightId, long userId)
         {
             FlightId = flightId;
             UserId = userId;

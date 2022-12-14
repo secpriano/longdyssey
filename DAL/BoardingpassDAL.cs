@@ -7,7 +7,7 @@ namespace DAL
 {
     public class BoardingpassDAL : Database, IBoardingpassDAL
     {
-        public bool BookFlight(long seat, long flightId, long userId)
+        public bool BookSeatFromFlight(long seat, long flightId, long userId)
         {
             string cmdText = "INSERT INTO Boardingpass (Seat, FlightID, UserID) VALUES (@Seat, @FlightID, @UserID)";
 

@@ -25,7 +25,6 @@ namespace BLL.Entity
             Spaceship = spaceship;
 
             GenerateFlightNumber();
-
         }
 
         public Flight(FlightDTO dto)
@@ -83,11 +82,11 @@ namespace BLL.Entity
         public DateTime CalculateArrivalDateTime()
         {
             decimal[] flightTime = CalculateFlightDuration();
-            TimeSpan flightDuration = new TimeSpan((int)flightTime[(byte)Time.Hour], (int)flightTime[(byte)Time.Minute], 0);
+            TimeSpan flightDuration = new((int)flightTime[(byte)Time.Hour], (int)flightTime[(byte)Time.Minute], 0);
             return DepartureTime + flightDuration;
         }
 
-        public bool BookFlight(long seat, long userId) => BoardingpassDb.BookFlight(seat, Id, userId);
+        public static bool BookSeat(IBoardingpassDAL db, long flightId, long seat, long userId) => db.BookSeatFromFlight(seat, flightId, userId);
         public List<Boardingpass> GetBookingByFlightId()
         {
             List<Boardingpass> boardingpasses = new();

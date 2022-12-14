@@ -56,7 +56,7 @@
             <span class="label">@Model.Flight.CalculateArrivalDateTime()</span>
         </div>
     </div>
-    @using (Html.BeginForm("BookFlight", "Flight", FormMethod.Post))
+    @using (Html.BeginForm("BookSeat", "Flight", FormMethod.Post))
     {
         <label>Select seat</label>
         <input type="search" value="" list="seats" placeholder="seat number" asp-for="SelectedSeat" autocomplete="off" />
