@@ -133,12 +133,6 @@ namespace Test
             UserSTUB userSTUB = new();
             BoardingpassSTUB boardingpassSTUB = new();
 
-            /// welk vlucht booken
-            Flight flightToBook = new(flightSTUB.flights[Index(1)])
-            {
-                BoardingpassDb = boardingpassSTUB
-            };
-
             /// welke persoon bookt het
             User user = new(userSTUB.users[Index(2)]);
 
@@ -152,7 +146,7 @@ namespace Test
             Boardingpass actualbBoardingpass = new();
 
             /// book vlucht
-            flightToBook.BookSeat(seat, user.Id);
+            Flight.BookSeat(boardingpassSTUB, Index(1), seat, user.Id);
 
             /// zoek in de stub waar het toegevoegd is
             boardingpassSTUB.boardingpasses.ForEach(boardingpass =>
@@ -176,12 +170,6 @@ namespace Test
             UserSTUB userSTUB = new();
             BoardingpassSTUB boardingpassSTUB = new();
 
-            /// welke vlucht booken
-            Flight expectedFlightToBook = new(flightSTUB.flights[Index(1)])
-            {
-                BoardingpassDb = boardingpassSTUB
-            };
-
             /// welke persoon bookt het
             User user = new(userSTUB.users[Index(3)]);
 
@@ -198,7 +186,7 @@ namespace Test
 
             // Act
             /// book vlucht
-            expectedFlightToBook.BookSeat(seat, user.Id);
+            Flight.BookSeat(boardingpassSTUB, Index(1), seat, user.Id);
 
             /// Wat de query is
             List<long> actualQueryParams = new()

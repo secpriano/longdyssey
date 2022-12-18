@@ -72,13 +72,13 @@ namespace BLL.Entity
         private AstronomicalObject FindNearestAO(ulong departureTime) 
         {
             decimal flightRadius = 0;
-            //FormDienstregeling.DrawFlightRadius(DepartAO, flightRadius);
+            FormDienstregeling.DrawFlightRadius(DepartAO, flightRadius);
             AstronomicalObject bao;
             do
             {
                 flightRadius += 0.1m;
                 CalculateAOposition(flightRadius, departureTime);
-                //FormDienstregeling.DrawFlightRadius(DepartAO, flightRadius);
+                FormDienstregeling.DrawFlightRadius(DepartAO, flightRadius);
                 bao = AOisInRadius(flightRadius);
             } while (bao is null);
             return bao;
@@ -137,7 +137,7 @@ namespace BLL.Entity
             Math.Pow(originCoordinates[(byte)AstronomicalObject.Coordinates.Z] - destinationCoordinates[(byte)AstronomicalObject.Coordinates.Z], 2)
         );
 
-        private bool CheckValid(List<AstronomicalObject> bestRoute, ulong departureDate) 
+/*        private bool CheckValid(List<AstronomicalObject> bestRoute, ulong departureDate) 
         {
             for (ulong i = departureDate; i <= departureDate+31; i++)
             {
@@ -159,7 +159,7 @@ namespace BLL.Entity
             }
             return true;
         } 
-        
+*/        
         private void PlanUntilUnvalid() 
         {
         } 
