@@ -1,0 +1,308 @@
+﻿@model LongdysseyWebApplication.Models.Dienstregeling.DienstregelingViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+<head>
+    <link rel="stylesheet" href="~/css/flights.css" asp-append-version="true" />
+</head>
+<div class="UI">
+    <button onclick="GenerateFlightSchedule()">
+        Generate flight schedule
+    </button>
+</div>
+<section id="bg"></section>
+<section id="solarSystem">
+    <div id ="AO">
+        @foreach (var AO in Model.AstronomicalObjects)
+            {
+                <div class="@AO.Name">
+                    @{
+                        string left = $"calc(50% + {AO.X}px)";
+                        string top = $"calc(50% + {AO.Y}px)";
+                        string width = $"{AO.Diameter}px";
+                    }
+                    <div class="pointOfInterest" style="left: @left; top: @top;">
+                        <p class="text">@AO.Name</p>
+                        <div class="flightRadius"></div>
+                    </div>
+                    <div class="orbit" style="width: @width; height: @width;"></div>
+                </div>
+
+            }
+    </div>
+    <div class="zoom">
+        <button onclick="ZoomOut()">
+            -
+        </button>
+        <button class="button" onclick="ZoomIn()">
+            +
+        </button>
+    </div>
+</section>
+
+<script>
+    const astronomicalObjects = @Html.Raw(Json.Serialize(Model.AstronomicalObjects));
+    console.log(astronomicalObjects);
+    const orbits = document.getElementsByClassName('orbit');
+    const POIs = document.getElementsByClassName('pointOfInterest');
+
+    let zoomStrength = 1.2;
+
+    function ZoomIn() {
+        for (let i = 0; i < POIs.length; i++) {
+            ZoomInPOI(i);
+        }
+    }
+    function ZoomOut() {
+        for (let i = 0; i < POIs.length; i++) {
+            ZoomOutPOI(i);
+        }
+    }
+
+    function ZoomInPOI(i) {
+
+        astronomicalObjects[i].x *= zoomStrength;
+        astronomicalObjects[i].y *= zoomStrength;
+
+        ApplyZoom(i);
+    }
+
+    function ZoomOutPOI(i) {
+
+        astronomicalObjects[i].x /= zoomStrength;
+        astronomicalObjects[i].y /= zoomStrength;
+
+        ApplyZoom(i);
+    }
+
+    function ApplyZoom(i) {
+
+        ZoomPOI(i);
+        ZoomOrbit(i);
+    }
+
+    function ZoomPOI(i) {
+
+        POIs[i].style.left = "calc(50% + " + astronomicalObjects[i].x + "px)";
+        POIs[i].style.top = "calc(50% + " + astronomicalObjects[i].y + "px)";
+    }
+
+    function ZoomOrbit(i) {
+
+        let d = GetDiameterFromPOI(astronomicalObjects[i].x, astronomicalObjects[i].y);
+        orbits[i].style.width = d + "px";
+        orbits[i].style.height = d + "px";
+    }
+
+    function GetDiameterFromPOI(x, y) {
+        let radius = Math.sqrt(Math.pow(0 - x, 2) + Math.pow(0 - y, 2));
+        let diameter = radius * 2;
+
+        return diameter;
+    }
+</script>
+<script>
+    let tempAOs;
+    let departAO;
+    let spaceshipSpeed = 0.2 / 10000;
+    let Route;
+
+    function GenerateFlightSchedule() {
+        Route = calculateBestRoute(0);
+        Route.forEach(function (AO) {
+            let AOcoords = sphericalToCartesianCoordinates(AO);
+            AO.x = AOcoords[0] * 15;
+            AO.y = AOcoords[1] * 15;
+        });
+
+        for (let i = 0; i < POIs.length; i++) {
+            POIs[i].style.left = "calc(50% + " + astronomicalObjects[i].x + "px)";
+            POIs[i].style.top = "calc(50% + " + astronomicalObjects[i].y + "px)";
+        }
+    }
+
+    function calculateBestRoute(departureTime) {
+        tempAOs = astronomicalObjects.slice();
+        tempAOs.forEach(function (AO) {
+            if (AO.name === 'Earth') {
+                departAO = AO;
+            }
+            if (AO.name === 'Sun') {
+                tempAOs.splice(tempAOs.indexOf(AO), 1);
+            }
+        });
+        let bAO = [];
+        while (tempAOs.length !== 0) {
+            let nearestAO = findNearestAO(departureTime);
+            departAO = nearestAO;
+
+            // UI
+            SelectAO(departAO);
+
+            bAO.push(nearestAO);
+            tempAOs.splice(tempAOs.indexOf(departAO), 1);
+        }
+        return bAO;
+    }
+
+    function findNearestAO(departureTime) {
+        let flightRadius = 0;
+        let bao;
+        do {
+            flightRadius += 0.1;
+
+            // UI
+            updateFrontEnd(flightRadius);
+
+            calculateAOposition(flightRadius, departureTime);
+
+            bao = AOisInRadius(flightRadius);
+        } while (bao === null);
+        return bao;
+    }
+
+    function AOisInRadius(flightRadius) {
+        for (let AO of tempAOs) {
+            if (isAOinFlightRadius(AO, flightRadius)) {
+                calculateAOposition(flightRadius, 1);
+                return AO;
+            }
+        }
+        return null;
+    }
+
+    function calculateAOposition(flightRadius, departureTime) {
+        let perimeter = 0;
+        let arcLengthFromOrigin = 0;
+        let arcLengthTraveled = 0;
+        let arcLengthTraveledFromOrigin = 0;
+
+        let flightDurationToFlightRadius = calculateFlightDuration(flightRadius) + departureTime;
+
+        tempAOs.forEach(function (AO) {
+            perimeter = calculatePerimeter(AO.radius);
+            arcLengthFromOrigin = calculateAOarcLengthFromOrigin(AO.azimuth, perimeter);
+            arcLengthTraveled = calculateArcLengthTraveled(AO.orbitalSpeed, flightDurationToFlightRadius);
+            arcLengthTraveledFromOrigin = arcLengthFromOrigin + arcLengthTraveled;
+            AO.azimuth = translateAUtoDegrees(perimeter, arcLengthTraveledFromOrigin);
+        });
+    }
+
+    function calculateFlightDuration(distance) {
+        const AUinKM = 149597870.7;
+        const CinKM = 299792.458;
+
+        let flightDurationInSeconds = distance * AUinKM / (spaceshipSpeed * CinKM);
+        let flightDurationInHours = flightDurationInSeconds / 3600;
+
+        return flightDurationInHours;
+    }
+
+    function calculatePerimeter(R) {
+        return Math.PI * 2 * R;
+    }
+
+    function calculateAOarcLengthFromOrigin(azimuth, perimeter) {
+        return azimuth * (perimeter / 360);
+    }
+
+    function kmsToKmh(orbitalSpeed) {
+        return orbitalSpeed * 3600;
+    }
+
+    function kmToAU(distanceInKm) {
+        return distanceInKm / 149597870.7;
+    }
+
+    function calculateArcLengthTraveled(orbitalSpeed, time) {
+        return kmToAU(kmsToKmh(orbitalSpeed) * time);
+    }
+
+    function translateAUtoDegrees(perimeter, arcLength) {
+        return 360 / perimeter * arcLength % 360;
+    }
+
+    function isAOinFlightRadius(AO, flightRadius) {
+        let originAO = sphericalToCartesianCoordinates(departAO);
+        let destinationAO = sphericalToCartesianCoordinates(AO);
+
+        let distance = calcuclateFlightDistance(originAO, destinationAO);
+
+        return distance <= flightRadius;
+    }
+
+    function sphericalToCartesianCoordinates(AO) {
+        let azimuthInRadians = degreeToRadians(AO.azimuth);
+        let inclinationInRadians = degreeToRadians(AO.inclination);
+
+        return [
+            AO.radius * Math.cos(inclinationInRadians) * Math.cos(azimuthInRadians),
+            AO.radius * Math.cos(inclinationInRadians) * Math.sin(azimuthInRadians),
+            AO.radius * Math.sin(inclinationInRadians)
+        ];
+    }
+
+    function degreeToRadians(degree) {
+        return degree * (Math.PI / 180);
+    }
+
+    function calcuclateFlightDistance(originCoordinates, destinationCoordinates) {
+        return Math.sqrt(
+            Math.pow(originCoordinates[0] - destinationCoordinates[0], 2)
+            +
+            Math.pow(originCoordinates[1] - destinationCoordinates[1], 2)
+            +
+            Math.pow(originCoordinates[2] - destinationCoordinates[2], 2)
+        );
+    }
+
+</script>
+
+<script>
+    let oldAO;
+    function SelectAO(departAO) {
+        const parent = document.getElementById('AO');
+
+        const AOs = parent.children;
+
+        for (const AO of AOs) {
+            if (AO.classList.contains(departAO.name)) {
+                if (typeof oldAO !== 'undefined' && oldAO !== null) {
+                    oldAO.classList.remove('SelectedAO');
+                }
+                AO.classList.add('SelectedAO');
+
+                oldAO = AO;
+            }
+        }
+    }
+    function updateFrontEnd(d) {
+        expandRadius(d)
+        AOpos()
+    }
+    function expandRadius(d) {
+
+        const selectedAO = document.querySelector('.SelectedAO');
+        if (typeof selectedAO !== 'undefined' && selectedAO !== null) {
+            const flightRadius = selectedAO.querySelector('.flightRadius');
+            if (typeof flightRadius !== 'undefined' && flightRadius !== null) {
+                flightRadius.style.width = d * 2 * 15 + "px";
+                flightRadius.style.height = d * 2 * 15 + "px";
+            }
+        }
+    }
+
+    function AOpos() {
+        tempAOs.forEach(function (AO) {
+            let AOcoords = sphericalToCartesianCoordinates(AO);
+            AO.x = AOcoords[0] * 15;
+            AO.y = AOcoords[1] * 15;
+        });
+
+        for (let i = 0; i < POIs.length; i++) {
+            POIs[i].style.left = "calc(50% + " + astronomicalObjects[i].x + "px)";
+            POIs[i].style.top = "calc(50% + " + astronomicalObjects[i].y + "px)";
+        }
+    }
+</script>

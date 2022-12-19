@@ -321,6 +321,12 @@ span.label {
     padding: 5px 10px;
 }
 
+.SelectedAO .flightRadius {
+    transform: translate(calc(-50% - 2.5px), calc(-50% - 7.5px));
+    border: 1px solid var(--main);
+    border-radius: 50%;
+}
+
 :root {
     --main: #fed97b;
     --main_hover: #bda25b;

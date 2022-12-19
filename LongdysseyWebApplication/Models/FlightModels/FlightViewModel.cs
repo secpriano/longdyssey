@@ -67,7 +67,7 @@ namespace LongdysseyWebApplication.Models.FlightModels
 
                 int radius = (int)Math.Sqrt(Math.Pow(0 - X, 2) + Math.Pow(0 - Y, 2));
                 int diameter = radius * 2;
-                AstronomicalObjectRadius.Add(Convert.ToString(diameter, CultureInfo.GetCultureInfo("en-US")));
+                AstronomicalObjectRadius.Add(ConvertToDot(diameter));
             });
         }
 

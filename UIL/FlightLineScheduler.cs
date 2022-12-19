@@ -38,11 +38,11 @@ namespace BLL.Entity
             //TempAOs = new();
             spaceship.Speed /= 10000;
 
-            if (CheckValid(CalculateBestRoute(0), 0))
+/*            if (CheckValid(CalculateBestRoute(0), 0))
             {
                 PlanUntilUnvalid();
             }
-        }
+*/        }
 
         private List<AstronomicalObject> CalculateBestRoute(ulong departureTime)
         {
@@ -72,13 +72,11 @@ namespace BLL.Entity
         private AstronomicalObject FindNearestAO(ulong departureTime) 
         {
             decimal flightRadius = 0;
-            FormDienstregeling.DrawFlightRadius(DepartAO, flightRadius);
             AstronomicalObject bao;
             do
             {
                 flightRadius += 0.1m;
                 CalculateAOposition(flightRadius, departureTime);
-                FormDienstregeling.DrawFlightRadius(DepartAO, flightRadius);
                 bao = AOisInRadius(flightRadius);
             } while (bao is null);
             return bao;
@@ -129,6 +127,7 @@ namespace BLL.Entity
 
             return (decimal)distance <= flightRadius;
         }
+
         private static double CalcuclateFlightDistance(double[] originCoordinates, double[] destinationCoordinates) => Math.Sqrt(
             Math.Pow(originCoordinates[(byte)AstronomicalObject.Coordinates.X] - destinationCoordinates[(byte)AstronomicalObject.Coordinates.X], 2)
             +
