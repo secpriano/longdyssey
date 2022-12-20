@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Routing;
-using System.Collections.Generic;
-using UIL;
+﻿using System.Collections.Generic;
+using System;
+using IL.DTO;
 
-namespace BLL.Entity
+namespace FlightScheddulerAlgorithm
 {
-    public class FlightLineScheduler
+    public class FlightScheduler
     {
         private readonly Dienstregeling FormDienstregeling;
-        public Spaceship Spaceship { get; set; }
+        public SpaceshipDTO Spaceship { get; set; }
         public List<AstronomicalObject> TempAOs { get; set; }
         public List<AstronomicalObject> AOs { get; set; }
         public List<AstronomicalObject> Route { get; set; }
@@ -37,12 +37,13 @@ namespace BLL.Entity
             Route = new();
             //TempAOs = new();
             spaceship.Speed /= 10000;
-
-/*            if (CheckValid(CalculateBestRoute(0), 0))
-            {
-                PlanUntilUnvalid();
-            }
-*/        }
+            CalculateBestRoute(0);
+            /*            if (CheckValid(CalculateBestRoute(0), 0))
+                        {
+                            PlanUntilUnvalid();
+                        }
+            */
+        }
 
         private List<AstronomicalObject> CalculateBestRoute(ulong departureTime)
         {
@@ -69,7 +70,7 @@ namespace BLL.Entity
             return bAO;
         }
 
-        private AstronomicalObject FindNearestAO(ulong departureTime) 
+        private AstronomicalObject FindNearestAO(ulong departureTime)
         {
             decimal flightRadius = 0;
             AstronomicalObject bao;
@@ -77,6 +78,7 @@ namespace BLL.Entity
             {
                 flightRadius += 0.1m;
                 CalculateAOposition(flightRadius, departureTime);
+                FormDienstregeling.DrawForm(DepartAO, flightRadius, TempAOs, AOs);
                 bao = AOisInRadius(flightRadius);
             } while (bao is null);
             return bao;
@@ -95,7 +97,7 @@ namespace BLL.Entity
             return null;
         }
 
-        private void CalculateAOposition(decimal flightRadius, ulong departureTime) 
+        private void CalculateAOposition(decimal flightRadius, ulong departureTime)
         {
             decimal perimeter = 0, arcLengthFromOrigin = 0, arcLengthTraveled = 0, arcLengthTraveledFromOrigin = 0;
 
@@ -136,36 +138,36 @@ namespace BLL.Entity
             Math.Pow(originCoordinates[(byte)AstronomicalObject.Coordinates.Z] - destinationCoordinates[(byte)AstronomicalObject.Coordinates.Z], 2)
         );
 
-/*        private bool CheckValid(List<AstronomicalObject> bestRoute, ulong departureDate) 
-        {
-            for (ulong i = departureDate; i <= departureDate+31; i++)
-            {
-                List<AstronomicalObject> bestRouteOfTheDay = CalculateBestRoute(24);
-                for (byte j = 0; j < bestRoute.Count; j++)
+        /*        private bool CheckValid(List<AstronomicalObject> bestRoute, ulong departureDate) 
                 {
-                    if (bestRouteOfTheDay[j].Id != bestRoute[j].Id)
+                    for (ulong i = departureDate; i <= departureDate+31; i++)
                     {
-                        Route = bestRouteOfTheDay;
-                        AOs = bestRouteOfTheDay;
-                        i++;
-                        CheckValid(bestRouteOfTheDay, i);
+                        List<AstronomicalObject> bestRouteOfTheDay = CalculateBestRoute(24);
+                        for (byte j = 0; j < bestRoute.Count; j++)
+                        {
+                            if (bestRouteOfTheDay[j].Id != bestRoute[j].Id)
+                            {
+                                Route = bestRouteOfTheDay;
+                                AOs = bestRouteOfTheDay;
+                                i++;
+                                CheckValid(bestRouteOfTheDay, i);
+                            }
+                            else
+                            {
+                                Route = bestRoute;
+                            }
+                        }
                     }
-                    else
-                    {
-                        Route = bestRoute;
-                    }
-                }
-            }
-            return true;
-        } 
-*/        
-        private void PlanUntilUnvalid() 
+                    return true;
+                } 
+        */
+        private void PlanUntilUnvalid()
         {
-        } 
-        
-        private void CalculateAmountSpaceshipNeededOnAO() 
+        }
+
+        private void CalculateAmountSpaceshipNeededOnAO()
         {
-        } 
+        }
 
         public void AddSchedule(DateTime startDate, DateTime endDate, long spaceshipId, long spaceshipAday)
         {
@@ -182,6 +184,5 @@ namespace BLL.Entity
 
             return flightDurationInHours;
         }
-
     }
 }

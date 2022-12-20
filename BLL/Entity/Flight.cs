@@ -1,6 +1,4 @@
-﻿using BLL.Container;
-using DAL;
-using IL.DTO;
+﻿using IL.DTO;
 using IL.Interface.DAL;
 
 namespace BLL.Entity

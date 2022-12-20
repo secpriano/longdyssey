@@ -37,12 +37,16 @@ namespace BLL.Entity
         {
             double azimuthInRadians = DegreeToRadians((double)Azimuth);
             double inclinationInRadians = DegreeToRadians((double)Inclination);
+            double cosAzimuth = Math.Cos(azimuthInRadians);
+            double sinAzimuth = Math.Sin(azimuthInRadians);
+            double cosInclination = Math.Cos(inclinationInRadians);
+            double sinInclination = Math.Sin(inclinationInRadians);
 
             return new double[3]
             {
-                (double)Radius * Math.Cos(inclinationInRadians) * Math.Cos(azimuthInRadians),
-                (double)Radius * Math.Cos(inclinationInRadians) * Math.Sin(azimuthInRadians),
-                (double)Radius * Math.Sin(inclinationInRadians)
+                (double)Radius * cosInclination * cosAzimuth,
+                (double)Radius * cosInclination * sinAzimuth,
+                (double)Radius * sinInclination
             };
         }
 

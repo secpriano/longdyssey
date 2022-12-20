@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="~/css/flights.css" asp-append-version="true" />
 </head>
 <div class="UI">
-    <button onclick="GenerateFlightSchedule()">
-        Generate flight schedule
-    </button>
+    @using (Html.BeginForm("GenerateFlightSchedule", "Dienstregeling", FormMethod.Post))
+    {
+        <button onclick="GenerateFlightSchedule()" type="submit">Generate flight schedule</button>
+    }
 </div>
 <section id="bg"></section>
 <section id="solarSystem">
@@ -28,7 +29,6 @@
                     </div>
                     <div class="orbit" style="width: @width; height: @width;"></div>
                 </div>
-
             }
     </div>
     <div class="zoom">
@@ -105,21 +105,12 @@
 <script>
     let tempAOs;
     let departAO;
-    let spaceshipSpeed = 0.2 / 10000;
+    let spaceshipSpeed = 0.2 / 1000;
     let Route;
 
     function GenerateFlightSchedule() {
         Route = calculateBestRoute(0);
-        Route.forEach(function (AO) {
-            let AOcoords = sphericalToCartesianCoordinates(AO);
-            AO.x = AOcoords[0] * 15;
-            AO.y = AOcoords[1] * 15;
-        });
-
-        for (let i = 0; i < POIs.length; i++) {
-            POIs[i].style.left = "calc(50% + " + astronomicalObjects[i].x + "px)";
-            POIs[i].style.top = "calc(50% + " + astronomicalObjects[i].y + "px)";
-        }
+        console.log(Route);
     }
 
     function calculateBestRoute(departureTime) {
@@ -146,20 +137,21 @@
         return bAO;
     }
 
-    function findNearestAO(departureTime) {
+     function findNearestAO(departureTime) {
         let flightRadius = 0;
         let bao;
-        do {
-            flightRadius += 0.1;
+            do {
+                flightRadius += 0.1;
 
-            // UI
-            updateFrontEnd(flightRadius);
+                calculateAOposition(flightRadius, departureTime);
 
-            calculateAOposition(flightRadius, departureTime);
+                bao = AOisInRadius(flightRadius);
 
-            bao = AOisInRadius(flightRadius);
-        } while (bao === null);
-        return bao;
+                // UI
+                updateFrontEnd(flightRadius);
+
+            } while (bao === null);
+            return bao;
     }
 
     function AOisInRadius(flightRadius) {
@@ -277,18 +269,18 @@
             }
         }
     }
-    function updateFrontEnd(d) {
-        expandRadius(d)
-        AOpos()
+    function updateFrontEnd(r) {
+            expandRadius(r)
+            AOpos()
     }
-    function expandRadius(d) {
+    function expandRadius(r) {
 
         const selectedAO = document.querySelector('.SelectedAO');
         if (typeof selectedAO !== 'undefined' && selectedAO !== null) {
             const flightRadius = selectedAO.querySelector('.flightRadius');
             if (typeof flightRadius !== 'undefined' && flightRadius !== null) {
-                flightRadius.style.width = d * 2 * 15 + "px";
-                flightRadius.style.height = d * 2 * 15 + "px";
+                flightRadius.style.width = r * 2 * 15 + "px";
+                flightRadius.style.height = r * 2 * 15 + "px";
             }
         }
     }

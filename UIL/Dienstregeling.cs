@@ -2,6 +2,7 @@
 using BLL.Entity;
 using DAL;
 using Test.STUB;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace UIL
 {
@@ -38,29 +39,29 @@ namespace UIL
             comboBoxSpaceships.DisplayMember = "Name";
 
             // Zonnestelsel maken
-            AOc.GetAll().ForEach(PointOfInterest =>
+            AOc.GetAll().ForEach(AO =>
             {
                 Button buttonPoint = new()
                 {
-                    Text = PointOfInterest.Name,
+                    Text = AO.Name,
                     AutoSize = true
                 };
                 buttonPoints.Add(buttonPoint);
                 Controls.Add(buttonPoint);
 
-                int pointOfInterestX = (int)(PointOfInterest.SphericalToCartesianCoordinates()[0] * 15);
-                int pointOfInterestY = (int)(PointOfInterest.SphericalToCartesianCoordinates()[1] * 15);
+                int AOX = (int)(AO.SphericalToCartesianCoordinates()[0] * 15);
+                int AOY = (int)(AO.SphericalToCartesianCoordinates()[1] * 15);
 
-                Azimuths.Add(pointOfInterestX); 
-                Inclinations.Add(pointOfInterestY);
+                Azimuths.Add(AOX); 
+                Inclinations.Add(AOY);
 
-                buttonPoint.Location = new Point((formMidX - buttonPoint.Width / 2) + pointOfInterestX, (formMidY - buttonPoint.Height / 2) + pointOfInterestY);
+                buttonPoint.Location = new Point((formMidX - buttonPoint.Width / 2) + AOX, (formMidY - buttonPoint.Height / 2) + AOY);
             });
 
             DrawCanvas();
         }
 
-        private readonly List<Button> buttonPoints = new List<Button>();
+        private readonly List<Button> buttonPoints = new();
 
         // Zoom of zoom uit van het zonnestelsel
         private void TrackBarZoom_ValueChanged(object sender, EventArgs e)
@@ -88,13 +89,15 @@ namespace UIL
             }
         }
 
-        public void DrawFlightRadius(AstronomicalObject departAO, decimal flightRadius)
+        public void DrawForm(AstronomicalObject departAO, decimal flightRadius, List<AstronomicalObject> tempAOs, List<AstronomicalObject> AOs)
         {
+            g.Clear(Color.FromArgb(0, 0, 0));
+
             foreach (Button button in buttonPoints)
             {
                 if (button.Text == departAO.Name)
                 {
-                    int D = (int)(flightRadius * 15 * zoom);
+                    int D = (int)(flightRadius * 15 * 2 * zoom);
                     int R = D / 2;
 
                     g.Clear(Color.FromArgb(0, 0, 0));
@@ -103,8 +106,15 @@ namespace UIL
                     break;
                 }
             }
-            Thread.Sleep(50);
 
+            for (int i = 0; i < tempAOs.Count; i++)
+            {
+                int AOX = (int)(tempAOs[i].SphericalToCartesianCoordinates()[0] * 15);
+                int AOY = (int)(tempAOs[i].SphericalToCartesianCoordinates()[1] * 15);
+                buttonPoints[i].Location = new Point(formMidX - buttonPoints[i].Width / 2 + AOX, (formMidY - buttonPoints[i].Height / 2) + AOY);
+            }
+
+            Thread.Sleep(250);
         }
 
         private void ButtonGenerateSchedule_Click(object sender, EventArgs e)

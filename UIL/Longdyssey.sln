@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32708.82
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIL", "UIL.csproj", "{6A01B399-32C8-4AA7-AF3E-662C92E4096F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormApplication", "FormApplication.csproj", "{6A01B399-32C8-4AA7-AF3E-662C92E4096F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL", "..\BLL\BLL.csproj", "{42319ABE-4CB2-4708-8FD3-F92DFD873780}"
 EndProject
@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IL", "..\IL\IL.csproj", "{C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "..\Test\Test.csproj", "{AA4B0F91-5705-45CD-8366-7CB98BD6FE7F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LongdysseyWebApplication", "..\LongdysseyWebApplication\LongdysseyWebApplication.csproj", "{F224A626-58BD-4B73-84D9-4E9D08F2EA60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication", "..\LongdysseyWebApplication\WebApplication.csproj", "{F224A626-58BD-4B73-84D9-4E9D08F2EA60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algorithm", "..\Algorithm\Algorithm.csproj", "{B6C5DC26-1369-42A5-95C1-BAC961D0CD63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{F224A626-58BD-4B73-84D9-4E9D08F2EA60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F224A626-58BD-4B73-84D9-4E9D08F2EA60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F224A626-58BD-4B73-84D9-4E9D08F2EA60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6C5DC26-1369-42A5-95C1-BAC961D0CD63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6C5DC26-1369-42A5-95C1-BAC961D0CD63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6C5DC26-1369-42A5-95C1-BAC961D0CD63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6C5DC26-1369-42A5-95C1-BAC961D0CD63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

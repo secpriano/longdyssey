@@ -9,8 +9,20 @@ namespace DAL
     {
         public bool BookSeatFromFlight(long seat, long flightId, long userId)
         {
-            string cmdText = "INSERT INTO Boardingpass (Seat, FlightID, UserID) VALUES (@Seat, @FlightID, @UserID)";
+            // Check if seat is already taken for this flight
+            string cmdText = "SELECT * FROM Boardingpass WHERE Seat = @Seat AND FlightID = @FlightID";
+            using SqlCommand checkCom = new(cmdText);
+            checkCom.Parameters.Add("@Seat", SqlDbType.BigInt).Value = seat;
+            checkCom.Parameters.Add("@FlightID", SqlDbType.BigInt).Value = flightId;
 
+            // If seat is already taken, return false
+            if (checkCom.ExecuteScalar() != null)
+            {
+                return false;
+            }
+
+            // If seat is available, book it
+            cmdText = "INSERT INTO Boardingpass (Seat, FlightID, UserID) VALUES (@Seat, @FlightID, @UserID)";
             using SqlCommand com = new(cmdText);
             com.Parameters.Add("@Seat", SqlDbType.BigInt).Value = seat;
             com.Parameters.Add("@FlightID", SqlDbType.BigInt).Value = flightId;
