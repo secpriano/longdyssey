@@ -1,20 +1,19 @@
-﻿using IL.DTO;
+﻿using BLL.Entity;
 
 namespace Algorithm
 {
     public class FlightScheduler
     {
-        public SpaceshipDTO Spaceship { get; set; }
-        //public List<AstronomicalObjectDTO> TempAOs { get; set; }
-        public List<AstronomicalObjectDTO> AOs { get; set; }
-        public List<AstronomicalObjectDTO> Route { get; set; }
+        public Spaceship Spaceship { get; set; }
+        public List<AstronomicalObject> AOs { get; set; }
+        public List<AstronomicalObject> Route { get; set; }
         public long[] SpaceshipStalling { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public long SpaceshipAday { get; set; }
-        private AstronomicalObjectDTO DepartAO { get; set; }
+        private AstronomicalObject DepartAO { get; set; }
 
-        public FlightScheduler(SpaceshipDTO spaceship, List<AstronomicalObjectDTO> aOs, List<AstronomicalObjectDTO> route, long[] spaceshipStalling, DateTime startDate, DateTime endDate, long spaceshipAday)
+        public FlightScheduler(Spaceship spaceship, List<AstronomicalObject> aOs, List<AstronomicalObject> route, long[] spaceshipStalling, DateTime startDate, DateTime endDate, long spaceshipAday)
         {
             Spaceship = spaceship;
             Route = route;
@@ -24,24 +23,25 @@ namespace Algorithm
             SpaceshipAday = spaceshipAday;
         }
 
-        public FlightScheduler(SpaceshipDTO spaceship, List<AstronomicalObjectDTO> aOs, DateTime startDate)
+        public FlightScheduler(Spaceship spaceship, List<AstronomicalObject> aOs, DateTime startDate)
         {
             Spaceship = spaceship;
             AOs = aOs;
             StartDate = startDate;
             Route = new();
             spaceship.Speed /= 1000;
-            Route = CalculateBestRoute(0);
 /*            if (CheckValid(CalculateBestRoute(0), 0))
             {
                 PlanUntilUnvalid();
             }
 */        }
 
-        private List<AstronomicalObjectDTO> CalculateBestRoute(ulong departureTime)
+
+
+        public List<AstronomicalObject> CalculateBestRoute(ulong departureTime)
         {
-            List<AstronomicalObjectDTO> tempAOs = AOs.ToList();
-            foreach (AstronomicalObjectDTO AO in tempAOs.ToArray())
+            List<AstronomicalObject> tempAOs = AOs.ToList();
+            foreach (AstronomicalObject AO in tempAOs.ToArray())
             {
                 if (AO.Name == "Earth")
                 {
@@ -52,10 +52,10 @@ namespace Algorithm
                     tempAOs.Remove(AO);
                 }
             }
-            List<AstronomicalObjectDTO> bAO = new();
+            List<AstronomicalObject> bAO = new();
             while (tempAOs.Count is not 0)
             {
-                AstronomicalObjectDTO nearestAO = FindNearestAO(tempAOs, departureTime);
+                AstronomicalObject nearestAO = FindNearestAO(tempAOs, departureTime);
                 DepartAO = nearestAO;
                 bAO.Add(nearestAO);
                 tempAOs.Remove(DepartAO);
@@ -63,10 +63,10 @@ namespace Algorithm
             return bAO;
         }
 
-        private AstronomicalObjectDTO FindNearestAO(List<AstronomicalObjectDTO> AOs, ulong departureTime)
+        private AstronomicalObject FindNearestAO(List<AstronomicalObject> AOs, ulong departureTime)
         {
             decimal flightRadius = 0;
-            AstronomicalObjectDTO bao;
+            AstronomicalObject bao;
             do
             {
                 flightRadius += 0.1m;
@@ -76,7 +76,7 @@ namespace Algorithm
             return bao;
         }
 
-        private AstronomicalObjectDTO AOisInRadius(List<AstronomicalObjectDTO> AOs, decimal flightRadius)
+        private AstronomicalObject AOisInRadius(List<AstronomicalObject> AOs, decimal flightRadius)
         {
             foreach (var AO in AOs)
             {
@@ -89,7 +89,7 @@ namespace Algorithm
             return null;
         }
 
-        private void CalculateAOposition(List<AstronomicalObjectDTO> AOs, decimal flightRadius, ulong departureTime)
+        private void CalculateAOposition(List<AstronomicalObject> AOs, decimal flightRadius, ulong departureTime)
         {
             decimal perimeter = 0, arcLengthFromOrigin = 0, arcLengthTraveled = 0, arcLengthTraveledFromOrigin = 0;
 
@@ -112,34 +112,15 @@ namespace Algorithm
         private static decimal CalculateArcLengthTraveled(decimal orbitalSpeed, decimal time) => KmToAU(KmsToKmh(orbitalSpeed) * time);
         private static decimal TranslateAUtoDegrees(decimal perimeter, decimal arcLength) => 360 / perimeter * arcLength % 360;
 
-        private bool IsAOinFlightRadius(AstronomicalObjectDTO AO, decimal flightRadius)
+        private bool IsAOinFlightRadius(AstronomicalObject AO, decimal flightRadius)
         {
-            double[] originAO = SphericalToCartesianCoordinates(DepartAO);
-            double[] destinationAO = SphericalToCartesianCoordinates(AO);
+            double[] originAO = DepartAO.SphericalToCartesianCoordinates();
+            double[] destinationAO = AO.SphericalToCartesianCoordinates();
 
             double distance = CalculateFlightDistance(originAO, destinationAO);
 
             return (decimal)distance <= flightRadius;
         }
-
-        private static double DegreeToRadians(double degree) => degree * (Math.PI / 180);
-
-        public static double[] SphericalToCartesianCoordinates(AstronomicalObjectDTO AO)
-        {
-            double azimuthInRadians = DegreeToRadians((double)AO.Azimuth);
-            double inclinationInRadians = DegreeToRadians((double)AO.Inclination);
-            double cosAzimuth = Math.Cos(azimuthInRadians);
-            double sinAzimuth = Math.Sin(azimuthInRadians);
-            double cosInclination = Math.Cos(inclinationInRadians);
-            double sinInclination = Math.Sin(inclinationInRadians);
-            return new double[3]
-            {
-                (double)AO.Radius * cosInclination * cosAzimuth,
-                (double)AO.Radius * cosInclination * sinAzimuth,
-                (double)AO.Radius * sinInclination
-            };
-        }
-
 
         private static double CalculateFlightDistance(double[] originCoordinates, double[] destinationCoordinates)
         {
@@ -162,11 +143,11 @@ namespace Algorithm
             }
         }
 
-        /*        private bool CheckValid(List<AstronomicalObjectDTO> bestRoute, ulong departureDate) 
+        /*        private bool CheckValid(List<AstronomicalObject> bestRoute, ulong departureDate) 
                 {
                     for (ulong i = departureDate; i <= departureDate+31; i++)
                     {
-                        List<AstronomicalObjectDTO> bestRouteOfTheDay = CalculateBestRoute(24);
+                        List<AstronomicalObject> bestRouteOfTheDay = CalculateBestRoute(24);
                         for (byte j = 0; j < bestRoute.Count; j++)
                         {
                             if (bestRouteOfTheDay[j].Id != bestRoute[j].Id)

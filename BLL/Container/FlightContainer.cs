@@ -1,4 +1,5 @@
-﻿using BLL.Entity;
+﻿using Algorithm;
+using BLL.Entity;
 using IL.DTO;
 using IL.Interface.DAL;
 

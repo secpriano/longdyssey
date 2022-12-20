@@ -1,10 +1,8 @@
 ﻿using Algorithm;
 using BLL.Container;
+using BLL.Entity;
 using DAL;
-using IL.DTO;
 using LongdysseyWebApplication.Models.Dienstregeling;
-using LongdysseyWebApplication.Models.FlightModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LongdysseyWebApplication.Controllers
@@ -12,6 +10,7 @@ namespace LongdysseyWebApplication.Controllers
     public class DienstregelingController : Controller
     {
         private readonly AstronomicalObjectContainer astronomicalObjectContainer = new(new AstronomicalObjectDAL());
+        private readonly FlightContainer flightController = new(new FlightDAL());
 
         // GET: DienstregelingController
         public ActionResult Index()
@@ -25,80 +24,40 @@ namespace LongdysseyWebApplication.Controllers
 
         public ActionResult GenerateFlightSchedule()
         {
-            List<AstronomicalObjectDTO> DTOs = astronomicalObjectContainer.GetAll().Select(AO => AO.GetDTO())
-                .Select(DTO => new AstronomicalObjectDTO(DTO.Id, DTO.Name, DTO.Radius, DTO.Azimuth, DTO.Inclination, DTO.OrbitalSpeed)).ToList();
-            
-            FlightScheduler fs = new(new(1, "Longdyssey A380", 380, 0.2M, 1), DTOs, DateTime.Now);
+            FlightScheduler fs = new(new(1, "Longdyssey A380", 380, 0.2M, 1), astronomicalObjectContainer.GetAll(), DateTime.Now);
+            List<AstronomicalObject> Route = fs.CalculateBestRoute(0);
+
+            ///Algorithm bedenken +1 +1?
+            //int[] distances = { };
+
+            decimal speed = fs.Spaceship.Speed;
+
+            decimal[] travelTimes = new decimal[Route.Count - 1];
+            for (int i = 0; i < Route.Count - 1; i++)
+            {
+                //travelTimes[i] = distances[i] / (decimal)speed;
+            }
+
+            /// Start datum
+            DateTime departureTime = DateTime.Now;
+
+            List<DateTime> departures = new();
+
+            departures.Add(departureTime);
+
+            for (int i = 0; i < Route.Count - 1; i++)
+            {
+                departureTime = departureTime.AddHours((double)travelTimes[i]);
+                departures.Add(departureTime);
+            }
+
+            /// SQL
+            for (int i = 0; i < Route.Count; i++)
+            {
+                //flightController.Add(new(departures[i], 1, departures[i], departures[i + 1], fs.Spaceship));
+            }
+
             return View();
-        }
-
-        // GET: DienstregelingController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: DienstregelingController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: DienstregelingController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: DienstregelingController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: DienstregelingController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: DienstregelingController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: DienstregelingController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }
