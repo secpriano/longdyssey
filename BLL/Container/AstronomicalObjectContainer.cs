@@ -1,4 +1,5 @@
 ﻿using BLL.Entity;
+using IL.DTO;
 using IL.Interface.DAL;
 
 namespace BLL.Container
@@ -14,14 +15,7 @@ namespace BLL.Container
 
         public List<AstronomicalObject> GetAll()
         {
-            List<AstronomicalObject> astronomicalObject = new();
-
-            Db.GetAll().ForEach(astronomicalObjectDTO =>
-            {
-                astronomicalObject.Add(new(astronomicalObjectDTO));
-            });
-
-            return astronomicalObject;
+            return Db.GetAll().Select(astronomicalObjectDTO => new AstronomicalObject(astronomicalObjectDTO)).ToList();
         }
     }
 }

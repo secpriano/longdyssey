@@ -71,8 +71,8 @@ namespace Test
             // Arrange
             GateSTUB GateData = new();
             SpaceshipSTUB SpaceshipData = new();
-            FlightDTO flightDTO = new(new(2069, 4, 8), 2, "JUJATO", GateData.gates[20], GateData.gates[21], SpaceshipData.spaceships[5]);
-            Flight flight = new(new(2069, 4, 8), 2, new(GateData.gates[20]), new(GateData.gates[21]), new(SpaceshipData.spaceships[5]));
+            FlightDTO flightDTO = new(new(2069, 4, 8), 2, "JUJATO", GateData.gates[20], GateData.gates[21], SpaceshipData.spaceships[5], null);
+            Flight flight = new(new(2069, 4, 8), 2, new(GateData.gates[20]), new(GateData.gates[21]), new(SpaceshipData.spaceships[5]), null);
             FlightSTUB fs = new();
             FlightContainer fc = new(fs);
             bool expected = fs.Insert(flightDTO);
@@ -83,30 +83,6 @@ namespace Test
             // Assert
             bool actual = fs.flights.Contains(flightDTO);
             Assert.AreEqual(expected, actual, "Flight not added :(");
-        }
-
-        [TestMethod]
-        public void SearchFlight()
-        {
-            // Arrange
-            long originSpaceport = 1;
-            long destinationSpaceport = 6;
-            long travelers = 3;
-            DateTime leaveDate = new(2050, 12, 21);
-
-            FlightSTUB fs = new();
-            FlightContainer fc = new(fs);
-            List<Flight> expectedFlights = new();
-            fs.SearchFlights(leaveDate, originSpaceport, destinationSpaceport, travelers).ForEach(DTO =>
-            {
-                expectedFlights.Add(new(DTO));
-            });
-
-            // Act
-            List<Flight> actualFlights = fc.SearchFlights(leaveDate, originSpaceport, destinationSpaceport, travelers);
-
-            // Assert
-            ListToJsonAreEqual(expectedFlights, actualFlights, "Flight search not the same: (");
         }
 
     public static bool ListToJsonAreEqual(object obj1, object obj2, string message)

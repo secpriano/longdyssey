@@ -1,9 +1,8 @@
-﻿using IL.DTO;
-using IL.Interface.DAL;
+﻿using BLL.Entity;
 
-namespace BLL.Entity
+namespace LongdysseyWebApplication.Models
 {
-    public class Flight
+    public class FlightModel
     {
         public long Id { get; set; }
         public DateTime DepartureTime { get; set; }
@@ -13,37 +12,18 @@ namespace BLL.Entity
         public Gate DestinationGate { get; set; }
         public Spaceship Spaceship { get; set; }
         public FlightSchedule? FlightSchedule { get; set; }
-        public IBoardingpassDAL? BoardingpassDb { get; set; }
 
-        public Flight(DateTime departuretime, long status, Gate originGate, Gate destinationGate, Spaceship spaceship, FlightSchedule? flightSchedule)
+        public FlightModel(long id, DateTime departureTime, long status, string flightNumber, Gate originGate, Gate destinationGate, Spaceship spaceship, FlightSchedule? flightSchedule)
         {
-            DepartureTime = departuretime;
+            Id = id;
+            DepartureTime = departureTime;
             Status = status;
+            FlightNumber = flightNumber;
             OriginGate = originGate;
             DestinationGate = destinationGate;
             Spaceship = spaceship;
             FlightSchedule = flightSchedule;
-
-            GenerateFlightNumber();
         }
-
-        public Flight(FlightDTO dto)
-        {
-            Id = dto.Id;
-            DepartureTime = dto.DepartureTime;
-            Status = dto.Status;
-            FlightNumber = dto.FlightNumber;
-            OriginGate = new(dto.OriginGate);
-            DestinationGate = new(dto.DestinationGate);
-            Spaceship = new(dto.Spaceship);
-            FlightSchedule = new(dto.FlightSchedule);
-        }
-
-        private void GenerateFlightNumber()
-        {
-            FlightNumber = "";
-        }
-
         private double CalculateFlightDistance()
         {
             OriginGate.Spaceport.AstronomicalObject.SphericalToCartesianCoordinates(out double[] originCoordinates);
@@ -80,6 +60,7 @@ namespace BLL.Entity
             decimal[] flightTime = CalculateFlightDuration();
             return $"{flightTime[(byte)Time.Hour]} Hours and {flightTime[(byte)Time.Minute]} minutes.";
         }
+
         public DateTime CalculateArrivalDateTime()
         {
             decimal[] flightTime = CalculateFlightDuration();
@@ -87,25 +68,10 @@ namespace BLL.Entity
             return DepartureTime + flightDuration;
         }
 
-        public static bool BookSeat(IBoardingpassDAL db, long flightId, long seat, long userId) => db.BookSeatFromFlight(seat, flightId, userId);
-        public List<Boardingpass> GetBookingByFlightId()
-        {
-            List<Boardingpass> boardingpasses = new();
-
-            BoardingpassDb.GetBookingByFlightId(Id).ForEach(DTO =>
-            {
-                boardingpasses.Add(new(DTO));
-            });
-
-            return boardingpasses;
-        }
-
         private enum Time
         {
             Hour,
             Minute
         }
-
-        public FlightDTO GetDTO() => new(Id, DepartureTime, Status, FlightNumber, OriginGate.GetDTO(), DestinationGate.GetDTO(), Spaceship.GetDTO(), FlightSchedule.GetDTO());
     }
 }

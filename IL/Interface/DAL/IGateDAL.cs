@@ -10,5 +10,6 @@ namespace IL.Interface.DAL
         public bool Insert(GateDTO entity);
         public bool Update(GateDTO entity);
         public bool Delete(long id);
+        public GateDTO GetByAstronomicalObjectName(string name);
     }
 }

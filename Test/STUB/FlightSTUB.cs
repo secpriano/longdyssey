@@ -10,7 +10,7 @@ namespace Test.STUB
 
         public List<FlightDTO> flights = new()
         {
-            new(1, new(2050, 12, 21), 1, "EAUSNY4785", GateData.gates[0], GateData.gates[20], SpaceshipData.spaceships[4])
+            new(1, new(2050, 12, 21), 1, "EAUSNY4785", GateData.gates[0], GateData.gates[20], SpaceshipData.spaceships[4], null)
         };
 
         public bool DeleteByID(long id)
@@ -39,6 +39,11 @@ namespace Test.STUB
             flights.Add(entity);
 
             return flights.Contains(entity);
+        }
+
+        public bool InsertFlightSchedule(List<FlightDTO> entities)
+        {
+            throw new NotImplementedException();
         }
 
         public List<FlightDTO> SearchFlights(DateTime leaveDate, long originSpaceportId, long destinationSpaceportId, long amountTravelers)

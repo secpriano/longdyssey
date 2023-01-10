@@ -89,7 +89,8 @@ namespace DAL
                                 dt.Rows[i].Field<int>("SpaceshipSeat"),
                                 dt.Rows[i].Field<decimal>("Speed"),
                                 dt.Rows[i].Field<long>("SpaceshipRoleID")
-                            )
+                            ),
+                            null
                         ),
                         new UserDTO(
                             dt.Rows[i].Field<long>("UserID"),

@@ -1,25 +1,22 @@
 ﻿using BLL.Container;
 using BLL.Entity;
 using DAL;
-using LongdysseyWebApplication.Models.FlightModels;
-using Microsoft.AspNetCore.Http;
+using LongdysseyWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection;
-using Test.STUB;
 
 namespace LongdysseyWebApplication.Controllers
 {
     public class FlightController : Controller
     {
-        private readonly FlightContainer fc = new(new FlightDAL());
-        private readonly AstronomicalObjectContainer pc = new(new AstronomicalObjectDAL());
-        private readonly SpaceportContainer sc = new(new SpaceportSTUB());
+        private readonly FlightContainer flightContainer = new(new FlightDAL());
+        private readonly AstronomicalObjectContainer astronomicalObjectContainer = new(new AstronomicalObjectDAL());
+        private readonly SpaceportContainer spaceportContainer = new(new SpaceportDAL());
 
         // GET: FlightController
         [HttpGet]
         public ActionResult Index()
         {
-            FlightViewModel flightViewModel = new(pc.GetAll(), sc.GetAll());
+            FlightSearchViewModel flightViewModel = new(GetAllAstronomicalObjects(), GetAllSpaceport());
             return View(flightViewModel);
         }
 
@@ -27,7 +24,7 @@ namespace LongdysseyWebApplication.Controllers
         [HttpGet]
         public ActionResult Detail(int id)
         {
-            Flight flight = fc.GetByID(id);
+            Flight flight = flightContainer.GetByID(id);
             flight.BoardingpassDb = new BoardingpassDAL();
             List<Boardingpass> boardingpasses = flight.GetBookingByFlightId();
             List<long> availableSeats = new();
@@ -57,13 +54,45 @@ namespace LongdysseyWebApplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(FlightViewModel flightViewModel)
+        public ActionResult Index(FlightSearchViewModel flightViewModel)
         {
-            FlightViewModel newFlightViewModel = new(pc.GetAll(), sc.GetAll())
+            FlightSearchViewModel newFlightViewModel = new(GetAllAstronomicalObjects(), GetAllSpaceport())
             {
-                Flights = fc.SearchFlights(flightViewModel.LeaveDate, Convert.ToInt64(flightViewModel.OriginAO), Convert.ToInt64(flightViewModel.DestinationAO), flightViewModel.Travelers)
+                Flights = flightContainer.SearchFlights(spaceportContainer, flightViewModel.LeaveDate, flightViewModel.OriginAOandSpaceportName, flightViewModel.DestinationAOandSpaceportName, flightViewModel.Travelers).Data
+                .Select(flight => new FlightModel(flight.Id, flight.DepartureTime, flight.Status, flight.FlightNumber, flight.OriginGate, flight.DestinationGate, flight.Spaceship, flight.FlightSchedule)).ToList(),
             };
+
             return View(newFlightViewModel);
+        }
+
+        private List<SpaceportModel> GetAllSpaceport()
+        {
+            return spaceportContainer.GetAll().Select(spaceport => 
+            new SpaceportModel(
+                spaceport.Id, 
+                spaceport.Name, 
+                new(
+                    spaceport.AstronomicalObject.Id, 
+                    spaceport.AstronomicalObject.Name, 
+                    spaceport.AstronomicalObject.Radius, 
+                    spaceport.AstronomicalObject.Azimuth, 
+                    spaceport.AstronomicalObject.Inclination, 
+                    spaceport.AstronomicalObject.OrbitalSpeed), 
+                    null)
+            ).ToList();
+        }
+
+        private List<AstronomicalObjectModel> GetAllAstronomicalObjects()
+        {
+            return astronomicalObjectContainer.GetAll().Select(AO => 
+            new AstronomicalObjectModel(
+                AO.Id, 
+                AO.Name, 
+                AO.Radius, 
+                AO.Azimuth, 
+                AO.Inclination, 
+                AO.OrbitalSpeed)
+            ).ToList();
         }
     }
 }

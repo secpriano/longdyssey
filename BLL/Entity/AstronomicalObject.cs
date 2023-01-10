@@ -33,21 +33,21 @@ namespace BLL.Entity
 
         private static double DegreeToRadians(double degree) => degree * (Math.PI / 180);
 
-        public double[] SphericalToCartesianCoordinates()
+        public double[] SphericalToCartesianCoordinates(out double[] originCoordinates)
         {
-            double azimuthInRadians = DegreeToRadians((double)Azimuth);
-            double inclinationInRadians = DegreeToRadians((double)Inclination);
-            double cosAzimuth = Math.Cos(azimuthInRadians);
-            double sinAzimuth = Math.Sin(azimuthInRadians);
-            double cosInclination = Math.Cos(inclinationInRadians);
-            double sinInclination = Math.Sin(inclinationInRadians);
-
-            return new double[3]
+            double azimuthRadians = DegreeToRadians((double)Azimuth);
+            double inclinationRadians = DegreeToRadians((double)Inclination);
+            double cosAzimuth = Math.Cos(azimuthRadians);
+            double sinAzimuth = Math.Sin(azimuthRadians);
+            double cosInclination = Math.Cos(inclinationRadians);
+            double sinInclination = Math.Sin(inclinationRadians);
+            originCoordinates = new double[3]
             {
                 (double)Radius * cosInclination * cosAzimuth,
                 (double)Radius * cosInclination * sinAzimuth,
                 (double)Radius * sinInclination
             };
+            return originCoordinates;
         }
 
         public AstronomicalObjectDTO GetDTO() => new(Id, Name, Radius, Azimuth, Inclination, OrbitalSpeed);

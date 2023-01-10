@@ -1,5 +1,4 @@
-﻿using Algorithm;
-using BLL.Entity;
+﻿using BLL.Entity;
 using IL.DTO;
 using IL.Interface.DAL;
 
@@ -21,38 +20,62 @@ namespace BLL.Container
             return Db.Insert(dto);
         }
 
+        public bool InsertFlightSchedule(List<Flight> flights)
+        {
+            List<FlightDTO> flightDtos = 
+                flights
+                .Select(flight => flight.GetDTO()).ToList();
+
+            return Db.InsertFlightSchedule(flightDtos);
+        }
+
         public List<Flight> GetAll()
         {
-            List<Flight> flights = new();
-
-            Db.GetAll().ForEach(flightDTO => 
-            {
-                flights.Add(new(flightDTO));
-            });
+            List<Flight> flights = 
+                Db.GetAll()
+                .Select(flightDTO => new Flight(flightDTO)).ToList();
 
             return flights;
         }
 
-        public List<Flight> SearchFlights(DateTime leaveDate, long originSpaceportId, long destinationSpaceportId, long amountTravelers)
+        public Result<List<Flight>> SearchFlights(SpaceportContainer spaceportContainer, DateTime leaveDate, string originAOandSpaceport, string destinationAOandSpaceport, long amountTravelers)
         {
-            List<Flight> flights = new();
+            long originSpaceportId = 0;
+            long destinationSpaceportId = 0;
 
-            Db.SearchFlights(leaveDate, originSpaceportId, destinationSpaceportId, amountTravelers).ForEach(flightDTO => 
+            spaceportContainer.GetAll().ForEach(spaceport =>
             {
-                flights.Add(new(flightDTO));
+                string AOnameAndSpaceportName = $"{spaceport.AstronomicalObject.Name} | {spaceport.Name}";
+                if (originAOandSpaceport == AOnameAndSpaceportName)
+                {
+                    originSpaceportId = spaceport.Id;
+                }
+                if (destinationAOandSpaceport == AOnameAndSpaceportName)
+                {
+                    destinationSpaceportId = spaceport.Id;
+                }
             });
 
-            return flights;
-        }
+            if (originSpaceportId == 0 || destinationSpaceportId == 0)
+            {
+                return new Result<List<Flight>> { ErrorMessage = $"Error: invalid input", PossibleFixesMessage = $"Possible fixes: Select one from the dropdown menu" };
+            }
 
-        public Flight GetByID(long id)
-        {
-            return new(Db.GetById(id));
-        }
+            try
+            {
+                List<Flight> flights =
+                    Db.SearchFlights(leaveDate, originSpaceportId, destinationSpaceportId, amountTravelers)
+                    .Select(flightDTO => new Flight(flightDTO)).ToList();
 
-        public bool DeleteByID(long id)
-        {
-            return Db.DeleteByID(id);
+                return new Result<List<Flight>> { Data = flights };
+            }
+            catch (Exception ex)
+            {
+                return new Result<List<Flight>> { ErrorMessage = $"Error: {ex.Message}" };
+            }
         }
+        public Flight GetByID(long id) => new(Db.GetById(id));
+
+        public bool DeleteByID(long id) => Db.DeleteByID(id);
     }
 }

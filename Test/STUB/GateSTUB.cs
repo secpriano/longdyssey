@@ -43,6 +43,11 @@ namespace Test.STUB
             throw new NotImplementedException();
         }
 
+        public GateDTO GetByAstronomicalObjectName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
         public GateDTO GetById(long id)
         {
             throw new NotImplementedException();

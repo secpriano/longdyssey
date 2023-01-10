@@ -9,8 +9,9 @@
         public GateDTO OriginGate { get; set; }
         public GateDTO DestinationGate { get; set; }
         public SpaceshipDTO Spaceship { get; set; }
+        public FlightScheduleDTO? FlightSchedule { get; set; }
 
-        public FlightDTO(long id, DateTime departureTime, long status, string flightNumber, GateDTO originGate, GateDTO destinationGate, SpaceshipDTO spaceship)
+        public FlightDTO(long id, DateTime departureTime, long status, string flightNumber, GateDTO originGate, GateDTO destinationGate, SpaceshipDTO spaceship, FlightScheduleDTO? flightSchedule)
         {
             Id = id;
             DepartureTime = departureTime;
@@ -19,9 +20,10 @@
             OriginGate = originGate;
             DestinationGate = destinationGate;
             Spaceship = spaceship;
+            FlightSchedule = flightSchedule;
         }
 
-        public FlightDTO(DateTime departureTime, long status, string flightNumber, GateDTO originGate, GateDTO destinationGate, SpaceshipDTO spaceship)
+        public FlightDTO(DateTime departureTime, long status, string flightNumber, GateDTO originGate, GateDTO destinationGate, SpaceshipDTO spaceship, FlightScheduleDTO? flightSchedule)
         {
             DepartureTime = departureTime;
             Status = status;
@@ -29,6 +31,7 @@
             OriginGate = originGate;
             DestinationGate = destinationGate;
             Spaceship = spaceship;
+            FlightSchedule = flightSchedule;
         }
     }
 }

@@ -75,7 +75,8 @@ namespace DAL
                             dt.Rows[i].Field<int>("Seat"),
                             dt.Rows[i].Field<decimal>("Speed"),
                             dt.Rows[i].Field<long>("SpaceshipRoleID")
-                        )
+                        ),
+                        null
                     )
                 );
             }
@@ -150,7 +151,8 @@ namespace DAL
                             dt.Rows[i].Field<int>("Seat"),
                             dt.Rows[i].Field<decimal>("Speed"),
                             dt.Rows[i].Field<long>("SpaceshipRoleID")
-                        )
+                        ),
+                        null
                     )
                 );
             }
@@ -211,29 +213,70 @@ namespace DAL
                             dt.Rows[0].Field<int>("Seat"),
                             dt.Rows[0].Field<decimal>("Speed"),
                             dt.Rows[0].Field<long>("SpaceshipRoleID")
-                        )
-                    )
-;
+                        ),
+                        null
+                    );
         }
 
-        public bool Insert(FlightDTO entity)
+        public bool Insert(FlightDTO flight)
         {
-            string cmdText = "INSERT INTO Flight (DepartureTime ,StatusFlight ,FlightNumber ,SpaceshipID ,OriginGateID ,DestinationGateID) VALUES (@DepartureTime, @StatusFlight, @FlightNumber, @SpaceshipID, @OriginGateID, @DestinationGateID)";
+            string cmdText = "INSERT INTO Flight (DepartureTime ,StatusFlight ,FlightNumber ,SpaceshipID ,OriginGateID ,DestinationGateID, FlightScheduleID) VALUES (@DepartureTime, @StatusFlight, @FlightNumber, @SpaceshipID, @OriginGateID, @DestinationGateID, @FlightScheduleID)";
 
             using SqlCommand com = new(cmdText);
-            com.Parameters.Add("@DepartureTime", SqlDbType.SmallDateTime).Value = entity.DepartureTime;
-            com.Parameters.Add("@StatusFlight", SqlDbType.BigInt).Value = entity.Status;
-            com.Parameters.Add("@FlightNumber", SqlDbType.NVarChar, 9).Value = entity.FlightNumber;
-            com.Parameters.Add("@SpaceshipID", SqlDbType.BigInt).Value = entity.Spaceship.Id;
-            com.Parameters.Add("@OriginGateID", SqlDbType.BigInt).Value = entity.OriginGate.Id;
-            com.Parameters.Add("@DestinationGateID", SqlDbType.BigInt).Value = entity.DestinationGate.Id;
+            com.Parameters.Add("@DepartureTime", SqlDbType.SmallDateTime).Value = flight.DepartureTime;
+            com.Parameters.Add("@StatusFlight", SqlDbType.BigInt).Value = flight.Status;
+            com.Parameters.Add("@FlightNumber", SqlDbType.NVarChar, 9).Value = flight.FlightNumber;
+            com.Parameters.Add("@SpaceshipID", SqlDbType.BigInt).Value = flight.Spaceship.Id;
+            com.Parameters.Add("@OriginGateID", SqlDbType.BigInt).Value = flight.OriginGate.Id;
+            com.Parameters.Add("@DestinationGateID", SqlDbType.BigInt).Value = flight.DestinationGate.Id;
+            com.Parameters.Add("@FlightScheduleID", SqlDbType.BigInt).Value = flight.FlightSchedule.Id;
 
-            return Persist(com);
+            try
+            {
+                Persist(com);
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+            return true;
         }
 
         public bool Update(FlightDTO entity)
         {
             throw new NotImplementedException();
+        }
+
+        public bool InsertFlightSchedule(List<FlightDTO> flights)
+        {
+            string cmdText = "INSERT INTO Flight (DepartureTime ,StatusFlight ,FlightNumber ,SpaceshipID ,OriginGateID ,DestinationGateID, FlightScheduleID) VALUES (@DepartureTime, @StatusFlight, @FlightNumber, @SpaceshipID, @OriginGateID, @DestinationGateID, @FlightScheduleID)";
+
+            using SqlCommand com = new(cmdText);
+
+            foreach (FlightDTO flight in flights)
+            {
+                com.Parameters.Clear();
+
+                com.Parameters.Add("@DepartureTime", SqlDbType.SmallDateTime).Value = flight.DepartureTime;
+                com.Parameters.Add("@StatusFlight", SqlDbType.BigInt).Value = flight.Status;
+                com.Parameters.Add("@FlightNumber", SqlDbType.NVarChar, 9).Value = flight.FlightNumber;
+                com.Parameters.Add("@SpaceshipID", SqlDbType.BigInt).Value = flight.Spaceship.Id;
+                com.Parameters.Add("@OriginGateID", SqlDbType.BigInt).Value = flight.OriginGate.Id;
+                com.Parameters.Add("@DestinationGateID", SqlDbType.BigInt).Value = flight.DestinationGate.Id;
+                com.Parameters.Add("@FlightScheduleID", SqlDbType.BigInt).Value = flight.FlightSchedule.Id;
+
+                try
+                {
+                    Persist(com);
+                }
+                catch (SqlException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

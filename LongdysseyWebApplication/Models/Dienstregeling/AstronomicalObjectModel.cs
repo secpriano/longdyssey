@@ -35,7 +35,7 @@ namespace LongdysseyWebApplication.Models.Dienstregeling
 
             X = ConvertToDot((decimal)(CartesianCoordinates[0] * zoom));
             Y = ConvertToDot((decimal)(CartesianCoordinates[1] * zoom));
-            
+
             decimal diameter = Radius * 2 * zoom;
             Diameter = ConvertToDot(diameter);
         }
