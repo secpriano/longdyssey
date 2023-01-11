@@ -9,7 +9,25 @@
 <div class="UI">
     @using (Html.BeginForm("GenerateFlightSchedule", "Dienstregeling", FormMethod.Post))
     {
-        <button onclick="GenerateFlightSchedule()" type="submit">Generate flight schedule</button>
+        <label>Title</label>
+        <input type="text" value="" placeholder="A title" asp-for="Name" autocomplete="off" />
+
+        <label>Spaceship</label>
+        <input type="search" value="" list="spaceships" placeholder="A spaceship" asp-for="SpaceshipName" autocomplete="off" />
+        <datalist id="spaceships">
+            @foreach (var spaceship in Model.Spaceships)
+            {
+                <option value="@spaceship.Name">@spaceship.Name</option>
+            }
+        </datalist>
+
+        <label>Start date</label>
+        <input type="date" asp-for="StartDate" />
+
+        <label>End date</label>
+        <input type="date" asp-for="EndDate" />
+
+        <button onclick="GenerateFlightSchedule()" class="select" type="submit">Generate flight schedule</button>
     }
 </div>
 <section id="bg"></section>

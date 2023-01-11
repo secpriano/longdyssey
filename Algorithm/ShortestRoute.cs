@@ -99,7 +99,6 @@ namespace Algorithm
         private static decimal KmToAU(decimal distanceInKm) => distanceInKm / AstronomicalUnitInKilometers;
         private static decimal KmsToKmh(decimal speedInKms) => speedInKms * SecondsPerHour;
         private decimal CalculateFlightDuration(decimal flightRadius) => flightRadius * AstronomicalUnitInKilometers / (Spaceship.Speed * CInKilometers);
-
         private static decimal TranslateAUtoDegrees(decimal perimeter, decimal arcLengthTraveledFromOrigin) => arcLengthTraveledFromOrigin * 360 / perimeter;
         private bool IsAOinFlightRadius(AstronomicalObject destinationAO, decimal flightRadius)
         {
@@ -136,13 +135,6 @@ namespace Algorithm
                 Console.WriteLine("Error calculating distance: " + ex.Message);
                 return double.NaN;
             }
-        }
-
-
-
-        public void AddSchedule(DateTime startDate, DateTime endDate, long spaceshipId, long spaceshipAday)
-        {
-
         }
     }
 }

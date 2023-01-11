@@ -10,6 +10,11 @@ namespace BLL.Entity
         public decimal Speed { get; set; }
         public long Role { get; set; }
 
+        public Spaceship()
+        {
+
+        }
+
         public Spaceship(long id, string name, int seat, decimal speed, long role)
         {
             Id = id;

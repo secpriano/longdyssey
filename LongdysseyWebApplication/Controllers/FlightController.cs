@@ -54,7 +54,7 @@ namespace LongdysseyWebApplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(FlightSearchViewModel flightViewModel)
+        public ActionResult Search(FlightSearchViewModel flightViewModel)
         {
             FlightSearchViewModel newFlightViewModel = new(GetAllAstronomicalObjects(), GetAllSpaceport())
             {

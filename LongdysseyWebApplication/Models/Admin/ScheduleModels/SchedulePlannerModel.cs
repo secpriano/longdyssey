@@ -1,8 +1,10 @@
-﻿namespace LongdysseyWebApplication.Models.Admin.ScheduleModels
+﻿using LongdysseyWebApplication.Models.SpaceshipModels;
+
+namespace LongdysseyWebApplication.Models.Admin.ScheduleModels
 {
     public class SchedulePlannerModel
     {
-        public SpaceshipModel Spaceship { get; set; }
+        public SpaceshipModel Spaceship {  get; set; }
         List<AstronomicalObjectModel> PointOfInterests { get; set; }
         public SchedulePlannerModel(SpaceshipModel spaceship, List<AstronomicalObjectModel> pointOfInterests)
         {
