@@ -1,11 +1,12 @@
 ﻿using BLL.Container;
 using BLL.Entity;
 using DAL;
-using System.Reflection.Metadata.Ecma335;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System;
 
 namespace Algorithm
 {
-    public class FlightSchedule
+    public class FlightScheduler
     {
         public string Name { get; set; }
         public Spaceship Spaceship { get; set; }
@@ -13,10 +14,8 @@ namespace Algorithm
         public DateTime DepartureTime { get; set; }
         public List<Flight> NeededFlights { get; set; }
         public List<Flight> AllFlights { get; set; }
-        public BLL.Entity.FlightSchedule E_FlightSchedule { get; set; }
+        public FlightSchedule FlightSchedule { get; set; }
 
-        private readonly List<double> distances = new();
-        private readonly List<decimal> travelTimes = new();
         private readonly List<uint> spaceshipsOnAO = new();
 
         public DateTime StartDate { get; set; }
@@ -26,7 +25,7 @@ namespace Algorithm
         private readonly FlightScheduleContainer flightScheduleController = new(new FlightScheduleDAL());
         private readonly FlightContainer flightController = new(new FlightDAL());
 
-        public FlightSchedule(string name, Spaceship spaceship, List<AstronomicalObject> route, DateTime startDate, DateTime endDate)
+        public FlightScheduler(string name, Spaceship spaceship, List<AstronomicalObject> route, DateTime startDate, DateTime endDate)
         {
             Name = name;
             Spaceship = spaceship;
@@ -39,35 +38,39 @@ namespace Algorithm
             AllFlights = new List<Flight>();
 
             //flightScheduleController.Insert(new(Name, StartDate, EndDate));
-            //E_FlightSchedule = flightScheduleController.GetByName(Name);
-            E_FlightSchedule = new(10, "test", StartDate, EndDate);
+            //FlightSchedule = flightScheduleController.GetByName(Name);
+            FlightSchedule = new(10, "test", StartDate, EndDate);
 
             GenerateFlightSchedule();
         }
 
         private void GenerateFlightSchedule()
         {
+            double distance;
+            decimal travelTimeHour;
+
             for (byte i = 0; i < Route.Count - 1; i++)
             {
-                CalculateDistances(i);
-                CalculateTravelTimes(i);
-                CalculateSpaceshipsPerAO(i);
+                distance = CalculateDistance(Route[i], Route[i + 1]);
+                travelTimeHour = CalculateTravelTimeHour(distance);
+                CalculateSpaceshipsPerAO(travelTimeHour);
                 CalculateOutwardStartingDepartureTimes(i);
             }
             CalculateReturnStartingDepartureTimes();
 
-            CalculateOutwardDepartureTimes();
-
+            CalculateDepartureTimes();
+            List<string> flights = new();
+            foreach (Flight flight in AllFlights)
+            {
+                flights.Add($"{flight.OriginGate.Spaceport.AstronomicalObject.Name} => {flight.DestinationGate.Spaceport.AstronomicalObject.Name} | {flight.DepartureTime}");
+            }
             /// SQL
             //flightController.InsertFlightSchedule(NeededFlights);
         }
 
-        private void CalculateDistances(byte i)
+        private static double CalculateDistance(AstronomicalObject origin, AstronomicalObject destination)
         {
-            AstronomicalObject origin = Route[i];
-            AstronomicalObject destination = Route[i + 1];
-            double distance = ShortestRoute.CalculateFlightDistance(origin.SphericalToCartesianCoordinates(out _), destination.SphericalToCartesianCoordinates(out double[] _));
-            distances.Add(distance);
+            return ShortestRoute.CalculateFlightDistance(origin.SphericalToCartesianCoordinates(out _), destination.SphericalToCartesianCoordinates(out double[] _));
         }
 
         private const int SecondsPerHour = 3600;
@@ -75,15 +78,15 @@ namespace Algorithm
         private const decimal CInKilometers = 299792.458M;
         private static decimal AUtoKm(decimal distanceInKm) => distanceInKm * AstronomicalUnitInKilometers;
 
-        private void CalculateTravelTimes(byte i)
+        private decimal CalculateTravelTimeHour(double distance)
         {
-            decimal flightDurationInSeconds = AUtoKm((decimal)distances[i]) / (Spaceship.Speed * CInKilometers);
-            travelTimes.Add(flightDurationInSeconds / SecondsPerHour);
+            decimal flightDurationSecond = AUtoKm((decimal)distance) / (Spaceship.Speed * CInKilometers);
+            return flightDurationSecond / SecondsPerHour;
         }
 
-        private void CalculateSpaceshipsPerAO(byte i)
+        private void CalculateSpaceshipsPerAO(decimal travelTimeHour)
         {
-            spaceshipsOnAO.Add((uint)Math.Ceiling(travelTimes[i] / 8));
+            spaceshipsOnAO.Add((uint)Math.Ceiling(travelTimeHour / 8));
         }
 
         private void CalculateOutwardStartingDepartureTimes(byte i)
@@ -101,7 +104,7 @@ namespace Algorithm
                     originGate,
                     destinationGate, 
                     Spaceship,
-                    E_FlightSchedule
+                    FlightSchedule
                     )
                 );
 
@@ -112,32 +115,6 @@ namespace Algorithm
             DepartureTime = StartDate;
         }
 
-        private void CalculateOutwardDepartureTimes()
-        {
-            NeededFlights.ForEach(flight =>
-            {
-                // Keep creating flights until the departure time is in the future
-                while (DepartureTime < EndDate)
-                {
-                    // Create a new flight and add it to the list
-                    AllFlights.Add(new(
-                        flight.DepartureTime,
-                        flight.Status,
-                        flight.OriginGate,
-                        flight.DestinationGate,
-                        flight.Spaceship,
-                        flight.FlightSchedule
-                        )
-                    );
-
-                    // Set the next departure time to 8 hours after the current one
-                    DepartureTime = DepartureTime.AddHours((double)(8 + aCalculateTravelTimesInHours(aCalculateDistance(flight.OriginGate.Spaceport.AstronomicalObject, flight.DestinationGate.Spaceport.AstronomicalObject))));
-                    flight.DepartureTime = flight.DepartureTime.AddHours(DepartureTime.Hour);
-                }
-
-                DepartureTime = flight.DepartureTime;
-            });
-        }
 
         private void CalculateReturnStartingDepartureTimes()
         {
@@ -156,7 +133,7 @@ namespace Algorithm
                         originGate,
                         destinationGate,
                         Spaceship,
-                        E_FlightSchedule
+                        FlightSchedule
                         )
                     );
 
@@ -167,48 +144,43 @@ namespace Algorithm
                 DepartureTime = StartDate;
             }
         }
+        private void CalculateDepartureTimes()
+        {
+            TimeSpan timeMinutes = TimeSpan.FromMinutes(5);
+            
+            NeededFlights.ForEach(flight =>
+            {
+                DepartureTime = flight.DepartureTime;
 
-        /*        private void CalculateReturnStartingDepartureTimes()
+                // Keep creating flights until the departure time is in the future
+                while (DepartureTime < EndDate)
                 {
-                    // Return flight depart 1 hour later than arrival
-                    DepartureTime = DepartureTime.AddHours(1);
+                    // Create a new flight and add it to the list
+                    AllFlights.Add(new(
+                        flight.DepartureTime,
+                        flight.Status,
+                        flight.OriginGate,
+                        flight.DestinationGate,
+                        flight.Spaceship,
+                        flight.FlightSchedule
+                        )
+                    );
 
-                    for (int i = Route.Count - 1; i > 0; i--)
-                    {
-                        Gate originGate = gateController.GetByAstronomicalObjectName(Route[i].Name);
-                        Gate destinationGate = gateController.GetByAstronomicalObjectName(Route[i - 1].Name);
+                    // Swap gate for outward or return flight
+                    (flight.DestinationGate, flight.OriginGate) = (flight.OriginGate, flight.DestinationGate);
 
-                        while (DepartureTime < EndDate)
-                        {
-                            // Create a new flight and add it to the list
-                            NeededFlights.Add(new(
-                                DepartureTime,
-                                0,
-                                originGate,
-                                destinationGate,
-                                Spaceship,
-                                E_FlightSchedule
-                                )
-                            );
+                    // Set the next departure time to 8 hours after the current one
+                    double timeHour = (double)CalculateTravelTimeHour(CalculateDistance(flight.DestinationGate.Spaceport.AstronomicalObject, flight.OriginGate.Spaceport.AstronomicalObject));
 
-                            // Set the next departure time to 8 hours after the current one
-                            DepartureTime = DepartureTime.AddHours(8);
-                        }
-                        DepartureTime = StartDate;
-                    }
+                    DepartureTime = DepartureTime.AddHours(timeHour);
+                    DepartureTime = DepartureTime.AddMinutes(30);
+
+                    // Rounding
+                    long ticks = (DepartureTime.Ticks + (timeMinutes.Ticks / 2) + 1) / timeMinutes.Ticks;
+
+                    flight.DepartureTime = new DateTime(ticks * timeMinutes.Ticks, DepartureTime.Kind);
                 }
-        */
-
-        private double aCalculateDistance(AstronomicalObject origin, AstronomicalObject destination)
-        {
-            return ShortestRoute.CalculateFlightDistance(origin.SphericalToCartesianCoordinates(out _), destination.SphericalToCartesianCoordinates(out double[] _));
+            });
         }
-
-        private decimal aCalculateTravelTimesInHours(double distance)
-        {
-            decimal flightDurationInSeconds = AUtoKm((decimal)distance) / (Spaceship.Speed * CInKilometers);
-            return flightDurationInSeconds / SecondsPerHour;
-        }
-
     }
 }

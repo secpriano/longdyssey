@@ -37,7 +37,7 @@ namespace LongdysseyWebApplication.Controllers
 
             ShortestRoute SR = new(selectedSpaceship, astronomicalObjectContainer.GetAll(), dienstregelingViewModel.StartDate);
             List<AstronomicalObject> Route = SR.CalculateBestRoute(0);
-            Algorithm.FlightSchedule FS = new(dienstregelingViewModel.Name, selectedSpaceship, Route, dienstregelingViewModel.StartDate, dienstregelingViewModel.EndDate);
+            Algorithm.FlightScheduler FS = new(dienstregelingViewModel.Name, selectedSpaceship, Route, dienstregelingViewModel.StartDate, dienstregelingViewModel.EndDate);
 
             return RedirectToAction("Index");
         }
