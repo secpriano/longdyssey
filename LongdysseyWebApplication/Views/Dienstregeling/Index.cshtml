@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/css/flights.css" asp-append-version="true" />
 </head>
 <div class="UI">
+    <section class="searchFlight">
     @using (Html.BeginForm("GenerateFlightSchedule", "Dienstregeling", FormMethod.Post))
     {
         <label>Title</label>
@@ -29,6 +30,7 @@
 
         <button onclick="GenerateFlightSchedule()" class="select" type="submit">Generate flight schedule</button>
     }
+    </section>
 </div>
 <section id="bg"></section>
 <section id="solarSystem">

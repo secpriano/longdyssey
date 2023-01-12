@@ -28,7 +28,7 @@ namespace LongdysseyWebApplication
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Flight}/{action=Index}/{id?}");
 
             app.Run();
         }

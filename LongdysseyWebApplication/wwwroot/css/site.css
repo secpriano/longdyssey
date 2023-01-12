@@ -121,6 +121,11 @@ button:hover {
     z-index: 99;
     position: absolute;
     right: 50px;
+    max-height: 900px;
+    overflow: auto;
+    min-width: 625px;
+    padding: 0 60px;
+    padding-bottom: 40px;
 }
 
 .flight {
