@@ -26,7 +26,7 @@ namespace LongdysseyWebApplication.Controllers
         {
             Flight flight = flightContainer.GetByID(id);
             flight.BoardingpassDb = new BoardingpassDAL();
-            List<Boardingpass> boardingpasses = flight.GetBookingByFlightId();
+            List<Boardingpass> boardingpasses = flight.GetBoardingpassesByFlightId();
             List<long> availableSeats = new();
             List<long> reservedSeats = new();
 

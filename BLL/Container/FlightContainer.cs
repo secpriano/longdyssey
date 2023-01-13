@@ -22,7 +22,7 @@ namespace BLL.Container
 
         public bool InsertFlightSchedule(List<Flight> flights)
         {
-            List<FlightDTO> flightDtos = 
+            List<FlightDTO> flightDtos =
                 flights
                 .Select(flight => flight.GetDTO()).ToList();
 
@@ -31,34 +31,78 @@ namespace BLL.Container
 
         public List<Flight> GetAll()
         {
-            List<Flight> flights = 
+            List<Flight> flights =
                 Db.GetAll()
                 .Select(flightDTO => new Flight(flightDTO)).ToList();
 
             return flights;
         }
 
-        public Result<List<Flight>> SearchFlights(SpaceportContainer spaceportContainer, DateTime leaveDate, string originAOandSpaceport, string destinationAOandSpaceport, long amountTravelers)
+        public Result<List<Flight>> SearchFlights(SpaceportContainer spaceportContainer, DateTime leaveDate, string originAOandSpaceportName, string destinationAOandSpaceportName, long amountTravelers)
         {
-            long originSpaceportId = 0;
-            long destinationSpaceportId = 0;
+            Dictionary<string, long> spaceports = spaceportContainer.GetAll()
+                .ToDictionary(spaceport => $"{spaceport.AstronomicalObject.Name} | {spaceport.Name}", spaceport => spaceport.Id);
 
-            spaceportContainer.GetAll().ForEach(spaceport =>
+            if (leaveDate < DateTime.Now || 
+                !spaceports.TryGetValue(originAOandSpaceportName, out long originSpaceportId) || 
+                !spaceports.TryGetValue(destinationAOandSpaceportName, out long destinationSpaceportId) || 
+                amountTravelers < 1 || amountTravelers > 10)
             {
-                string AOnameAndSpaceportName = $"{spaceport.AstronomicalObject.Name} | {spaceport.Name}";
-                if (originAOandSpaceport == AOnameAndSpaceportName)
+                Result<List<Flight>> result = new()
                 {
-                    originSpaceportId = spaceport.Id;
-                }
-                if (destinationAOandSpaceport == AOnameAndSpaceportName)
-                {
-                    destinationSpaceportId = spaceport.Id;
-                }
-            });
+                    errorAndFixMessages = new()
+                };
 
-            if (originSpaceportId == 0 || destinationSpaceportId == 0)
-            {
-                return new Result<List<Flight>> { ErrorMessage = $"Error: invalid input", PossibleFixesMessage = $"Possible fixes: Select one from the dropdown menu" };
+                if (leaveDate < DateTime.Now)
+                {
+                    result.errorAndFixMessages.Add(
+                        (
+                            Error: $"Leave date '{leaveDate}' can not be earlier than present date.",
+                            Fix: "Please select a date today or in the future."
+                        )
+                    );
+                }
+
+                if (!spaceports.TryGetValue(originAOandSpaceportName, out originSpaceportId))
+                {
+                    result.errorAndFixMessages.Add(
+                        (
+                            Error: $"Origin spaceport '{originAOandSpaceportName}' does not exist.",
+                            Fix: "Please select a valid origin spaceport."
+                        )
+                    );
+                }
+
+                if (!spaceports.TryGetValue(destinationAOandSpaceportName, out destinationSpaceportId))
+                {
+                    result.errorAndFixMessages.Add(
+                        (
+                            Error: $"Destination spaceport '{destinationAOandSpaceportName}' does not exist.",
+                            Fix: "Please select a valid destination spaceport."
+                        )
+                    );
+                }
+
+                if (amountTravelers < 1)
+                {
+                    result.errorAndFixMessages.Add(
+                        (
+                            Error: $"Travelers '{amountTravelers}' can not be less than 1.", 
+                            Fix: "Please select a number greater than 0."
+                        )
+                    );
+                }
+                else
+                {
+                    result.errorAndFixMessages.Add(
+                        (
+                            Error: $"Travelers '{amountTravelers}' can not be higher than 10.",
+                            Fix: "Please select a number less than 11."
+                        )
+                    );
+                }
+
+                return result;
             }
 
             try
@@ -71,7 +115,15 @@ namespace BLL.Container
             }
             catch (Exception ex)
             {
-                return new Result<List<Flight>> { ErrorMessage = $"Error: {ex.Message}" };
+                Result<List<Flight>> result = new()
+                {
+                    errorAndFixMessages = new List<(string Error, string Fix)>()
+                    {
+                        (Error: $"Error: {ex.Message}", Fix: "Possible fixes: Check SQL")
+                    }
+                };
+
+                return result;
             }
         }
         public Flight GetByID(long id) => new(Db.GetById(id));

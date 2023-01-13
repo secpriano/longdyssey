@@ -88,11 +88,11 @@ namespace BLL.Entity
         }
 
         public static bool BookSeat(IBoardingpassDAL db, long flightId, long seat, long userId) => db.BookSeatFromFlight(seat, flightId, userId);
-        public List<Boardingpass> GetBookingByFlightId()
+        public List<Boardingpass> GetBoardingpassesByFlightId()
         {
             List<Boardingpass> boardingpasses = new();
 
-            BoardingpassDb.GetBookingByFlightId(Id).ForEach(DTO =>
+            BoardingpassDb.GetBoardingpassesByFlightId(Id).ForEach(DTO =>
             {
                 boardingpasses.Add(new(DTO));
             });

@@ -8,14 +8,14 @@ namespace BLL.Entity
         public long Id { get; set; }
         public string Name { get; set; }
         public AstronomicalObject AstronomicalObject { get; set; }
-        public IGateDAL? C { get; set; }
+        public IGateDAL? GateDb { get; set; }
 
-        public Spaceport(long id, string name, AstronomicalObject astronomicalObject, IGateDAL? c)
+        public Spaceport(long id, string name, AstronomicalObject astronomicalObject, IGateDAL? gateDb)
         {
             Id = id;
             Name = name;
             AstronomicalObject = astronomicalObject;
-            C = c;
+            GateDb = gateDb;
         }
 
         public Spaceport(SpaceportDTO dto)
@@ -28,7 +28,7 @@ namespace BLL.Entity
         public List<Gate> GetAllGates()
         {
             List<Gate> list = new();
-            C.GetBySpaceportId(Id).ForEach(gate => { list.Add(new(gate)); });
+            GateDb.GetBySpaceportId(Id).ForEach(gate => { list.Add(new(gate)); });
             return list;
         }
 

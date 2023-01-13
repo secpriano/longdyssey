@@ -1,15 +1,15 @@
-﻿using BLL.Container;
+﻿using Algorithm;
+using BLL.Container;
 using BLL.Entity;
 using DAL;
 using Test.STUB;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace UIL
 {
     public partial class Dienstregeling : Form
     {
         private readonly AstronomicalObjectContainer AOc = new(new AstronomicalObjectDAL());
-        public FlightLineScheduler FlightLineScheduler { get; set; }
+        public FlightScheduler FlightScheduler { get; set; }
 
         private readonly Graphics g;
         private readonly Pen orbit = new(Color.Blue, 3);
@@ -49,8 +49,8 @@ namespace UIL
                 buttonPoints.Add(buttonPoint);
                 Controls.Add(buttonPoint);
 
-                int AOX = (int)(AO.SphericalToCartesianCoordinates()[0] * 15);
-                int AOY = (int)(AO.SphericalToCartesianCoordinates()[1] * 15);
+                int AOX = (int)(AO.SphericalToCartesianCoordinates(out _)[0] * 15);
+                int AOY = (int)(AO.SphericalToCartesianCoordinates(out _)[1] * 15);
 
                 Azimuths.Add(AOX); 
                 Inclinations.Add(AOY);
@@ -109,8 +109,8 @@ namespace UIL
 
             for (int i = 0; i < tempAOs.Count; i++)
             {
-                int AOX = (int)(tempAOs[i].SphericalToCartesianCoordinates()[0] * 15);
-                int AOY = (int)(tempAOs[i].SphericalToCartesianCoordinates()[1] * 15);
+                int AOX = (int)(tempAOs[i].SphericalToCartesianCoordinates(out _)[0] * 15);
+                int AOY = (int)(tempAOs[i].SphericalToCartesianCoordinates(out _)[1] * 15);
                 buttonPoints[i].Location = new Point(formMidX - buttonPoints[i].Width / 2 + AOX, (formMidY - buttonPoints[i].Height / 2) + AOY);
             }
 
@@ -119,7 +119,7 @@ namespace UIL
 
         private void ButtonGenerateSchedule_Click(object sender, EventArgs e)
         {
-            FlightLineScheduler = new(this, (Spaceship)comboBoxSpaceships.SelectedItem, AOc.GetAll(), dateTimePickerStartDate.Value);
+            //FlightScheduler = new(this, (Spaceship)comboBoxSpaceships.SelectedItem, AOc.GetAll(), dateTimePickerStartDate.Value);
         }
 
         private void DrawCanvas()

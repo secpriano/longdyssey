@@ -6,7 +6,7 @@ namespace IL.Interface.DAL
     {
         public List<BoardingpassDTO> GetAll();
         public bool BookSeatFromFlight(long seat, long flightId, long userId);
-        public List<BoardingpassDTO> GetBookingByFlightId(long id);
+        public List<BoardingpassDTO> GetBoardingpassesByFlightId(long id);
         public BoardingpassDTO GetById(long id);
         public bool Insert(BoardingpassDTO entity);
         public bool Update(BoardingpassDTO entity);

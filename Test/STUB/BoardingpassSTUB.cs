@@ -37,7 +37,7 @@ namespace Test.STUB
             throw new NotImplementedException();
         }
 
-        public List<BoardingpassDTO> GetBookingByFlightId(long id)
+        public List<BoardingpassDTO> GetBoardingpassesByFlightId(long id)
         {
             throw new NotImplementedException();
         }

@@ -10,11 +10,19 @@ namespace DAL
 
         private SqlCommand PrepareQuery(SqlCommand com)
         {
-            con = new(connectionString);
-            con.Open();
-            com.Connection = con;
-            com.CommandType = CommandType.Text;
-            return com;
+            try
+            {
+                con = new(connectionString);
+                con.Open();
+                com.Connection = con;
+                com.CommandType = CommandType.Text;
+                return com;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public bool Persist(SqlCommand com)

@@ -33,6 +33,6 @@ namespace BLL.Entity
             Role = dto.Role;
         }
 
-        public SpaceshipDTO GetDTO() => new SpaceshipDTO(Id, Name, Seat, Speed, Role);
+        public SpaceshipDTO GetDTO() => new(Id, Name, Seat, Speed, Role);
     }
 }

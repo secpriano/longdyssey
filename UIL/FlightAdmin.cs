@@ -64,7 +64,7 @@ namespace UIL
         private void ComboBoxOriginSpaceport_SelectedIndexChanged(object sender, EventArgs e)
         {
             Spaceport spaceport = (Spaceport)ComboBoxOriginSpaceport.SelectedItem;
-            spaceport.C = new GateSTUB();
+            spaceport.GateDb = new GateSTUB();
             ComboBoxOriginGate.DataSource = spaceport.GetAllGates();
             ComboBoxOriginGate.DisplayMember = "Name";
             ComboBoxOriginGate.ValueMember = "Id";
@@ -73,7 +73,7 @@ namespace UIL
         private void ComboBoxDestinationSpaceport_SelectedIndexChanged(object sender, EventArgs e)
         {
             Spaceport spaceport = (Spaceport)ComboBoxDestinationSpaceport.SelectedItem;
-            spaceport.C = new GateSTUB();
+            spaceport.GateDb = new GateSTUB();
             ComboBoxDestinationGate.DataSource = spaceport.GetAllGates();
             ComboBoxDestinationGate.DisplayMember = "Name";
             ComboBoxDestinationGate.ValueMember = "Id";
