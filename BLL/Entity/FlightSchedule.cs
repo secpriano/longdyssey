@@ -1,14 +1,13 @@
 ﻿using IL.DTO;
-using System.Xml.Linq;
 
 namespace BLL.Entity
 {
     public class FlightSchedule
     {
-        public long? Id { get; set; }
-        public string? Name { get; set; }
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public long? Id { get; }
+        public string? Name { get; }
+        public DateTime? StartDate { get; }
+        public DateTime? EndDate { get; }
 
         public FlightSchedule(long id, string name, DateTime startDate, DateTime endDate)
         {
@@ -27,20 +26,10 @@ namespace BLL.Entity
 
         public FlightSchedule(FlightScheduleDTO dto)
         {
-            if (dto == null)
-            {
-                Id = null; 
-                Name = null; 
-                StartDate = null; 
-                EndDate = null;
-            }
-            else
-            {
-                Id = dto.Id;
-                Name = dto.Name;
-                StartDate = dto.StartDate;
-                EndDate = dto.EndDate;
-            }
+            Id = dto.Id;
+            Name = dto.Name;
+            StartDate = dto.StartDate;
+            EndDate = dto.EndDate;
         }
 
         public FlightScheduleDTO GetDTO() => new(Id, Name, StartDate, EndDate);

@@ -1,10 +1,11 @@
 ﻿using BLL.Container;
 using BLL.Entity;
 using DAL;
-using LongdysseyWebApplication.Models;
+using WebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
+using ExceptionHandler;
 
-namespace LongdysseyWebApplication.Controllers
+namespace WebApplication.Controllers
 {
     public class FlightController : Controller
     {
@@ -16,38 +17,52 @@ namespace LongdysseyWebApplication.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            FlightSearchViewModel flightViewModel = new(GetAllAstronomicalObjects(), GetAllSpaceport());
-            return View(flightViewModel);
+            try
+            {
+                FlightSearchViewModel flightSearchViewModel = new(GetAllAstronomicalObjects(), GetAllSpaceport());
+                return View(flightSearchViewModel);
+            }
+            catch (ErrorResponse e)
+            {
+                return RedirectToAction("Index", "Error", new { errorMessage = e.Message });
+            }
         }
 
         // GET: FlightController/Detail/5
         [HttpGet]
         public ActionResult Detail(int id)
         {
-            Flight flight = flightContainer.GetByID(id);
-            flight.BoardingpassDb = new BoardingpassDAL();
-            List<Boardingpass> boardingpasses = flight.GetBoardingpassesByFlightId();
-            List<long> availableSeats = new();
-            List<long> reservedSeats = new();
-
-            boardingpasses.ForEach(boardingpass =>
+            try
             {
-                reservedSeats.Add(boardingpass.Seat);
-            });
+                Flight flight = flightContainer.GetByID(id);
+                flight.BoardingpassDb = new BoardingpassDAL();
+                List<Boardingpass> boardingpasses = flight.GetBoardingpassesByFlightId();
+                List<long> availableSeats = new();
+                List<long> reservedSeats = new();
 
-            for (int i = 1; i <= flight.Spaceship.Seat; i++)
-            {
-                if (!reservedSeats.Contains(i))
+                boardingpasses.ForEach(boardingpass =>
                 {
-                    availableSeats.Add(i);
+                    reservedSeats.Add(boardingpass.Seat);
+                });
+
+                for (int i = 1; i <= flight.Spaceship.Seat; i++)
+                {
+                    if (!reservedSeats.Contains(i))
+                    {
+                        availableSeats.Add(i);
+                    }
                 }
+                FlightDetailViewModel flightDetailViewModel = new(flight, availableSeats);
+                return View(flightDetailViewModel);
             }
-            FlightDetailViewModel flightDetailViewModel = new(flight, availableSeats);
-            return View(flightDetailViewModel);
+            catch (ErrorResponse e)
+            {
+                return RedirectToAction("Index", "Error", new { errorMessage = e.Message });
+            }
         }
 
         [HttpPost]
-        public ActionResult BookFlight(FlightDetailViewModel flightDetailViewModel)
+        public ActionResult BookSeat(FlightDetailViewModel flightDetailViewModel)
         {
             Flight.BookSeat(new BoardingpassDAL(), flightDetailViewModel.BookFlightId, flightDetailViewModel.SelectedSeat, 1);
             return RedirectToAction("Index");
@@ -56,13 +71,39 @@ namespace LongdysseyWebApplication.Controllers
         [HttpPost]
         public ActionResult Index(FlightSearchViewModel flightViewModel)
         {
-            FlightSearchViewModel newFlightViewModel = new(GetAllAstronomicalObjects(), GetAllSpaceport())
+            try
             {
-                Flights = flightContainer.SearchFlights(spaceportContainer, flightViewModel.LeaveDate, flightViewModel.OriginAOandSpaceportName, flightViewModel.DestinationAOandSpaceportName, flightViewModel.Travelers).Data
-                .Select(flight => new FlightModel(flight.Id, flight.DepartureTime, flight.Status, flight.FlightNumber, flight.OriginGate, flight.DestinationGate, flight.Spaceship, flight.FlightSchedule)).ToList(),
-            };
+                FlightSearchViewModel newFlightViewModel = new(GetAllAstronomicalObjects(), GetAllSpaceport())
+                {
+                    Flights = flightContainer.SearchFlights(spaceportContainer, flightViewModel.LeaveDate, flightViewModel.OriginAOandSpaceportName, flightViewModel.DestinationAOandSpaceportName, flightViewModel.Travelers)
+                    .Select(flight => new FlightModel(flight.Id, flight.DepartureTime, flight.Status, flight.FlightNumber, flight.OriginGate, flight.DestinationGate, flight.Spaceship, flight.FlightSchedule)).ToList(),
+                };
 
-            return View(newFlightViewModel);
+                return View(newFlightViewModel);
+            }
+            catch (ErrorResponse e)
+            {
+                switch (e.ErrorType)
+                {
+                    case ErrorType.DatabaseConnection:
+                        return RedirectToAction("Index", "Error", new { errorMessage = e.Message });
+                    default:
+                        FlightSearchViewModel flightSearchViewModel = new(GetAllAstronomicalObjects(), GetAllSpaceport());
+                        ModelState.Clear();
+                        ModelState.AddModelError(string.Empty, e.Message);
+                        return View(flightSearchViewModel);
+                }
+            }
+            catch (InvalidInputException e)
+            {
+                FlightSearchViewModel flightSearchViewModel = new(GetAllAstronomicalObjects(), GetAllSpaceport());
+                ModelState.Clear();
+                e.ErrorAndFixMessages.ForEach(errorAndFixMessage =>
+                {
+                    ModelState.AddModelError(string.Empty, $"Error: {errorAndFixMessage.Error} Fix: {errorAndFixMessage.Fix}");
+                });
+                return View(flightSearchViewModel);
+            }
         }
 
         private List<SpaceportModel> GetAllSpaceport()

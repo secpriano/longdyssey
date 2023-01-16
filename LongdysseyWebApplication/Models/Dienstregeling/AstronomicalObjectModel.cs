@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace LongdysseyWebApplication.Models.Dienstregeling
+namespace WebApplication.Models.Dienstregeling
 {
     public class AstronomicalObjectModel
     {

@@ -1,4 +1,4 @@
-﻿namespace LongdysseyWebApplication.Models
+﻿namespace WebApplication.Models
 {
     public class AstronomicalObjectModel
     {

@@ -2,14 +2,14 @@
 {
     public class FlightDTO
     {
-        public long Id { get; set; }
-        public DateTime DepartureTime { get; set; }
-        public long Status { get; set; }
-        public string FlightNumber { get; set; }
-        public GateDTO OriginGate { get; set; }
-        public GateDTO DestinationGate { get; set; }
-        public SpaceshipDTO Spaceship { get; set; }
-        public FlightScheduleDTO? FlightSchedule { get; set; }
+        public long Id { get; }
+        public DateTime DepartureTime { get; }
+        public long Status { get; }
+        public string FlightNumber { get; }
+        public GateDTO OriginGate { get; }
+        public GateDTO DestinationGate { get; }
+        public SpaceshipDTO Spaceship { get; }
+        public FlightScheduleDTO? FlightSchedule { get; }
 
         public FlightDTO(long id, DateTime departureTime, long status, string flightNumber, GateDTO originGate, GateDTO destinationGate, SpaceshipDTO spaceship, FlightScheduleDTO? flightSchedule)
         {

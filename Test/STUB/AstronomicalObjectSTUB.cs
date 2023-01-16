@@ -3,9 +3,9 @@ using IL.Interface.DAL;
 
 namespace Test.STUB
 {
-    public class AstronomicalObjectSTUB : ISpaceportDAL
+    public class AstronomicalObjectSTUB : IAstronomicalObjectDAL
     {
-        public List<AstronomicalObjectDTO> astronomicalObject = new()
+        public List<AstronomicalObjectDTO> astronomicalObjects = new()
         {
             new(1, "Earth", 1.0M, 63.000M, 7.155M, 10M),
             new(2, "Mercury", 0.4M, 25.000M, 3.380M, 10M),
@@ -16,29 +16,10 @@ namespace Test.STUB
             new(7, "Uranus", 19.2M, 97.000M, 6.480M, 10M),
             new(8, "Neptune", 30.1M, 203.000M, 6.430M, 10M),
         };
-        public bool Delete(long id)
-        {
-            throw new NotImplementedException();
-        }
 
-        public IEnumerable<SpaceportDTO> GetAll()
+        public List<AstronomicalObjectDTO> GetAll()
         {
-            throw new NotImplementedException();
-        }
-
-        public SpaceportDTO GetById(long id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Insert(SpaceportDTO entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Update(SpaceportDTO entity)
-        {
-            throw new NotImplementedException();
+            return astronomicalObjects;
         }
     }
 }

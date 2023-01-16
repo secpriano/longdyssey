@@ -72,7 +72,7 @@ namespace Test
             GateSTUB GateData = new();
             SpaceshipSTUB SpaceshipData = new();
             FlightDTO flightDTO = new(new(2069, 4, 8), 2, "JUJATO", GateData.gates[20], GateData.gates[21], SpaceshipData.spaceships[5], null);
-            Flight flight = new(new(2069, 4, 8), 2, new(GateData.gates[20]), new(GateData.gates[21]), new(SpaceshipData.spaceships[5]), null);
+            Flight flight = new(new(2069, 4, 8), 2, "YOYO1", new(GateData.gates[20]), new(GateData.gates[21]), new(SpaceshipData.spaceships[5]), null);
             FlightSTUB fs = new();
             FlightContainer fc = new(fs);
             bool expected = fs.Insert(flightDTO);

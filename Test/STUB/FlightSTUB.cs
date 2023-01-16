@@ -1,4 +1,5 @@
-﻿using IL.DTO;
+﻿using ExceptionHandler;
+using IL.DTO;
 using IL.Interface.DAL;
 
 namespace Test.STUB
@@ -15,14 +16,7 @@ namespace Test.STUB
 
         public bool DeleteByID(long id)
         {
-            foreach (var DTO in flights)
-            {
-                if (DTO.Id == id)
-                {
-                    flights.RemoveAt((int)id);
-                    return true;
-                }
-            }
+            flights.RemoveAll(flights => flights.Id == id);
 
             return false;
         }
@@ -34,6 +28,11 @@ namespace Test.STUB
             throw new NotImplementedException();
         }
 
+        public List<FlightDTO> GetByFlightScheduleId(long id)
+        {
+             return flights.FindAll(flight => flight.FlightSchedule != null && flight.FlightSchedule.Id == id);
+        }
+
         public bool Insert(FlightDTO entity)
         {
             flights.Add(entity);
@@ -41,22 +40,36 @@ namespace Test.STUB
             return flights.Contains(entity);
         }
 
-        public bool InsertFlightSchedule(List<FlightDTO> entities)
+        public bool InsertFlightsFromFlightSchedule(List<FlightDTO> entities)
         {
-            throw new NotImplementedException();
+            entities.ForEach(flight => flights.Add(flight));
+            return true;
         }
-
-        public List<FlightDTO> SearchFlights(DateTime leaveDate, long originSpaceportId, long destinationSpaceportId, long amountTravelers)
+        
+        public DateTime LeaveDate { get; private set; }
+        public long OriginSpaceportId { get; private set; }
+        public long DestinationSpaceportId { get; private set; }
+        public long AmountSeats { get; private set; }
+        
+        public List<FlightDTO> SearchFlights(DateTime leaveDate, long originSpaceportId, long destinationSpaceportId, long amountSeats)
         {
-            List<FlightDTO> searchList = new();
-            flights.ForEach(DTO =>
+            LeaveDate = leaveDate;
+            OriginSpaceportId = originSpaceportId;
+            DestinationSpaceportId = destinationSpaceportId;
+            AmountSeats = amountSeats;
+
+            List<FlightDTO> searchedFlights = flights.FindAll(flights =>
+                flights.DepartureTime == leaveDate &&
+                flights.OriginGate.Spaceport.Id == originSpaceportId &&
+                flights.DestinationGate.Spaceport.Id == destinationSpaceportId &&
+                flights.Spaceship.Seat >= amountSeats);
+
+            if (searchedFlights.Count == 0)
             {
-                if (DTO.DepartureTime == leaveDate && DTO.OriginGate.Spaceport.Id == originSpaceportId && DTO.DestinationGate.Spaceport.Id == destinationSpaceportId && DTO.Spaceship.Seat >= amountTravelers)
-                {
-                    searchList.Add(DTO);
-                }
-            });
-            return searchList;
+                throw new DALexception(ErrorType.FlightsAreEmpty, "No DTOs found");
+            }
+            
+            return searchedFlights;
         }
 
         public bool Update(FlightDTO entity)

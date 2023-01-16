@@ -2,12 +2,12 @@
 {
     public class AstronomicalObjectDTO
     {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public decimal Radius { get; set; }
-        public decimal Azimuth { get; set; }
-        public decimal Inclination { get; set; }
-        public decimal OrbitalSpeed { get; set; }
+        public long Id { get; }
+        public string Name { get; }
+        public decimal Radius { get; }
+        public decimal Azimuth { get; }
+        public decimal Inclination { get; }
+        public decimal OrbitalSpeed { get;}
 
         public AstronomicalObjectDTO(long id, string name, decimal radius, decimal azimuth, decimal inclination, decimal orbitalSpeed)
         {

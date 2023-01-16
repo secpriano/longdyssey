@@ -2,11 +2,12 @@
 using BLL.Container;
 using BLL.Entity;
 using DAL;
-using LongdysseyWebApplication.Models.Dienstregeling;
+using WebApplication.Models.Dienstregeling;
 using Microsoft.AspNetCore.Mvc;
-using LongdysseyWebApplication.Models.SpaceshipModels;
+using WebApplication.Models.SpaceshipModels;
+using ExceptionHandler;
 
-namespace LongdysseyWebApplication.Controllers
+namespace WebApplication.Controllers
 {
     public class DienstregelingController : Controller
     {
@@ -16,30 +17,60 @@ namespace LongdysseyWebApplication.Controllers
         // GET: DienstregelingController
         public ActionResult Index()
         {
-            DienstregelingViewModel dienstregelingViewModel = new(GetAllAO(), GetAllSpaceships());
+            try
+            {
+                DienstregelingViewModel dienstregelingViewModel = new(GetAllAstronomicalObjects(), GetAllSpaceships());
 
-            return View(dienstregelingViewModel);
+                return View(dienstregelingViewModel);
+            }
+            catch (ErrorResponse e)
+            {
+                return RedirectToAction("Index", "Error", new { errorMessage = e.Message });
+            }
         }
 
-        private List<AstronomicalObjectModel> GetAllAO() => astronomicalObjectContainer.GetAll().Select(AO => new AstronomicalObjectModel(AO.Id, AO.Name, AO.Radius, AO.Azimuth, AO.Inclination, AO.OrbitalSpeed)).ToList();
-        private List<SpaceshipModel> GetAllSpaceships() => spaceshipContainer.GetAll().Select(spaceship => new SpaceshipModel(spaceship.Id, spaceship.Name, spaceship.Seat, spaceship.Speed, spaceship.Role)).ToList();
+        private List<AstronomicalObjectModel> GetAllAstronomicalObjects()
+        {
+            return astronomicalObjectContainer.GetAll().Select(AO =>
+            new AstronomicalObjectModel(
+                AO.Id,
+                AO.Name,
+                AO.Radius,
+                AO.Azimuth,
+                AO.Inclination,
+                AO.OrbitalSpeed)
+            ).ToList();
+        }
+        private List<SpaceshipModel> GetAllSpaceships()
+        {
+            return spaceshipContainer.GetAll().Select(spaceship => 
+            new SpaceshipModel(
+                spaceship.Id, 
+                spaceship.Name, 
+                spaceship.Seat, 
+                spaceship.Speed, 
+                spaceship.Role)
+            ).ToList();
+        }
 
         public ActionResult GenerateFlightSchedule(DienstregelingViewModel dienstregelingViewModel)
         {
-            Spaceship selectedSpaceship = new();
-            spaceshipContainer.GetAll().ForEach(spaceship =>
+            try
             {
-                if (dienstregelingViewModel.SpaceshipName == spaceship.Name)
-                {
-                    selectedSpaceship = spaceship; 
-                }
-            });
-
-            ShortestRoute SR = new(selectedSpaceship, astronomicalObjectContainer.GetAll(), dienstregelingViewModel.StartDate);
-            List<AstronomicalObject> Route = SR.CalculateBestRoute(0);
-            FlightScheduler FS = new(dienstregelingViewModel.Name, selectedSpaceship, Route, dienstregelingViewModel.StartDate, dienstregelingViewModel.EndDate);
-
-            return RedirectToAction("Index");
+                ShortestRoute shortestRoute = new(new SpaceshipDAL(), dienstregelingViewModel.SpaceshipName, new AstronomicalObjectDAL(), dienstregelingViewModel.StartDate);
+                List<AstronomicalObject> Route = shortestRoute.CalculateBestRoute();
+                
+                FlightScheduler flightScheduler = new(new GateDAL(), new FlightScheduleDAL(), new FlightDAL());
+                flightScheduler.InsertFlightSchedule(dienstregelingViewModel.Name, dienstregelingViewModel.StartDate, dienstregelingViewModel.EndDate);
+                FlightSchedule flightSchedule = flightScheduler.GetByName(dienstregelingViewModel.Name);
+                flightScheduler.GenerateFlightsFromFlightSchedule(new SpaceshipDAL(), flightSchedule, dienstregelingViewModel.SpaceshipName, Route);
+                
+                return RedirectToAction("Index");
+            }
+            catch (ErrorResponse e)
+            {
+                return RedirectToAction("Index", "Error", new { errorMessage = e.Message });
+            }
         }
     }
 }

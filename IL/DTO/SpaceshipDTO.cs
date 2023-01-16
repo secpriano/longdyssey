@@ -2,11 +2,11 @@
 {
     public class SpaceshipDTO
     {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public int Seat { get; set; }
-        public decimal Speed { get; set; }
-        public long Role { get; set; }
+        public long Id { get; }
+        public string Name { get; }
+        public int Seat { get; }
+        public decimal Speed { get; }
+        public long Role { get; }
 
         public SpaceshipDTO(long id, string name, int seat, decimal speed, long role)
         {

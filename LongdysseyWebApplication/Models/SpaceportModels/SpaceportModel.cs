@@ -1,6 +1,6 @@
 ﻿using IL.Interface.DAL;
 
-namespace LongdysseyWebApplication.Models
+namespace WebApplication.Models
 {
     public class SpaceportModel
     {

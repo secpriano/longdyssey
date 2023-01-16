@@ -1,46 +1,49 @@
 ﻿using BLL.Container;
 using BLL.Entity;
 using DAL;
+using IL.Interface.DAL;
 
 namespace Algorithm
 {
     public class FlightScheduler
     {
-        public string Name { get; set; }
-        public Spaceship Spaceship { get; set; }
-        public List<AstronomicalObject> Route { get; set; }
-        public DateTime DepartureTime { get; set; }
-        public List<Flight> NeededFlights { get; } = new();
-        public List<Flight> AllFlights { get; } = new();
-        public FlightSchedule FlightSchedule { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        private FlightSchedule FlightSchedule;
+        private Spaceship Spaceship;
+        private List<AstronomicalObject> Route;
+        private DateTime DepartureTime;
+        private List<Flight> NeededFlights = new();
+        private List<Flight> AllFlights  = new();
 
         private readonly List<uint> spaceshipsOnAO = new();
-        private readonly GateContainer gateController = new(new GateDAL());
-        private readonly FlightScheduleContainer flightScheduleController = new(new FlightScheduleDAL());
-        private readonly FlightContainer flightController = new(new FlightDAL());
+        private readonly IGateDAL gateDb;
+        private readonly IFlightScheduleDAL flightScheduleDb;
+        private readonly IFlightDAL flightDb;
 
-        public FlightScheduler(string name, Spaceship spaceship, List<AstronomicalObject> route, DateTime startDate, DateTime endDate)
+        public FlightScheduler(IGateDAL gateDAL, IFlightScheduleDAL flightScheduleDAL, IFlightDAL flightDAL)
         {
-            Name = name;
-            Spaceship = spaceship;
+            gateDb = gateDAL;
+            flightScheduleDb = flightScheduleDAL;
+            flightDb = flightDAL;
+        }
+
+        public void InsertFlightSchedule(string name, DateTime startDate, DateTime endDate)
+        {
+            //TODO: Add validation
+            flightScheduleDb.Insert(new FlightSchedule(name, startDate, endDate).GetDTO());
+        }
+        
+        public FlightSchedule GetByName(string name)
+        {
+            return new(flightScheduleDb.GetByName(name));
+        }
+
+        public void GenerateFlightsFromFlightSchedule(ISpaceshipDAL spaceshipDb, FlightSchedule flightSchedule, string selectedSpaceshipName, List<AstronomicalObject> route)
+        {
+            FlightSchedule = flightSchedule; 
+            Spaceship = new(spaceshipDb.GetAll().FirstOrDefault(spaceship => spaceship.Name == selectedSpaceshipName));
             Route = route;
-            DepartureTime = startDate;
-            StartDate = startDate;
-            EndDate = endDate;
-            InsertFlightSchedule();
-            FlightSchedule = flightScheduleController.GetByName(Name);
-            GenerateFlightSchedule();
-        }
+            DepartureTime = (DateTime)flightSchedule.StartDate;
 
-        private void InsertFlightSchedule()
-        {
-            flightScheduleController.Insert(new FlightSchedule(Name, StartDate, EndDate));
-        }
-
-        private void GenerateFlightSchedule()
-        {
             double distance;
             decimal travelTimeHour;
 
@@ -56,7 +59,7 @@ namespace Algorithm
             CalculateDepartureTimes();
 
             /// SQL
-            flightController.InsertFlightSchedule(AllFlights);
+            flightDb.InsertFlightsFromFlightSchedule(AllFlights.Select(flight => flight.GetDTO()).ToList());
         }
 
         private static double CalculateDistance(AstronomicalObject origin, AstronomicalObject destination)
@@ -84,15 +87,15 @@ namespace Algorithm
 
         private void CalculateOutwardStartingDepartureTimes(byte i)
         {
-            var originGate = GetGateByAstronomicalObjectName(Route[i].Name);
-            var destinationGate = GetGateByAstronomicalObjectName(Route[i + 1].Name);
-            var nextDepartureTime = StartDate;
+            Gate originGate = GetGateByAstronomicalObjectName(Route[i].Name);
+            Gate destinationGate = GetGateByAstronomicalObjectName(Route[i + 1].Name);
+            DateTime nextDepartureTime = (DateTime)FlightSchedule.StartDate;
 
             // Keep creating flights until all spaceships are used
             for (int j = 0; j <= spaceshipsOnAO[i]; j++)
             {
                 // Create a new flight and add it to the list
-                CreateFlight(originGate, destinationGate, nextDepartureTime);
+                CreateFlight(originGate, destinationGate, nextDepartureTime, $"{originGate.Spaceport.Name}{j}{originGate.Name}");
                 nextDepartureTime = nextDepartureTime.Add(travelInterval);
             }
         }
@@ -101,15 +104,15 @@ namespace Algorithm
         {
             for (int i = Route.Count - 1; i > 0; i--)
             {
-                var originGate = GetGateByAstronomicalObjectName(Route[i].Name);
-                var destinationGate = GetGateByAstronomicalObjectName(Route[i - 1].Name);
-                var nextDepartureTime = StartDate;
+                Gate originGate = GetGateByAstronomicalObjectName(Route[i].Name);
+                Gate destinationGate = GetGateByAstronomicalObjectName(Route[i - 1].Name);
+                DateTime nextDepartureTime = (DateTime)FlightSchedule.StartDate;
 
                 // Keep creating flights until all spaceships are used
                 for (int j = 0; j <= spaceshipsOnAO[i - 1]; j++)
                 {
                     // Create a new flight and add it to the list
-                    CreateFlight(originGate, destinationGate, nextDepartureTime);
+                    CreateFlight(originGate, destinationGate, nextDepartureTime, $"{originGate.Spaceport.Name}{j}{originGate.Name}");
                     nextDepartureTime = nextDepartureTime.Add(travelInterval);
                 }
             }
@@ -117,14 +120,15 @@ namespace Algorithm
 
         private Gate GetGateByAstronomicalObjectName(string name)
         {
-            return gateController.GetByAstronomicalObjectName(name);
+            return new(gateDb.GetByAstronomicalObjectName(name));
         }
 
-        private void CreateFlight(Gate originGate, Gate destinationGate, DateTime nextDepartureTime)
+        private void CreateFlight(Gate originGate, Gate destinationGate, DateTime nextDepartureTime, string flightNumber)
         {
             NeededFlights.Add(new(
                 nextDepartureTime,
                 0,
+                flightNumber,
                 originGate,
                 destinationGate,
                 Spaceship,
@@ -141,12 +145,13 @@ namespace Algorithm
                 DepartureTime = flight.DepartureTime;
 
                 // Keep creating flights until the departure time is in the future
-                while (DepartureTime < EndDate)
+                while (DepartureTime < FlightSchedule.EndDate)
                 {
                     // Create a new flight and add it to the list
                     AllFlights.Add(new(
                         flight.DepartureTime,
                         flight.Status,
+                        flight.FlightNumber,
                         flight.OriginGate,
                         flight.DestinationGate,
                         flight.Spaceship,

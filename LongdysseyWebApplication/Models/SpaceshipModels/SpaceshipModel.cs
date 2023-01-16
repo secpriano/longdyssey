@@ -1,6 +1,6 @@
 ﻿using BLL.Entity;
 
-namespace LongdysseyWebApplication.Models.SpaceshipModels
+namespace WebApplication.Models.SpaceshipModels
 {
     public class SpaceshipModel
     {

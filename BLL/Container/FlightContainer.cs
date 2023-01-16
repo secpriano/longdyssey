@@ -1,4 +1,6 @@
 ﻿using BLL.Entity;
+using DAL;
+using ExceptionHandler;
 using IL.DTO;
 using IL.Interface.DAL;
 
@@ -26,7 +28,7 @@ namespace BLL.Container
                 flights
                 .Select(flight => flight.GetDTO()).ToList();
 
-            return Db.InsertFlightSchedule(flightDtos);
+            return Db.InsertFlightsFromFlightSchedule(flightDtos);
         }
 
         public List<Flight> GetAll()
@@ -38,94 +40,93 @@ namespace BLL.Container
             return flights;
         }
 
-        public Result<List<Flight>> SearchFlights(SpaceportContainer spaceportContainer, DateTime leaveDate, string originAOandSpaceportName, string destinationAOandSpaceportName, long amountTravelers)
+        public List<Flight> SearchFlights(SpaceportContainer spaceportContainer, DateTime leaveDate, string originAOandSpaceportName, string destinationAOandSpaceportName, long amountSeats)
         {
+            // if null, then string is 'EMPTY'
+            originAOandSpaceportName ??= "EMPTY";
+            destinationAOandSpaceportName ??= "EMPTY";
+
+            DateTime presentDate = DateTime.Now;
+            
+            // if date is today, then set present time to leaveDate
+            if (presentDate.Date == leaveDate)
+            {
+                TimeSpan time = presentDate.TimeOfDay;
+                time = TimeSpan.FromMinutes(Math.Ceiling(time.TotalMinutes));
+                leaveDate = leaveDate.Date + time;
+            }
+            
             Dictionary<string, long> spaceports = spaceportContainer.GetAll()
                 .ToDictionary(spaceport => $"{spaceport.AstronomicalObject.Name} | {spaceport.Name}", spaceport => spaceport.Id);
 
-            if (leaveDate < DateTime.Now || 
+            // if there are invalid inputs, then throw InvalidInputException
+            if (leaveDate < presentDate || 
                 !spaceports.TryGetValue(originAOandSpaceportName, out long originSpaceportId) || 
-                !spaceports.TryGetValue(destinationAOandSpaceportName, out long destinationSpaceportId) || 
-                amountTravelers < 1 || amountTravelers > 10)
+                !spaceports.TryGetValue(destinationAOandSpaceportName, out long destinationSpaceportId) ||
+                originSpaceportId == destinationSpaceportId || 
+                amountSeats < 1 || amountSeats > 10)
             {
-                Result<List<Flight>> result = new()
-                {
-                    errorAndFixMessages = new()
-                };
+                List<(string Error, string Fix)> errorAndFixMessages = new();
 
-                if (leaveDate < DateTime.Now)
+                if (leaveDate < presentDate)
                 {
-                    result.errorAndFixMessages.Add(
-                        (
-                            Error: $"Leave date '{leaveDate}' can not be earlier than present date.",
-                            Fix: "Please select a date today or in the future."
-                        )
-                    );
+                    errorAndFixMessages.Add((
+                        Error: $"Leave date '{leaveDate}' can not be earlier than {presentDate}.",
+                        Fix: "Please select a future date."));
                 }
-
+                
                 if (!spaceports.TryGetValue(originAOandSpaceportName, out originSpaceportId))
                 {
-                    result.errorAndFixMessages.Add(
-                        (
-                            Error: $"Origin spaceport '{originAOandSpaceportName}' does not exist.",
-                            Fix: "Please select a valid origin spaceport."
-                        )
-                    );
+                    errorAndFixMessages.Add((
+                        Error: $"Origin spaceport '{originAOandSpaceportName}' does not exist.",
+                        Fix: "Please select a valid origin spaceport from the list."));
                 }
 
                 if (!spaceports.TryGetValue(destinationAOandSpaceportName, out destinationSpaceportId))
                 {
-                    result.errorAndFixMessages.Add(
-                        (
-                            Error: $"Destination spaceport '{destinationAOandSpaceportName}' does not exist.",
-                            Fix: "Please select a valid destination spaceport."
-                        )
-                    );
+                    errorAndFixMessages.Add((
+                        Error: $"Destination spaceport '{destinationAOandSpaceportName}' does not exist.",
+                        Fix: "Please select a valid destination spaceport from the list."));
                 }
 
-                if (amountTravelers < 1)
+                if (amountSeats < 1)
                 {
-                    result.errorAndFixMessages.Add(
-                        (
-                            Error: $"Travelers '{amountTravelers}' can not be less than 1.", 
-                            Fix: "Please select a number greater than 0."
-                        )
-                    );
+                    errorAndFixMessages.Add((
+                        Error: $"Amount seat '{amountSeats}' can not be less than 1.",
+                        Fix: "Please select a number greater than 0."));
                 }
-                else
+                
+                if (amountSeats > 10)
                 {
-                    result.errorAndFixMessages.Add(
-                        (
-                            Error: $"Travelers '{amountTravelers}' can not be higher than 10.",
-                            Fix: "Please select a number less than 11."
-                        )
-                    );
+                    errorAndFixMessages.Add((
+                        Error: $"Amount seats '{amountSeats}' can not be higher than 10.",
+                        Fix: "Please select a number less than 11."));
                 }
 
-                return result;
+                if (originSpaceportId == destinationSpaceportId)
+                {
+                    errorAndFixMessages.Add((
+                        Error: $"Origin spaceport '{originAOandSpaceportName}' and destination spaceport '{destinationAOandSpaceportName}' can not be the same.",
+                        Fix: "Please select a different destination spaceport."));
+                }
+
+                throw new InvalidInputException(errorAndFixMessages);
             }
 
             try
             {
                 List<Flight> flights =
-                    Db.SearchFlights(leaveDate, originSpaceportId, destinationSpaceportId, amountTravelers)
+                    Db.SearchFlights(leaveDate, originSpaceportId, destinationSpaceportId, amountSeats)
                     .Select(flightDTO => new Flight(flightDTO)).ToList();
 
-                return new Result<List<Flight>> { Data = flights };
+                return flights;
             }
-            catch (Exception ex)
+            catch (DALexception e)
             {
-                Result<List<Flight>> result = new()
-                {
-                    errorAndFixMessages = new List<(string Error, string Fix)>()
-                    {
-                        (Error: $"Error: {ex.Message}", Fix: "Possible fixes: Check SQL")
-                    }
-                };
-
-                return result;
+                throw new ErrorResponse(e.ErrorType);
             }
         }
+        
         public Flight GetByID(long id) => new(Db.GetById(id));
 
         public bool DeleteByID(long id) => Db.DeleteByID(id);

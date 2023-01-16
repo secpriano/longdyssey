@@ -1,6 +1,6 @@
 ﻿using BLL.Entity;
 
-namespace LongdysseyWebApplication.Models
+namespace WebApplication.Models
 {
     public class FlightDetailViewModel
     {

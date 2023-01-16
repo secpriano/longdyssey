@@ -1,6 +1,6 @@
-﻿using LongdysseyWebApplication.Models.SpaceshipModels;
+﻿using WebApplication.Models.SpaceshipModels;
 
-namespace LongdysseyWebApplication.Models.Admin.ScheduleModels
+namespace WebApplication.Models.Admin.ScheduleModels
 {
     public class SchedulePlannerModel
     {

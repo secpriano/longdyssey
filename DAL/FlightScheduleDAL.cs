@@ -18,11 +18,11 @@ namespace DAL
             DataTable dt = new();
             dt = Fetch(com);
             return new FlightScheduleDTO(
-                            dt.Rows[0].Field<long>("FlightScheduleID"),
-                            dt.Rows[0].Field<string>("FlightScheduleName"),
-                            dt.Rows[0].Field<DateTime>("StartDate"),
-                            dt.Rows[0].Field<DateTime>("EndDate")
-                        );
+                dt.Rows[0].Field<long>("FlightScheduleID"),
+                dt.Rows[0].Field<string>("FlightScheduleName"),
+                dt.Rows[0].Field<DateTime>("StartDate"),
+                dt.Rows[0].Field<DateTime>("EndDate")
+            );
         }
 
         public bool Insert(FlightScheduleDTO flightSchedule)

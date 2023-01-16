@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "..\Test\Test.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication", "..\LongdysseyWebApplication\WebApplication.csproj", "{F224A626-58BD-4B73-84D9-4E9D08F2EA60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algorithm", "..\Algorithm\Algorithm.csproj", "{B6C5DC26-1369-42A5-95C1-BAC961D0CD63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithm", "..\Algorithm\Algorithm.csproj", "{B6C5DC26-1369-42A5-95C1-BAC961D0CD63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExceptionHandler", "..\Exception\ExceptionHandler.csproj", "{1216E386-5CDD-407D-B993-48782845E655}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{B6C5DC26-1369-42A5-95C1-BAC961D0CD63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6C5DC26-1369-42A5-95C1-BAC961D0CD63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6C5DC26-1369-42A5-95C1-BAC961D0CD63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1216E386-5CDD-407D-B993-48782845E655}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1216E386-5CDD-407D-B993-48782845E655}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1216E386-5CDD-407D-B993-48782845E655}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1216E386-5CDD-407D-B993-48782845E655}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,4 @@
-﻿@model LongdysseyWebApplication.Models.FlightSearchViewModel
+﻿@model WebApplication.Models.FlightSearchViewModel
 
 @{
     ViewData["Title"] = "Solar system";
@@ -11,7 +11,7 @@
             @using (Html.BeginForm("Index", "Flight", FormMethod.Post))
             {
                 <label>Depart from</label>
-                <input type="search" value="" list="aod" placeholder="Earth | EAUSNY" asp-for="OriginAOandSpaceportName" autocomplete="off" />
+                <input type="search" list="aod" placeholder="Earth | EAUSNY" asp-for="OriginAOandSpaceportName" autocomplete="off" />
                 <datalist id="aod">
                     @foreach (var spaceport in Model.Spaceports)
                     {
@@ -20,7 +20,7 @@
                 </datalist>
 
                 <label>Arrive on</label>
-                <input type="search" value="" list="aoa" placeholder="Jupiter | JUFRPA" asp-for="DestinationAOandSpaceportName" autocomplete="off" />
+                <input type="search" list="aoa" placeholder="Jupiter | JUFRPA" asp-for="DestinationAOandSpaceportName" autocomplete="off" />
                 <datalist id="aoa">
                     @foreach (var spaceport in Model.Spaceports)
                     {
@@ -36,6 +36,7 @@
                 <p>Passenger</p>
 
                 <button class="select" type="submit">Find flights</button>
+                @Html.ValidationSummary();
             }
         </section>
 

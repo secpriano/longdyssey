@@ -8,13 +8,18 @@ namespace Test.STUB
         static AstronomicalObjectSTUB PointOfInterestData = new();
         public List<SpaceportDTO> spaceports = new()
         {
-            new(1, "EANLAM", PointOfInterestData.astronomicalObject[0]),
-            new(2, "EAUSNY", PointOfInterestData.astronomicalObject[0]),
-            new(3, "EAJPTO", PointOfInterestData.astronomicalObject[0]),
-            new(4, "EAUKLO", PointOfInterestData.astronomicalObject[0]),
-            new(5, "EARUMO", PointOfInterestData.astronomicalObject[0]),
-            new(6, "JUNLAM", PointOfInterestData.astronomicalObject[4]),
-            new(7, "NEVNHA", PointOfInterestData.astronomicalObject[7]),
+            new(1, "EANLAM", PointOfInterestData.astronomicalObjects[0]),
+            new(2, "EAUSNY", PointOfInterestData.astronomicalObjects[0]),
+            new(3, "EAJPTO", PointOfInterestData.astronomicalObjects[0]),
+            new(4, "EAUKLO", PointOfInterestData.astronomicalObjects[0]),
+            new(5, "EARUMO", PointOfInterestData.astronomicalObjects[0]),
+            new(6, "JUNLAM", PointOfInterestData.astronomicalObjects[4]),
+            new(7, "NEVNHA", PointOfInterestData.astronomicalObjects[7]),
+            new(8, "MERUMO", PointOfInterestData.astronomicalObjects[1]),
+            new(9, "VEJPOS", PointOfInterestData.astronomicalObjects[2]),
+            new(10, "MASACA", PointOfInterestData.astronomicalObjects[3]),
+            new(11, "SASPBA", PointOfInterestData.astronomicalObjects[5]),
+            new(12, "URBEBR", PointOfInterestData.astronomicalObjects[6]),
         };
 
         public bool Delete(long id)

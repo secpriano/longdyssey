@@ -1,6 +1,6 @@
-﻿using System.Data;
+﻿using ExceptionHandler;
+using System.Data;
 using System.Data.SqlClient;
-using System.Security;
 namespace DAL
 {
     public class Database
@@ -18,10 +18,9 @@ namespace DAL
                 com.CommandType = CommandType.Text;
                 return com;
             }
-            catch (Exception)
+            catch (SqlException e)
             {
-
-                throw;
+                throw new DALexception(ErrorType.DatabaseConnection, "Error connecting to the database: " + e.Message);
             }
         }
 

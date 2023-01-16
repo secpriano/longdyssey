@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Exception\ExceptionHandler.csproj" />
     <ProjectReference Include="..\IL\IL.csproj" />
   </ItemGroup>
 

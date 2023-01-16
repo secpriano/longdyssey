@@ -1,6 +1,6 @@
-﻿using LongdysseyWebApplication.Models.SpaceshipModels;
+﻿using WebApplication.Models.SpaceshipModels;
 
-namespace LongdysseyWebApplication.Models.Dienstregeling
+namespace WebApplication.Models.Dienstregeling
 {
     public class DienstregelingViewModel
     {

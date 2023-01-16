@@ -2,9 +2,9 @@
 {
     public class GateDTO
     {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public SpaceportDTO Spaceport { get; set; }
+        public long Id { get; }
+        public string Name { get; }
+        public SpaceportDTO Spaceport { get; }
 
         public GateDTO(long id, string name, SpaceportDTO spaceport)
         {

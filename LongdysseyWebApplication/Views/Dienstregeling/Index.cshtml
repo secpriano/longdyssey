@@ -1,4 +1,4 @@
-﻿@model LongdysseyWebApplication.Models.Dienstregeling.DienstregelingViewModel
+﻿@model WebApplication.Models.Dienstregeling.DienstregelingViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -62,6 +62,19 @@
 </section>
 
 <script>
+    let date = new Date().toJSON();
+    let currentDate = new Date().toJSON().slice(0, 10);
+
+    const dateControl = document.querySelectorAll('input[type="date"]');
+    console.log(dateControl);
+    // for each dateControl, set the min to the current date
+    for (let i = 0; i < dateControl.length; i++) {
+        dateControl[i].setAttribute("min", currentDate);
+        dateControl[i].value = currentDate;
+        dateControl[i].setAttribute("placeholder", currentDate);
+    }
+    
+        
     const astronomicalObjects = @Html.Raw(Json.Serialize(Model.AstronomicalObjects));
     console.log(astronomicalObjects);
     const orbits = document.getElementsByClassName('orbit');

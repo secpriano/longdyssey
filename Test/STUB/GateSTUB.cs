@@ -31,6 +31,11 @@ namespace Test.STUB
             new(21, "A1", SpaceportData.spaceports[5]),
             new(22, "A1", SpaceportData.spaceports[6]),
             new(23, "A2", SpaceportData.spaceports[6]),
+            new(24, "A1", SpaceportData.spaceports[7]),
+            new(25, "C2", SpaceportData.spaceports[8]),
+            new(26, "C3", SpaceportData.spaceports[9]),
+            new(27, "B1", SpaceportData.spaceports[10]),
+            new(28, "B2", SpaceportData.spaceports[11]),
         };
 
         public bool Delete(long id)
@@ -45,7 +50,7 @@ namespace Test.STUB
 
         public GateDTO GetByAstronomicalObjectName(string name)
         {
-            throw new NotImplementedException();
+            return gates.Where(gates => gates.Spaceport.AstronomicalObject.Name == name).FirstOrDefault();
         }
 
         public GateDTO GetById(long id)

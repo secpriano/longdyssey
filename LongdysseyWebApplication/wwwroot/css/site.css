@@ -92,6 +92,33 @@ button:hover {
     position: relative;
 }
 
+.validation-summary-errors {
+    color: var(--main);
+    padding-top: 25px;
+}
+
+    .validation-summary-errors li {
+        list-style: none;
+        margin-bottom: 5px;
+        padding-left: 5px;
+        animation: flash 1s infinite;
+        border-left: 24px solid transparent;
+    }
+
+@keyframes flash {
+    0% {
+        border-color: var(--main);
+    }
+
+    50% {
+        border-color: transparent;
+    }
+
+    100% {
+        border-color: var(--main);
+    }
+}
+
 #bg {
     background-image: url(../img/BG.webp);
     position: absolute;

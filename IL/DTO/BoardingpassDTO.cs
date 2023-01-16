@@ -2,9 +2,9 @@
 {
     public class BoardingpassDTO
     {
-        public FlightDTO Flight { get; set; }
-        public UserDTO User { get; set; }
-        public long Seat { get; set; }
+        public FlightDTO Flight { get; }
+        public UserDTO User { get; }
+        public long Seat { get; }
 
         public BoardingpassDTO(FlightDTO flight, UserDTO user, long seat)
         {

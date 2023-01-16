@@ -15,16 +15,15 @@ namespace BLL.Entity
         public FlightSchedule? FlightSchedule { get; set; }
         public IBoardingpassDAL? BoardingpassDb { get; set; }
 
-        public Flight(DateTime departuretime, long status, Gate originGate, Gate destinationGate, Spaceship spaceship, FlightSchedule? flightSchedule)
+        public Flight(DateTime departuretime, long status, string flightNumber, Gate originGate, Gate destinationGate, Spaceship spaceship, FlightSchedule? flightSchedule)
         {
             DepartureTime = departuretime;
             Status = status;
+            FlightNumber = flightNumber;
             OriginGate = originGate;
             DestinationGate = destinationGate;
             Spaceship = spaceship;
             FlightSchedule = flightSchedule;
-
-            GenerateFlightNumber();
         }
 
         public Flight(FlightDTO dto)
@@ -38,12 +37,7 @@ namespace BLL.Entity
             Spaceship = new(dto.Spaceship);
             FlightSchedule = new(dto.FlightSchedule);
         }
-
-        private void GenerateFlightNumber()
-        {
-            FlightNumber = "";
-        }
-
+        
         private double CalculateFlightDistance()
         {
             OriginGate.Spaceport.AstronomicalObject.SphericalToCartesianCoordinates(out double[] originCoordinates);

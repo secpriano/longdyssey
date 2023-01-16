@@ -43,10 +43,10 @@ namespace UIL
             };
             dataGridViewFlight.DataSource = flights[0];
         }
-
+        
         private void ButtonInsert_Click(object sender, EventArgs e)
         {
-            Flight flight = new(DateTimePickerVertrekDatum.Value, 1, (Gate)ComboBoxOriginGate.SelectedItem, (Gate)ComboBoxDestinationGate.SelectedItem, (Spaceship)ComboBoxSpaceship.SelectedItem);
+            Flight flight = new(DateTimePickerVertrekDatum.Value, 1, "UITO", (Gate)ComboBoxOriginGate.SelectedItem, (Gate)ComboBoxDestinationGate.SelectedItem, (Spaceship)ComboBoxSpaceship.SelectedItem, null);
             fc.Add(flight);
             
         }

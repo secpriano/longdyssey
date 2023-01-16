@@ -2,13 +2,13 @@
 using DAL;
 using System.Globalization;
 
-namespace LongdysseyWebApplication.Models
+namespace WebApplication.Models
 {
     public class FlightSearchViewModel
     {
-        public List<FlightModel> Flights { get; set; } = new List<FlightModel>();
-        public List<SpaceportModel> Spaceports { get; set; }
-        public List<AstronomicalObjectModel> AstronomicalObjects { get; set; }
+        public List<FlightModel> Flights { get; set; } = new();
+        public List<SpaceportModel> Spaceports { get; set; } = new();
+        public List<AstronomicalObjectModel> AstronomicalObjects { get; set; } = new();
 
         public List<string> AstronomicalObjectX = new();
         public List<string> AstronomicalObjectY = new();

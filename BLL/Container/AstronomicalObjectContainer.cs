@@ -1,5 +1,5 @@
 ﻿using BLL.Entity;
-using IL.DTO;
+using ExceptionHandler;
 using IL.Interface.DAL;
 
 namespace BLL.Container
@@ -15,7 +15,14 @@ namespace BLL.Container
 
         public List<AstronomicalObject> GetAll()
         {
-            return Db.GetAll().Select(astronomicalObjectDTO => new AstronomicalObject(astronomicalObjectDTO)).ToList();
+            try
+            {
+                return Db.GetAll().Select(astronomicalObjectDTO => new AstronomicalObject(astronomicalObjectDTO)).ToList();
+            }
+            catch (DALexception e)
+            {
+                throw new ErrorResponse(e.ErrorType);
+            }
         }
     }
 }
