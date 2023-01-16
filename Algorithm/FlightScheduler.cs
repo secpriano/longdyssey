@@ -8,7 +8,7 @@ namespace Algorithm
     public class FlightScheduler
     {
         private FlightSchedule FlightSchedule;
-        private Spaceship Spaceship;
+        public Spaceship Spaceship { private get; set; }
         private List<AstronomicalObject> Route;
         private DateTime DepartureTime;
         private List<Flight> NeededFlights = new();
@@ -18,7 +18,7 @@ namespace Algorithm
         private readonly IGateDAL gateDb;
         private readonly IFlightScheduleDAL flightScheduleDb;
         private readonly IFlightDAL flightDb;
-
+        
         public FlightScheduler(IGateDAL gateDAL, IFlightScheduleDAL flightScheduleDAL, IFlightDAL flightDAL)
         {
             gateDb = gateDAL;
@@ -72,12 +72,12 @@ namespace Algorithm
         private const decimal CInKilometers = 299792.458M;
         private static decimal AUtoKm(decimal distanceInKm) => distanceInKm * AstronomicalUnitInKilometers;
 
-        private decimal CalculateTravelTimeHour(double distance)
+        public decimal CalculateTravelTimeHour(double distance)
         {
             decimal flightDurationSecond = AUtoKm((decimal)distance) / (Spaceship.Speed * CInKilometers);
             return flightDurationSecond / SecondsPerHour;
         }
-
+        
         private void CalculateSpaceshipsPerAO(decimal travelTimeHour)
         {
             spaceshipsOnAO.Add((uint)Math.Ceiling(travelTimeHour / 8));

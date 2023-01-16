@@ -3,6 +3,7 @@
     public enum ErrorType
     {
         DatabaseConnection,
-        FlightsAreEmpty
+        FlightsAreEmpty,
+        SeatTaken,
     }
 }

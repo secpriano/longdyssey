@@ -2,6 +2,7 @@
 using IL.Interface.DAL;
 using System.Data.SqlClient;
 using System.Data;
+using ExceptionHandler;
 
 namespace DAL
 {
@@ -14,13 +15,15 @@ namespace DAL
             using SqlCommand checkCom = new(cmdText);
             checkCom.Parameters.Add("@Seat", SqlDbType.BigInt).Value = seat;
             checkCom.Parameters.Add("@FlightID", SqlDbType.BigInt).Value = flightId;
+            
+            DataTable dt = new();
+            dt = Fetch(checkCom);
 
-            // If seat is already taken, return false
-            if (checkCom.ExecuteScalar() != null)
+            if (dt.Rows.Count != 0)
             {
-                return false;
+                throw new DALexception(ErrorType.SeatTaken, "Seat is already taken");
             }
-
+            
             // If seat is available, book it
             cmdText = "INSERT INTO Boardingpass (Seat, FlightID, UserID) VALUES (@Seat, @FlightID, @UserID)";
             using SqlCommand com = new(cmdText);

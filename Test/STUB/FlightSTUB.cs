@@ -14,22 +14,25 @@ namespace Test.STUB
             new(1, new(2050, 12, 21), 1, "EAUSNY4785", GateData.gates[0], GateData.gates[20], SpaceshipData.spaceships[4], null)
         };
 
+        public long FlightId { get; set; }
         public bool DeleteByID(long id)
         {
+            FlightId = id;
             flights.RemoveAll(flights => flights.Id == id);
 
-            return false;
+            return !flights.Exists(flights => flights.Id == id);
         }
 
         public List<FlightDTO> GetAll() => flights;
 
         public FlightDTO GetById(long id)
         {
-            throw new NotImplementedException();
+            return flights.Find(flights => flights.Id == id);
         }
 
         public List<FlightDTO> GetByFlightScheduleId(long id)
         {
+            FlightId = id;
              return flights.FindAll(flight => flight.FlightSchedule != null && flight.FlightSchedule.Id == id);
         }
 

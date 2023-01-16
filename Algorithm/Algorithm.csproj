@@ -11,4 +11,8 @@
     <ProjectReference Include="..\DAL\DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="IFlightSchedulerTestAccessor.cs" />
+  </ItemGroup>
+
 </Project>

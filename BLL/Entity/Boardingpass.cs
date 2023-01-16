@@ -4,10 +4,19 @@ namespace BLL.Entity
 {
     public class Boardingpass
     {
+        public long Id { get; set; }
         public Flight Flight { get; set; }
         public User User { get; set; }
         public long Seat { get; set; }
 
+        public Boardingpass(long id, Flight flight, User user, long seat)
+        {
+            Id = id;
+            Flight = flight;
+            User = user;
+            Seat = seat;
+        }
+        
         public Boardingpass(Flight flight, User user, long seat)
         {
             Flight = flight;

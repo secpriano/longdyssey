@@ -2,7 +2,7 @@
 {
     public class FlightDTO
     {
-        public long Id { get; }
+        public long Id { get; set; }
         public DateTime DepartureTime { get; }
         public long Status { get; }
         public string FlightNumber { get; }

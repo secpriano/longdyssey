@@ -26,10 +26,13 @@ namespace BLL.Entity
 
         public FlightSchedule(FlightScheduleDTO dto)
         {
-            Id = dto.Id;
-            Name = dto.Name;
-            StartDate = dto.StartDate;
-            EndDate = dto.EndDate;
+            if (dto != null)
+            {
+                Id = dto.Id;
+                Name = dto.Name;
+                StartDate = dto.StartDate;
+                EndDate = dto.EndDate;
+            }
         }
 
         public FlightScheduleDTO GetDTO() => new(Id, Name, StartDate, EndDate);

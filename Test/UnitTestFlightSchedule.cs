@@ -10,7 +10,7 @@ public class UnitTestFlightSchedule
 {
     const byte minimumFlightsDepartingAday = 4;
     const byte minimumFlightsArrivingAndEDepartingAday = minimumFlightsDepartingAday * 2;
-    
+
     [TestMethod]
     public void FlightScheduler_ReturnsExpectedResult()
     {
@@ -21,23 +21,24 @@ public class UnitTestFlightSchedule
         FlightSTUB flightStub = new();
         SpaceshipSTUB spaceshipStub = new();
         AstronomicalObjectSTUB astronomicalObjectStub = new();
-        
+
         /// Algorithm with STUB
         FlightScheduler flightScheduler = new FlightScheduler(gateStub, flightScheduleStub, flightStub);
-        
+
         // todo: randomize the input
         string flightScheduleName = "Its a wonderful flight";
         DateTime flightScheduleStartDate = new(2029, 12, 24);
         DateTime flightScheduleEndDate = new(2030, 1, 25);
         string spaceshipName = "Vaccuum Star";
-        
+
         /// Minimum and maximum requirements result
         ulong daysBetween = (ulong)(flightScheduleEndDate - flightScheduleStartDate).Days;
         ulong totalMinimumFlights = daysBetween * minimumFlightsArrivingAndEDepartingAday;
-        
+
         // Act
         /// Init shortest route algorithm
-        ShortestRoute shortestRoute = new(spaceshipStub, spaceshipName, astronomicalObjectStub, flightScheduleStartDate);
+        ShortestRoute shortestRoute =
+            new(spaceshipStub, spaceshipName, astronomicalObjectStub, flightScheduleStartDate);
         /// Run shortest route algorithm
         List<AstronomicalObject> Route = shortestRoute.CalculateBestRoute();
 
@@ -47,10 +48,31 @@ public class UnitTestFlightSchedule
         FlightSchedule flightSchedule = flightScheduler.GetByName(flightScheduleName);
         /// Use flight schedule to add flights to database
         flightScheduler.GenerateFlightsFromFlightSchedule(spaceshipStub, flightSchedule, spaceshipName, Route);
-        
-        List<Flight> flights = flightStub.GetByFlightScheduleId((long)flightSchedule.Id).Select(flight => new Flight(flight)).ToList();
-        
+
+        List<Flight> flights = flightStub.GetByFlightScheduleId((long)flightSchedule.Id)
+            .Select(flight => new Flight(flight)).ToList();
+
         // Assert
         Assert.IsTrue(totalMinimumFlights < (ulong)flights.Count);
+    }
+
+    [TestMethod]
+    public void FlightScheduler_CalculateTravelTimeHour_ReturnsExpectedResult()
+    {
+        // Arrange
+        /// STUB
+        GateSTUB gateStub = new();
+        FlightScheduleSTUB flightScheduleStub = new();
+        FlightSTUB flightStub = new();
+
+        /// Algorithm with STUB
+        FlightScheduler flightScheduler = new FlightScheduler(gateStub, flightScheduleStub, flightStub);
+
+        flightScheduler.Spaceship = new(1, "iets", 50, 0.5M, 1);
+        decimal expectedTimeHour = 27.72M;
+        // Act
+        decimal actualTimeHour = flightScheduler.CalculateTravelTimeHour(100);
+        
+        Assert.AreEqual(expectedTimeHour, actualTimeHour, 0.01M);
     }
 }

@@ -1,4 +1,5 @@
-﻿using IL.DTO;
+﻿using ExceptionHandler;
+using IL.DTO;
 using IL.Interface.DAL;
 
 namespace Test.STUB
@@ -10,7 +11,8 @@ namespace Test.STUB
 
         public List<BoardingpassDTO> boardingpasses = new()
         {
-            new(FlightData.flights[1-1], UserData.users[1-1], 5)
+            new(1, FlightData.flights[0], UserData.users[0], 5),
+            new(2, FlightData.flights[0], UserData.users[3], 40)
         };
 
         public long FlightId { get; private set; }
@@ -23,8 +25,16 @@ namespace Test.STUB
             UserId = userId;
             Seat = seat;
 
-            boardingpasses.Add(new(FlightData.flights[(int)flightId - 1], UserData.users[(int)userId - 1], seat));
-            return true;
+            if (boardingpasses.Exists(boardingpass => boardingpass.Flight.Id == flightId && boardingpass.Seat == Seat))
+            {
+                throw new DALexception(ErrorType.SeatTaken, "Seat is already taken");
+            }
+            
+            BoardingpassDTO boardingpass = new(FlightData.GetById(flightId), UserData.GetById(userId), seat);
+            boardingpass.Id = boardingpasses.Count + 1;
+            boardingpasses.Add(boardingpass);
+
+            return boardingpasses.Contains(boardingpass);
         }
 
         public bool DeleteByID(long id)
@@ -39,12 +49,12 @@ namespace Test.STUB
 
         public List<BoardingpassDTO> GetBoardingpassesByFlightId(long id)
         {
-            throw new NotImplementedException();
+            return boardingpasses.FindAll(boardingpasses => boardingpasses.Flight.Id == id);
         }
 
         public BoardingpassDTO GetById(long id)
         {
-            throw new NotImplementedException();
+            return boardingpasses.Find(boardingpass => boardingpass.Id == id);
         }
 
         public bool Insert(BoardingpassDTO entity)

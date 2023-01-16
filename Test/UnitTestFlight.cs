@@ -1,7 +1,6 @@
 using BLL.Container;
 using BLL.Entity;
 using IL.DTO;
-using Newtonsoft.Json;
 using Test.STUB;
 
 namespace Test
@@ -10,183 +9,86 @@ namespace Test
     public class UnitTestFlight
     {
         [TestMethod]
-        public void GetAllFlightAmountRows()
+        public void GetAllFlights_ReturnsExpectedResult()
         {
             // Arrange
-            FlightSTUB fs = new();
-            FlightContainer fc = new(fs);
-            List<Flight> expected = new();
-            fs.GetAll().ForEach(DTO =>
-            {
-                expected.Add(new(DTO));
-            });
+            FlightSTUB flightStub = new();
+            FlightContainer flightContainer = new(flightStub);
+            
+            List<Flight> expected = flightStub.GetAll().Select(DTO => new Flight(DTO)).ToList();
 
             // Act
-            List<Flight> actual = fc.GetAll();
+            List<Flight> actual = flightContainer.GetAll();
 
             // Assert
-            ListToJsonAreEqual(expected, actual, "List not the same: (");
-        }
-
-        [TestMethod]
-        public void DeleteFlightByID()
-        {
-            // Arrange
-            FlightSTUB fs = new();
-            FlightContainer fc = new(fs);
-            bool notContainsObject = true;
-            fs.flights.ForEach(DTO =>
+            Assert.AreEqual(expected.Count, actual.Count);
+            for (int i = 0; i < expected.Count; i++)
             {
-                if (DTO.Id == 1)
-                {
-                    notContainsObject = false;
-                }
-            });
-
-            // Act
-            bool actual = fc.DeleteByID(1);
-
-            // Assert
-            fs.flights.ForEach(DTO =>
-            {
-                if (DTO.Id != 1)
-                {
-                    notContainsObject = false;
-                }
-                else
-                {
-                    notContainsObject = true;
-                }
-            });
-
-            bool expected = notContainsObject;
-            Assert.AreEqual(expected, actual, "Flight not deleted :(");
-        }
-
-        [TestMethod]
-        public void AddFlight()
-        {
-            // Nog niet goed 
-
-            // Arrange
-            GateSTUB GateData = new();
-            SpaceshipSTUB SpaceshipData = new();
-            FlightDTO flightDTO = new(new(2069, 4, 8), 2, "JUJATO", GateData.gates[20], GateData.gates[21], SpaceshipData.spaceships[5], null);
-            Flight flight = new(new(2069, 4, 8), 2, "YOYO1", new(GateData.gates[20]), new(GateData.gates[21]), new(SpaceshipData.spaceships[5]), null);
-            FlightSTUB fs = new();
-            FlightContainer fc = new(fs);
-            bool expected = fs.Insert(flightDTO);
-
-            // Act
-            fc.Add(flight);
-
-            // Assert
-            bool actual = fs.flights.Contains(flightDTO);
-            Assert.AreEqual(expected, actual, "Flight not added :(");
-        }
-
-    public static bool ListToJsonAreEqual(object obj1, object obj2, string message)
-    {
-        if (ReferenceEquals(obj1, obj2)) return true;
-    
-        if (obj1 is null || obj2 is null) return false;
-    
-        if (obj1.GetType() != obj2.GetType()) return false;
-    
-        string objJson1 = JsonConvert.SerializeObject(obj1);
-        string objJson2 = JsonConvert.SerializeObject(obj2);
-
-        Assert.AreEqual(objJson1, objJson2, message);
-        return objJson1 == objJson2;
-    }
-
-
-        [TestMethod]
-        public void UserID2_BookFlightID1_With10Travelers_IsInsertedInSTUB()
-        {
-            // Arrange
-            FlightSTUB flightSTUB = new();
-            UserSTUB userSTUB = new();
-            BoardingpassSTUB boardingpassSTUB = new();
-
-            /// welke persoon bookt het
-            User user = new(userSTUB.users[Index(2)]);
-
-            /// welke zitplaats reserveren
-            long seat = 10;
-
-            /// Wat de boardingpass moet zijn
-            Boardingpass expectedBoardingpass = new(new(flightSTUB.flights[Index(1)]), user, seat);
-
-            // Act
-            Boardingpass actualbBoardingpass = new();
-
-            /// book vlucht
-            Flight.BookSeat(boardingpassSTUB, Index(1), seat, user.Id);
-
-            /// zoek in de stub waar het toegevoegd is
-            boardingpassSTUB.boardingpasses.ForEach(boardingpass =>
-            {
-                if (boardingpass.Flight.Id == expectedBoardingpass.Flight.Id && boardingpass.User.Id == expectedBoardingpass.User.Id && boardingpass.Seat == expectedBoardingpass.Seat)
-                {
-                    actualbBoardingpass = new(boardingpass);
-                }
-            });
-
-            // Assert
-            /// vergelijk boardingpasses in Json formaat
-            ListToJsonAreEqual(expectedBoardingpass, actualbBoardingpass, "Flight not booked :(");
-        }
-
-        [TestMethod]
-        public void BookFlightQuery_UserID3_FlightID1_Travelers7_IsTheSameInSTUB()
-        {
-            // Arrange
-            FlightSTUB flightSTUB = new();
-            UserSTUB userSTUB = new();
-            BoardingpassSTUB boardingpassSTUB = new();
-
-            /// welke persoon bookt het
-            User user = new(userSTUB.users[Index(3)]);
-
-            /// welke zitplaats reserveren
-            long seat = 7;
-
-            /// Wat de query moet zijn
-            List<long> expectedQueryParams = new()
-            {
-                flightSTUB.flights[Index(1)].Id,
-                user.Id,
-                seat
-            };
-
-            // Act
-            /// book vlucht
-            Flight.BookSeat(boardingpassSTUB, Index(1), seat, user.Id);
-
-            /// Wat de query is
-            List<long> actualQueryParams = new()
-            {
-                boardingpassSTUB.FlightId,
-                boardingpassSTUB.UserId,
-                boardingpassSTUB.Seat
-            };
-
-
-            // Assert
-            /// Query parameters vergelijken
-            for (int i = 0; i < expectedQueryParams.Count; i++)
-            {
-                Assert.AreEqual(expectedQueryParams[i], actualQueryParams[i], "Query in STUB not the same as when send");
+                Assert.AreEqual(expected[i].Id, actual[i].Id);
+                Assert.AreEqual(expected[i].Spaceship.Id, actual[i].Spaceship.Id);
+                Assert.AreEqual(expected[i].OriginGate.Id, actual[i].OriginGate.Id);
+                Assert.AreEqual(expected[i].DestinationGate.Id, actual[i].DestinationGate.Id);
+                Assert.AreEqual(expected[i].OriginGate.Spaceport.Id, actual[i].OriginGate.Spaceport.Id);
+                Assert.AreEqual(expected[i].DestinationGate.Spaceport.Id, actual[i].DestinationGate.Spaceport.Id);
             }
         }
 
-        // test maken voor volle vliegtuig
+        [TestMethod]
+        public void DeleteFlightById_CheckParameter_ParametersPassedInControllerIsTheSameInDAL()
+        {
+            // Arrange
+            FlightSTUB flightStub = new();
+            FlightContainer flightContainer = new(flightStub);
 
-        // test maken niet dezelfde zitplaats
+            // Act
+            bool actualIsDeleted = flightContainer.DeleteByID(1);
 
-        // test maken voor verkeerde input
+            // Assert
+            Assert.IsTrue(actualIsDeleted);
+            Assert.AreEqual(1, flightStub.FlightId);
+        }
 
-        private static int Index(int id) => id - 1;
+        [TestMethod]
+        public void DeleteFlightById_ReturnsExpectedResult()
+        {
+            // Arrange
+            FlightSTUB flightStub = new();
+            FlightContainer flightContainer = new(flightStub);
+
+            int expected = flightStub.GetAll().Count - 1;
+
+            // Act
+            flightContainer.DeleteByID(1);
+
+            // Assert
+            Assert.AreEqual(expected, flightStub.GetAll().Count);
+            Assert.IsFalse(flightStub.flights.Exists(flight => flight.Id == 1));
+        }
+
+        [TestMethod]
+        public void AddFlight_ReturnsExpectedResult()
+        {
+            // Arrange
+            GateSTUB GateData = new();
+            SpaceshipSTUB SpaceshipData = new();
+            FlightSTUB flightStub = new();
+            FlightContainer flightContainer = new(flightStub);
+            
+            Flight expectedFlight = new(2, new(2069, 4, 8), 2, "YOYO1", new(GateData.gates[20]), new(GateData.gates[21]), new(SpaceshipData.spaceships[5]), null);
+
+            // Act
+            bool ActualIsAdded = flightContainer.Add(expectedFlight);
+
+            // Assert
+            Assert.IsTrue(ActualIsAdded);
+            
+            FlightDTO actualFlight = flightStub.flights.Find(flight => flight.Id == expectedFlight.Id);
+            Assert.AreEqual(expectedFlight.Id, actualFlight.Id);
+            Assert.AreEqual(expectedFlight.Spaceship.Id, actualFlight.Spaceship.Id);
+            Assert.AreEqual(expectedFlight.OriginGate.Id, actualFlight.OriginGate.Id);
+            Assert.AreEqual(expectedFlight.DestinationGate.Id, actualFlight.DestinationGate.Id);
+            Assert.AreEqual(expectedFlight.OriginGate.Spaceport.Id, actualFlight.OriginGate.Spaceport.Id);
+            Assert.AreEqual(expectedFlight.DestinationGate.Spaceport.Id, actualFlight.DestinationGate.Spaceport.Id);
+        }
     }
 }

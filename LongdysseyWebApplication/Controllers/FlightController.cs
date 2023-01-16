@@ -52,7 +52,12 @@ namespace WebApplication.Controllers
                         availableSeats.Add(i);
                     }
                 }
+                
+                ModelState.Clear();
+                var errorMessage = TempData["ErrorMessage"] as string;
+                
                 FlightDetailViewModel flightDetailViewModel = new(flight, availableSeats);
+                flightDetailViewModel.ErrorMessage = errorMessage;
                 return View(flightDetailViewModel);
             }
             catch (ErrorResponse e)
@@ -64,8 +69,22 @@ namespace WebApplication.Controllers
         [HttpPost]
         public ActionResult BookSeat(FlightDetailViewModel flightDetailViewModel)
         {
-            Flight.BookSeat(new BoardingpassDAL(), flightDetailViewModel.BookFlightId, flightDetailViewModel.SelectedSeat, 1);
-            return RedirectToAction("Index");
+            try
+            {
+                Flight.BookSeat(new BoardingpassDAL(), flightDetailViewModel.BookFlightId, flightDetailViewModel.SelectedSeat, 1);
+                return RedirectToAction("Index");
+            }
+            catch (ErrorResponse e)
+            {
+                switch (e.ErrorType)
+                {
+                    case ErrorType.DatabaseConnection:
+                        return RedirectToAction("Index", "Error", new { errorMessage = e.Message });
+                    default:
+                        TempData["ErrorMessage"] = e.Message;
+                        return RedirectToAction("Detail", new { id = flightDetailViewModel.BookFlightId });
+                }
+            }
         }
 
         [HttpPost]

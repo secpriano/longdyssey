@@ -1,4 +1,5 @@
-﻿using IL.DTO;
+﻿using ExceptionHandler;
+using IL.DTO;
 using IL.Interface.DAL;
 
 namespace BLL.Entity
@@ -15,6 +16,18 @@ namespace BLL.Entity
         public FlightSchedule? FlightSchedule { get; set; }
         public IBoardingpassDAL? BoardingpassDb { get; set; }
 
+        public Flight(long id, DateTime departuretime, long status, string flightNumber, Gate originGate, Gate destinationGate, Spaceship spaceship, FlightSchedule? flightSchedule)
+        {
+            Id = id;
+            DepartureTime = departuretime;
+            Status = status;
+            FlightNumber = flightNumber;
+            OriginGate = originGate;
+            DestinationGate = destinationGate;
+            Spaceship = spaceship;
+            FlightSchedule = flightSchedule;
+        }
+        
         public Flight(DateTime departuretime, long status, string flightNumber, Gate originGate, Gate destinationGate, Spaceship spaceship, FlightSchedule? flightSchedule)
         {
             DepartureTime = departuretime;
@@ -81,7 +94,18 @@ namespace BLL.Entity
             return DepartureTime + flightDuration;
         }
 
-        public static bool BookSeat(IBoardingpassDAL db, long flightId, long seat, long userId) => db.BookSeatFromFlight(seat, flightId, userId);
+        public static bool BookSeat(IBoardingpassDAL boardingpassDb, long flightId, long seat, long userId)
+        {
+            try
+            {
+                return boardingpassDb.BookSeatFromFlight(seat, flightId, userId);
+            }
+            catch (DALexception e)
+            {
+                throw new ErrorResponse(e.ErrorType);
+            }
+        } 
+        
         public List<Boardingpass> GetBoardingpassesByFlightId()
         {
             List<Boardingpass> boardingpasses = new();
@@ -100,6 +124,32 @@ namespace BLL.Entity
             Minute
         }
 
-        public FlightDTO GetDTO() => new(Id, DepartureTime, Status, FlightNumber, OriginGate.GetDTO(), DestinationGate.GetDTO(), Spaceship.GetDTO(), FlightSchedule.GetDTO());
+        public FlightDTO GetDTO()
+        {
+            if (FlightSchedule != null)
+            {
+                return new FlightDTO(
+                    Id,
+                    DepartureTime,
+                    Status,
+                    FlightNumber,
+                    OriginGate.GetDTO(),
+                    DestinationGate.GetDTO(),
+                    Spaceship.GetDTO(),
+                    FlightSchedule.GetDTO()
+                );
+            }
+
+            return new FlightDTO(
+                Id,
+                DepartureTime,
+                Status,
+                FlightNumber,
+                OriginGate.GetDTO(),
+                DestinationGate.GetDTO(),
+                Spaceship.GetDTO(),
+                null
+            );
+        } 
     }
 }

@@ -60,9 +60,10 @@ namespace Test
             
             // Act
             List<Flight> actualFlights = flightContainer.SearchFlights(spaceportContainer, leaveDate, originAOandSpaceportName, destinationAOandSpaceportName, amountSeats);
-
+            
+            // Assert
             /// Actual data should always be the same as the expected data
-            for (int i = 0; i < actualFlights.Count; i++)
+            for (int i = 0; i < expectedFlights.Count; i++)
             {
                 Assert.AreEqual(expectedFlights[i].Id, actualFlights[i].Id);
                 Assert.AreEqual(expectedFlights[i].OriginGate.Id, actualFlights[i].OriginGate.Id);
@@ -351,7 +352,7 @@ namespace Test
             //ErrorResponse e = Assert.ThrowsException<ErrorResponse>(() => flightContainer.SearchFlights(spaceportContainer, leaveDate, amountSeats, originAOandSpaceportName, destinationAOandSpaceportName));
             ErrorResponse e = Assert.ThrowsException<ErrorResponse>(() => flightContainer.SearchFlights(spaceportContainer, leaveDate, originAOandSpaceportName, destinationAOandSpaceportName, amountSeats));
 
-            /// Actual error & fix messages should always be equal to expected error & fix messages
+            /// Actual error type & error messages should always be equal to expected error type & error messages
             Assert.AreEqual(expectedErrorType, e.ErrorType);
             Assert.AreEqual(expectedErrorMessage, e.Message);
         }

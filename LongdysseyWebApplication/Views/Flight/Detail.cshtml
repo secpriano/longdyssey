@@ -69,5 +69,13 @@
         <input type="hidden" value="@Model.Flight.Id" asp-for="BookFlightId"/>
 
         <button class="select" type="submit">Book flight</button>
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="validation-summary-errors">
+                <ul>
+                    <li>@Model.ErrorMessage</li>
+                </ul>
+            </div>
+        }
     }
 </section>
