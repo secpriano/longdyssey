@@ -62,6 +62,12 @@ namespace Test
             List<Flight> actualFlights = flightContainer.SearchFlights(spaceportContainer, leaveDate, originAOandSpaceportName, destinationAOandSpaceportName, amountSeats);
             
             // Assert
+            /// Valid search should always return data
+            Assert.IsNotNull(actualFlights);
+
+            /// Actual data amount should always be equal to expected data amount
+            Assert.AreEqual(expectedFlights.Count, actualFlights.Count);
+
             /// Actual data should always be the same as the expected data
             for (int i = 0; i < expectedFlights.Count; i++)
             {

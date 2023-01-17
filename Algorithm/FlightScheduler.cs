@@ -1,20 +1,21 @@
 ﻿using BLL.Container;
 using BLL.Entity;
 using DAL;
+using ExceptionHandler;
 using IL.Interface.DAL;
 
 namespace Algorithm
 {
     public class FlightScheduler
     {
-        private FlightSchedule FlightSchedule;
+        public FlightSchedule FlightSchedule { private get; set; }
         public Spaceship Spaceship { private get; set; }
-        private List<AstronomicalObject> Route;
+        public List<AstronomicalObject> Route { get; set; }
         private DateTime DepartureTime;
-        private List<Flight> NeededFlights = new();
+        public List<Flight> NeededFlights { get; } = new();
         private List<Flight> AllFlights  = new();
 
-        private readonly List<uint> spaceshipsOnAO = new();
+        public List<uint> spaceshipsOnAO { get; } = new();
         private readonly IGateDAL gateDb;
         private readonly IFlightScheduleDAL flightScheduleDb;
         private readonly IFlightDAL flightDb;
@@ -28,8 +29,51 @@ namespace Algorithm
 
         public void InsertFlightSchedule(string name, DateTime startDate, DateTime endDate)
         {
-            //TODO: Add validation
-            flightScheduleDb.Insert(new FlightSchedule(name, startDate, endDate).GetDTO());
+            // if null, then string is 'EMPTY'
+            name ??= "EMPTY";
+
+            DateTime presentDate = DateTime.Now;
+            
+            // if date is today, then set present time to startDate
+            if (presentDate.Date == startDate)
+            {
+                TimeSpan time = presentDate.TimeOfDay;
+                time = TimeSpan.FromMinutes(Math.Ceiling(time.TotalMinutes));
+                startDate = startDate.Date + time;
+            }
+            
+            // if there are invalid inputs, then throw InvalidInputException
+            if (startDate < presentDate ||
+                startDate != endDate ||
+                name == "EMPTY" || name == "")
+            {
+                List<(string Error, string Fix)> errorAndFixMessages = new();
+
+                // start date and end date must be a week apart and start date must be today or later
+                if (startDate < presentDate ||
+                    startDate != endDate ||
+                    startDate.Date.AddDays(7) < endDate.Date)
+                {
+                    errorAndFixMessages.Add((Error: $"Invalid start date '{startDate}' and end date '{endDate}'", Fix: "Start date must be today or later and end date must be a week after start date"));
+                }
+
+                // name must not be empty
+                if (name == "EMPTY" || name == "")
+                {
+                    errorAndFixMessages.Add((Error: $"Invalid name '{name}'", Fix: "Name must not be empty"));
+                }
+
+                throw new InvalidInputException(errorAndFixMessages);
+            }
+
+            try
+            {
+                flightScheduleDb.Insert(new FlightSchedule(name, startDate, endDate).GetDTO());
+            }
+            catch (DALexception e)
+            {
+                throw new ErrorResponse(e.ErrorType);
+            }
         }
         
         public FlightSchedule GetByName(string name)
@@ -44,6 +88,14 @@ namespace Algorithm
             Route = route;
             DepartureTime = (DateTime)flightSchedule.StartDate;
 
+            CalculateOutwardAndReturnFlightsStartingDepartureTimes();
+
+            /// SQL
+            flightDb.InsertFlightsFromFlightSchedule(AllFlights.Select(flight => flight.GetDTO()).ToList());
+        }
+        
+        public void CalculateOutwardAndReturnFlightsStartingDepartureTimes()
+        {
             double distance;
             decimal travelTimeHour;
 
@@ -57,20 +109,18 @@ namespace Algorithm
             CalculateReturnStartingDepartureTimes();
 
             CalculateDepartureTimes();
-
-            /// SQL
-            flightDb.InsertFlightsFromFlightSchedule(AllFlights.Select(flight => flight.GetDTO()).ToList());
         }
 
-        private static double CalculateDistance(AstronomicalObject origin, AstronomicalObject destination)
+        // Should be all private from line 66 to 182 but made public for testing purposes
+        public static double CalculateDistance(AstronomicalObject origin, AstronomicalObject destination)
         {
-            return ShortestRoute.CalculateFlightDistance(origin.SphericalToCartesianCoordinates(out _), destination.SphericalToCartesianCoordinates(out double[] _));
+            return ShortestRoute.CalculateFlightDistance(origin.SphericalToCartesianCoordinates(out _), destination.SphericalToCartesianCoordinates(out _));
         }
 
-        private const int SecondsPerHour = 3600;
-        private const decimal AstronomicalUnitInKilometers = 149597870.7M;
-        private const decimal CInKilometers = 299792.458M;
-        private static decimal AUtoKm(decimal distanceInKm) => distanceInKm * AstronomicalUnitInKilometers;
+        public const int SecondsPerHour = 3600;
+        public const decimal AstronomicalUnitInKilometers = 149597870.7M;
+        public const decimal CInKilometers = 299792.458M;
+        public static decimal AUtoKm(decimal distanceInKm) => distanceInKm * AstronomicalUnitInKilometers;
 
         public decimal CalculateTravelTimeHour(double distance)
         {
@@ -78,14 +128,14 @@ namespace Algorithm
             return flightDurationSecond / SecondsPerHour;
         }
         
-        private void CalculateSpaceshipsPerAO(decimal travelTimeHour)
+        public void CalculateSpaceshipsPerAO(decimal travelTimeHour)
         {
             spaceshipsOnAO.Add((uint)Math.Ceiling(travelTimeHour / 8));
         }
 
-        private readonly TimeSpan travelInterval = TimeSpan.FromHours(8);
+        public readonly TimeSpan travelInterval = TimeSpan.FromHours(8);
 
-        private void CalculateOutwardStartingDepartureTimes(byte i)
+        public void CalculateOutwardStartingDepartureTimes(byte i)
         {
             Gate originGate = GetGateByAstronomicalObjectName(Route[i].Name);
             Gate destinationGate = GetGateByAstronomicalObjectName(Route[i + 1].Name);
@@ -100,7 +150,7 @@ namespace Algorithm
             }
         }
 
-        private void CalculateReturnStartingDepartureTimes()
+        public void CalculateReturnStartingDepartureTimes()
         {
             for (int i = Route.Count - 1; i > 0; i--)
             {
@@ -118,12 +168,12 @@ namespace Algorithm
             }
         }
 
-        private Gate GetGateByAstronomicalObjectName(string name)
+        public Gate GetGateByAstronomicalObjectName(string name)
         {
             return new(gateDb.GetByAstronomicalObjectName(name));
         }
 
-        private void CreateFlight(Gate originGate, Gate destinationGate, DateTime nextDepartureTime, string flightNumber)
+        public void CreateFlight(Gate originGate, Gate destinationGate, DateTime nextDepartureTime, string flightNumber)
         {
             NeededFlights.Add(new(
                 nextDepartureTime,
@@ -136,7 +186,7 @@ namespace Algorithm
             ));
         }
 
-        private void CalculateDepartureTimes()
+        public void CalculateDepartureTimes()
         {
             TimeSpan timeMinutes = TimeSpan.FromMinutes(5);
 
@@ -174,7 +224,7 @@ namespace Algorithm
             });
         }
 
-        private static DateTime RoundOffTime(DateTime time, TimeSpan timeMinutes)
+        public static DateTime RoundOffTime(DateTime time, TimeSpan timeMinutes)
         {
             var ticks = (time.Ticks + (timeMinutes.Ticks / 2) + 1) / timeMinutes.Ticks;
             return new DateTime(ticks * timeMinutes.Ticks, time.Kind);

@@ -85,6 +85,11 @@ namespace WebApplication.Controllers
                         return RedirectToAction("Detail", new { id = flightDetailViewModel.BookFlightId });
                 }
             }
+            catch (InvalidInputException e)
+            {
+                TempData["ErrorMessage"] = $"Error: {e.ErrorAndFixMessages.First().Error} Fix: {e.ErrorAndFixMessages.First().Fix}";
+                return RedirectToAction("Detail", new { id = flightDetailViewModel.BookFlightId });
+            }
         }
 
         [HttpPost]

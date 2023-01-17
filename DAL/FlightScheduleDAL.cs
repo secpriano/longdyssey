@@ -2,6 +2,7 @@
 using IL.Interface.DAL;
 using System.Data.SqlClient;
 using System.Data;
+using ExceptionHandler;
 
 namespace DAL
 {
@@ -27,24 +28,29 @@ namespace DAL
 
         public bool Insert(FlightScheduleDTO flightSchedule)
         {
-            string cmdText = "INSERT INTO FlightSchedule (FlightScheduleName, StartDate, EndDate) VALUES (@Name, @StartDate, @EndDate)";
-
+            string cmdText = "SELECT * FROM FlightSchedule WHERE (@StartDate <= EndDate AND @EndDate >= StartDate)";
+            
             using SqlCommand com = new(cmdText);
 
-            com.Parameters.Add("@Name", SqlDbType.NVarChar, 50).Value = flightSchedule.Name;
-            com.Parameters.Add("@StartDate", SqlDbType.SmallDateTime).Value = flightSchedule.StartDate;
-            com.Parameters.Add("@EndDate", SqlDbType.SmallDateTime).Value = flightSchedule.EndDate;
+            com.Parameters.AddWithValue("@StartDate", flightSchedule.StartDate);
+            com.Parameters.AddWithValue("@EndDate", flightSchedule.EndDate);
 
-            try
+            DataTable dt = new();
+            dt = Fetch(com);
+            if (dt.Rows.Count == 0)
             {
-                Persist(com);
-            }
-            catch (SqlException ex)
-            {
-                Console.WriteLine(ex.Message);
-                return false;
+                throw new DALexception(ErrorType.FlightScheduleDatesOverlap , "The dates overlap with another flight schedule");
             }
 
+            string cmdTextInsert = "INSERT INTO FlightSchedule (FlightScheduleName, StartDate, EndDate) VALUES (@Name, @StartDate, @EndDate)";
+
+            using SqlCommand comInsert = new(cmdTextInsert);
+
+            comInsert.Parameters.Add("@Name", SqlDbType.NVarChar, 50).Value = flightSchedule.Name;
+            comInsert.Parameters.Add("@StartDate", SqlDbType.SmallDateTime).Value = flightSchedule.StartDate;
+            comInsert.Parameters.Add("@EndDate", SqlDbType.SmallDateTime).Value = flightSchedule.EndDate;
+            
+            Persist(comInsert);
             return true;
         }
     }

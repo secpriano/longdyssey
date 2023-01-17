@@ -1,4 +1,5 @@
-﻿using ExceptionHandler;
+﻿using System.Runtime.InteropServices.JavaScript;
+using ExceptionHandler;
 using IL.DTO;
 using IL.Interface.DAL;
 
@@ -96,6 +97,12 @@ namespace BLL.Entity
 
         public static bool BookSeat(IBoardingpassDAL boardingpassDb, long flightId, long seat, long userId)
         {
+            if (seat == 0)
+            {                
+                List<(string Error, string Fix)> errorAndFixMessages = new();
+                errorAndFixMessages.Add((Error: "Seat number cannot be 0.", Fix: "Please enter a valid seat number."));
+                throw new InvalidInputException(errorAndFixMessages);
+            }
             try
             {
                 return boardingpassDb.BookSeatFromFlight(seat, flightId, userId);

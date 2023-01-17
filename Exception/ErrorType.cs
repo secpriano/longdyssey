@@ -5,5 +5,6 @@
         DatabaseConnection,
         FlightsAreEmpty,
         SeatTaken,
+        FlightScheduleDatesOverlap,
     }
 }

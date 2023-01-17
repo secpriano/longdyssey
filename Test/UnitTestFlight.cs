@@ -22,6 +22,7 @@ namespace Test
 
             // Assert
             Assert.AreEqual(expected.Count, actual.Count);
+            
             for (int i = 0; i < expected.Count; i++)
             {
                 Assert.AreEqual(expected[i].Id, actual[i].Id);

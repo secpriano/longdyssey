@@ -14,11 +14,9 @@ public class FlightScheduleSTUB : IFlightScheduleDAL
     {
         entity.Id = FlightSchedules.Count + 1;
         FlightSchedules.Add(entity);
-        return true;
+        
+        return FlightSchedules.Contains(entity);
     }
 
-    public FlightScheduleDTO GetByName(string name)
-    {
-        return FlightSchedules.FirstOrDefault(flightSchedules => flightSchedules.Name == name);
-    }
+    public FlightScheduleDTO GetByName(string name) => FlightSchedules.FirstOrDefault(flightSchedules => flightSchedules.Name == name);
 }

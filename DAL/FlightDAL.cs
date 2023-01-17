@@ -87,93 +87,86 @@ namespace DAL
 
         public List<FlightDTO> SearchFlights(DateTime leaveDate, long originGate, long destinationGate, long amountSeats)
         {
-            try
+            string cmdText = "EXEC SearchFlight @LeaveDate, @MaxTime, @OriginGate, @DestinationGate, @Travelers";
+
+            using SqlCommand com = new(cmdText);
+
+            com.Parameters.AddWithValue("@LeaveDate", leaveDate);
+
+            TimeSpan oneDayInHours = new(23, 59, 0);
+            DateTime maxTime = leaveDate.Date + oneDayInHours;
+
+            com.Parameters.AddWithValue("@MaxTime", maxTime);
+            com.Parameters.AddWithValue("@OriginGate", originGate);
+            com.Parameters.AddWithValue("@DestinationGate", destinationGate);
+            com.Parameters.AddWithValue("@Travelers", amountSeats);
+
+            DataTable dt = new();
+            dt = Fetch(com);
+
+            List<FlightDTO> DTOs = new();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                string cmdText = "EXEC SearchFlight @LeaveDate, @MaxTime, @OriginGate, @DestinationGate, @Travelers";
-
-                using SqlCommand com = new(cmdText);
-
-                com.Parameters.AddWithValue("@LeaveDate", leaveDate);
-
-                TimeSpan oneDayInHours = new(23, 59, 0);
-                DateTime maxTime = leaveDate.Date + oneDayInHours;
-
-                com.Parameters.AddWithValue("@MaxTime", maxTime);
-                com.Parameters.AddWithValue("@OriginGate", originGate);
-                com.Parameters.AddWithValue("@DestinationGate", destinationGate);
-                com.Parameters.AddWithValue("@Travelers", amountSeats);
-
-                DataTable dt = new();
-                dt = Fetch(com);
-
-                List<FlightDTO> DTOs = new();
-
-                for (int i = 0; i < dt.Rows.Count; i++)
-                {
-                    DTOs.Add(
-                        new FlightDTO(
-                            dt.Rows[i].Field<long>("FlightID"),
-                            dt.Rows[i].Field<DateTime>("DepartureTime"),
-                            dt.Rows[i].Field<long>("StatusFlight"),
-                            dt.Rows[i].Field<string>("FlightNumber"),
-                            new GateDTO(
-                                dt.Rows[i].Field<long>("OriginGateID"), 
-                                dt.Rows[i].Field<string>("OriginGateName"), 
-                                new SpaceportDTO(
-                                    dt.Rows[i].Field<long>("OriginSpaceportID"), 
-                                    dt.Rows[i].Field<string>("OriginSpaceportName"), 
-                                    new AstronomicalObjectDTO(
-                                        dt.Rows[i].Field<long>("OriginAstronomicalObjectID"),
-                                        dt.Rows[i].Field<string>("OriginAstronomicalObjectName"),
-                                        dt.Rows[i].Field<decimal>("OriginAstronomicalObjectRadius"),
-                                        dt.Rows[i].Field<decimal>("OriginAstronomicalObjectAzimuth"),
-                                        dt.Rows[i].Field<decimal>("OriginAstronomicalObjectInclination"),
-                                        dt.Rows[i].Field<decimal>("OriginAstronomicalObjectOrbitalSpeed")
-                                    )
+                DTOs.Add(
+                    new FlightDTO(
+                        dt.Rows[i].Field<long>("FlightID"),
+                        dt.Rows[i].Field<DateTime>("DepartureTime"),
+                        dt.Rows[i].Field<long>("StatusFlight"),
+                        dt.Rows[i].Field<string>("FlightNumber"),
+                        new GateDTO(
+                            dt.Rows[i].Field<long>("OriginGateID"), 
+                            dt.Rows[i].Field<string>("OriginGateName"), 
+                            new SpaceportDTO(
+                                dt.Rows[i].Field<long>("OriginSpaceportID"), 
+                                dt.Rows[i].Field<string>("OriginSpaceportName"), 
+                                new AstronomicalObjectDTO(
+                                    dt.Rows[i].Field<long>("OriginAstronomicalObjectID"),
+                                    dt.Rows[i].Field<string>("OriginAstronomicalObjectName"),
+                                    dt.Rows[i].Field<decimal>("OriginAstronomicalObjectRadius"),
+                                    dt.Rows[i].Field<decimal>("OriginAstronomicalObjectAzimuth"),
+                                    dt.Rows[i].Field<decimal>("OriginAstronomicalObjectInclination"),
+                                    dt.Rows[i].Field<decimal>("OriginAstronomicalObjectOrbitalSpeed")
                                 )
-                            ),
-                            new GateDTO(
-                                dt.Rows[i].Field<long>("DestinationGateID"),
-                                dt.Rows[i].Field<string>("DestinationGateName"),
-                                new SpaceportDTO(
-                                    dt.Rows[i].Field<long>("DestinationSpaceportID"),
-                                    dt.Rows[i].Field<string>("DestinationSpaceportName"),
-                                    new AstronomicalObjectDTO(
-                                        dt.Rows[i].Field<long>("DestinationAstronomicalObjectID"),
-                                        dt.Rows[i].Field<string>("DestinationAstronomicalObjectName"),
-                                        dt.Rows[i].Field<decimal>("DestinationAstronomicalObjectRadius"),
-                                        dt.Rows[i].Field<decimal>("DestinationAstronomicalObjectAzimuth"),
-                                        dt.Rows[i].Field<decimal>("DestinationAstronomicalObjectInclination"),
-                                        dt.Rows[i].Field<decimal>("DestinationAstronomicalObjectOrbitalSpeed")
-                                    )
-                                )
-                            ), 
-                            new SpaceshipDTO(
-                                dt.Rows[i].Field<long>("SpaceshipID"),
-                                dt.Rows[i].Field<string>("SpaceshipName"),
-                                dt.Rows[i].Field<int>("Seat"),
-                                dt.Rows[i].Field<decimal>("Speed"),
-                                dt.Rows[i].Field<long>("SpaceshipRoleID")
-                            ),
-                            new FlightScheduleDTO(
-                                dt.Rows[i].IsNull("FlightScheduleID") ? (long?)null : dt.Rows[i].Field<long>("FlightScheduleID"),
-                                dt.Rows[i].IsNull("FlightScheduleName") ? (string?)null : dt.Rows[i].Field<string>("FlightScheduleName"),
-                                dt.Rows[i].IsNull("StartDate") ? (DateTime?)null : dt.Rows[i].Field<DateTime>("StartDate"),
-                                dt.Rows[i].IsNull("EndDate") ? (DateTime?)null : dt.Rows[i].Field<DateTime>("EndDate")
                             )
+                        ),
+                        new GateDTO(
+                            dt.Rows[i].Field<long>("DestinationGateID"),
+                            dt.Rows[i].Field<string>("DestinationGateName"),
+                            new SpaceportDTO(
+                                dt.Rows[i].Field<long>("DestinationSpaceportID"),
+                                dt.Rows[i].Field<string>("DestinationSpaceportName"),
+                                new AstronomicalObjectDTO(
+                                    dt.Rows[i].Field<long>("DestinationAstronomicalObjectID"),
+                                    dt.Rows[i].Field<string>("DestinationAstronomicalObjectName"),
+                                    dt.Rows[i].Field<decimal>("DestinationAstronomicalObjectRadius"),
+                                    dt.Rows[i].Field<decimal>("DestinationAstronomicalObjectAzimuth"),
+                                    dt.Rows[i].Field<decimal>("DestinationAstronomicalObjectInclination"),
+                                    dt.Rows[i].Field<decimal>("DestinationAstronomicalObjectOrbitalSpeed")
+                                )
+                            )
+                        ), 
+                        new SpaceshipDTO(
+                            dt.Rows[i].Field<long>("SpaceshipID"),
+                            dt.Rows[i].Field<string>("SpaceshipName"),
+                            dt.Rows[i].Field<int>("Seat"),
+                            dt.Rows[i].Field<decimal>("Speed"),
+                            dt.Rows[i].Field<long>("SpaceshipRoleID")
+                        ),
+                        new FlightScheduleDTO(
+                            dt.Rows[i].IsNull("FlightScheduleID") ? (long?)null : dt.Rows[i].Field<long>("FlightScheduleID"),
+                            dt.Rows[i].IsNull("FlightScheduleName") ? (string?)null : dt.Rows[i].Field<string>("FlightScheduleName"),
+                            dt.Rows[i].IsNull("StartDate") ? (DateTime?)null : dt.Rows[i].Field<DateTime>("StartDate"),
+                            dt.Rows[i].IsNull("EndDate") ? (DateTime?)null : dt.Rows[i].Field<DateTime>("EndDate")
                         )
-                    );
-                }
-                if (DTOs.Count == 0)
-                {
-                    throw new DALexception(ErrorType.FlightsAreEmpty ,"No flights found");
-                }
-                return DTOs;
+                    )
+                );
             }
-            catch (SqlException)
+            if (DTOs.Count == 0)
             {
-                throw;
+                throw new DALexception(ErrorType.FlightsAreEmpty ,"No flights found");
             }
+            return DTOs;
         }
 
         public FlightDTO GetById(long id)

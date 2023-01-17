@@ -48,15 +48,9 @@ namespace Test.STUB
             throw new NotImplementedException();
         }
 
-        public GateDTO GetByAstronomicalObjectName(string name)
-        {
-            return gates.Where(gates => gates.Spaceport.AstronomicalObject.Name == name).FirstOrDefault();
-        }
+        public GateDTO GetByAstronomicalObjectName(string name) => gates.Where(gates => gates.Spaceport.AstronomicalObject.Name == name).FirstOrDefault();
 
-        public GateDTO GetById(long id)
-        {
-            throw new NotImplementedException();
-        }
+        public GateDTO GetById(long id) => gates.Where(gates => gates.Id == id).FirstOrDefault();
 
         public List<GateDTO> GetBySpaceportId(long id)
         {

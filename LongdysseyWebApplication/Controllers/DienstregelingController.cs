@@ -53,7 +53,8 @@ namespace WebApplication.Controllers
             ).ToList();
         }
 
-        public ActionResult GenerateFlightSchedule(DienstregelingViewModel dienstregelingViewModel)
+        [HttpPost]
+        public ActionResult Index(DienstregelingViewModel dienstregelingViewModel)
         {
             try
             {
@@ -65,11 +66,30 @@ namespace WebApplication.Controllers
                 FlightSchedule flightSchedule = flightScheduler.GetByName(dienstregelingViewModel.Name);
                 flightScheduler.GenerateFlightsFromFlightSchedule(new SpaceshipDAL(), flightSchedule, dienstregelingViewModel.SpaceshipName, Route);
                 
-                return RedirectToAction("Index");
+                return View(new DienstregelingViewModel(GetAllAstronomicalObjects(), GetAllSpaceships()));
             }
             catch (ErrorResponse e)
             {
-                return RedirectToAction("Index", "Error", new { errorMessage = e.Message });
+                switch (e.ErrorType)
+                {
+                    case ErrorType.DatabaseConnection:
+                        return RedirectToAction("Index", "Error", new { errorMessage = e.Message });
+                    default:
+                        DienstregelingViewModel generateDienstregelingViewModel = new(GetAllAstronomicalObjects(), GetAllSpaceships());
+                        ModelState.Clear();
+                        ModelState.AddModelError(string.Empty, e.Message);
+                        return View(generateDienstregelingViewModel);
+                }
+            }
+            catch (InvalidInputException e)
+            {
+                DienstregelingViewModel generateDienstregelingViewModel = new(GetAllAstronomicalObjects(), GetAllSpaceships());
+                ModelState.Clear();
+                e.ErrorAndFixMessages.ForEach(errorAndFixMessage =>
+                {
+                    ModelState.AddModelError(string.Empty, $"Error: {errorAndFixMessage.Error} Fix: {errorAndFixMessage.Fix}");
+                });
+                return View(generateDienstregelingViewModel);
             }
         }
     }

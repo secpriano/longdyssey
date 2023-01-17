@@ -1,4 +1,6 @@
-﻿using BLL.Entity;
+﻿using System.Runtime.InteropServices.JavaScript;
+using BLL.Entity;
+using ExceptionHandler;
 using IL.Interface.DAL;
 
 namespace Algorithm
@@ -17,8 +19,16 @@ namespace Algorithm
 
         public ShortestRoute(ISpaceshipDAL spaceshipDb, string selectedSpaceshipName, IAstronomicalObjectDAL astronomicalObjectDb, DateTime startDate)
         {
+            // if selectedspaceshipname is null or empty, throw invalidinputexception
+            if (selectedSpaceshipName == null || selectedSpaceshipName == "")
+            {
+                List<(string Error, string Fix)> ErrorAndFixMessages = new();
+                ErrorAndFixMessages.Add((Error: $"Spaceship name is empty '{selectedSpaceshipName}'", Fix: "Please select a spaceship"));
+                throw new InvalidInputException(ErrorAndFixMessages);
+            }
             
             Spaceship = new(spaceshipDb.GetAll().FirstOrDefault(spaceship => spaceship.Name == selectedSpaceshipName));
+
             AOs = astronomicalObjectDb.GetAll().Select(AO => new AstronomicalObject(AO)).ToList();
             Spaceship.Speed /= SpeedConversionFactor;
 

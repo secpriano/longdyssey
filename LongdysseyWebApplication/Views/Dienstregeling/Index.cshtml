@@ -8,7 +8,7 @@
 </head>
 <div class="UI">
     <section class="searchFlight">
-    @using (Html.BeginForm("GenerateFlightSchedule", "Dienstregeling", FormMethod.Post))
+    @using (Html.BeginForm("Index", "Dienstregeling", FormMethod.Post))
     {
         <label>Title</label>
         <input type="text" value="" placeholder="A title" asp-for="Name" autocomplete="off" />
@@ -28,7 +28,8 @@
         <label>End date</label>
         <input type="date" asp-for="EndDate" />
 
-        <button onclick="GenerateFlightSchedule()" class="select" type="submit">Generate flight schedule</button>
+        <button class="select" type="submit">Generate flight schedule</button>
+        @Html.ValidationSummary();
     }
     </section>
 </div>
